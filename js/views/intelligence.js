@@ -65,7 +65,7 @@ window.renderIntelligence = function() {
                 <div class="card" style="grid-column: span 2; display: flex; flex-direction: column;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <h2 class="section-title" style="margin: 0;">Live CCTV Feeds</h2>
-                        <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;"><i class='bx bx-fullscreen'></i> Full Screen</button>
+                        <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;" onclick="alert('🎥 Full Screen CCTV Feed Grid (4K AI Cameras 1-4)')"><i class='bx bx-fullscreen'></i> Full Screen</button>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1;">
                         <div style="background: #000; border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;">
@@ -92,8 +92,8 @@ window.renderIntelligence = function() {
                     </div>
                 </div>
                 <div style="display: flex; gap: 12px;">
-                    <button class="btn btn-primary"><i class='bx bx-sync'></i> Sync Vocabulary</button>
-                    <button class="btn btn-outline"><i class='bx bx-headphone'></i> Test Audio Prompts</button>
+                    <button class="btn btn-primary" onclick="window.showToast('Voice Recognition vocabulary synced (Hindi + English)', 'success')"><i class='bx bx-sync'></i> Sync Vocabulary</button>
+                    <button class="btn btn-outline" onclick="window.showToast('Audio Prompt Sent: Head to Aisle 4, Bin B-12', 'info')"><i class='bx bx-headphone'></i> Test Audio Prompts</button>
                 </div>
             </div>
         </div>

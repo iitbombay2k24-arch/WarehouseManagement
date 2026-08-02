@@ -9,12 +9,25 @@ window.renderReports = function() {
 
     return `
         <div class="fade-in">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <h1 class="page-title" style="margin: 0;">Reports & Analytics</h1>
-                <div style="display: flex; gap: 12px;">
-                    <button class="btn btn-outline"><i class='bx bx-export'></i> Export PDF</button>
-                    <button class="btn btn-outline"><i class='bx bx-export'></i> Export CSV</button>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                <h1 class="page-title" style="margin:0;">Reports & Analytics</h1>
+                <div style="display:flex;gap:12px;">
+                    <button class="btn btn-outline" onclick="window.showToast('Generating & downloading PDF Report...', 'info')"><i class='bx bx-export'></i> Export PDF</button>
+                    <button class="btn btn-outline" onclick="window.showToast('CSV Audit Report downloaded: audit_logs.csv', 'success')"><i class='bx bx-export'></i> Export CSV</button>
                 </div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:24px;overflow-x:auto;padding-bottom:8px;">
+                <!-- F61: Saved Reports -->
+                <button class="btn btn-outline" onclick="window.showSavedReports()"><i class='bx bx-save'></i> Saved Reports</button>
+                <!-- F62: Scheduled Reports -->
+                <button class="btn btn-outline" onclick="window.showScheduledReports()"><i class='bx bx-time'></i> Scheduled Reports</button>
+                <!-- F63: Stock Valuation -->
+                <button class="btn btn-outline" onclick="window.showStockValuation()"><i class='bx bx-package'></i> Stock Valuation</button>
+                <!-- F64: Dead Stock Report -->
+                <button class="btn btn-outline" onclick="window.showDeadStockReport()"><i class='bx bx-ghost'></i> Dead Stock</button>
+                <!-- F65: Profitability Analysis -->
+                <button class="btn btn-outline" onclick="window.showProfitabilityAnalysis()"><i class='bx bx-line-chart'></i> Profitability</button>
             </div>
 
             <div class="dashboard-grid">

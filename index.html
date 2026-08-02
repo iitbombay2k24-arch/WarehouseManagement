@@ -148,6 +148,38 @@
                             <span class="nav-text">Distributor Portal</span>
                         </a>
                     </li>
+                    <li class="nav-section">People & Finance</li>
+                    <li class="nav-item">
+                        <a href="#hr" class="nav-link" data-target="hr">
+                            <i class='bx bx-group'></i>
+                            <span class="nav-text">HR & Payroll</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#customers" class="nav-link" data-target="customers">
+                            <i class='bx bx-user-pin'></i>
+                            <span class="nav-text">Customers</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#expenses" class="nav-link" data-target="expenses">
+                            <i class='bx bx-receipt'></i>
+                            <span class="nav-text">Expenses</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#supplier_scorecard" class="nav-link" data-target="supplier_scorecard">
+                            <i class='bx bx-medal'></i>
+                            <span class="nav-text">Supplier Scorecard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#alerts" class="nav-link" data-target="alerts">
+                            <i class='bx bx-bell'></i>
+                            <span class="nav-text">Alerts Hub</span>
+                            <span id="alertNavBadge" style="background: var(--danger-color); color: white; border-radius: 10px; padding: 1px 6px; font-size: 0.65rem; margin-left: auto;">3</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             
@@ -170,19 +202,62 @@
                     <button class="toggle-sidebar-btn" id="toggleSidebar" aria-label="Toggle Sidebar">
                         <i class='bx bx-menu'></i>
                     </button>
-                    <div class="search-bar">
+                    <div class="search-bar" style="position: relative;">
                         <i class='bx bx-search'></i>
-                        <input type="text" placeholder="Search SKU, batch, or orders...">
+                        <input type="text" id="globalSearchInput" placeholder="Search SKU, batch, or orders..." onkeyup="window.handleGlobalSearch(event)" onfocus="window.handleGlobalSearch(event)">
+                        <!-- Global Search Results Dropdown -->
+                        <div id="globalSearchResults" style="display: none; position: absolute; top: 48px; left: 0; width: 350px; background: var(--bg-card); border-radius: 8px; box-shadow: var(--shadow-lg); border: 1px solid var(--border-color); z-index: 1000; padding: 12px;">
+                        </div>
+                    </div>
+                    <!-- F76: Breadcrumb -->
+                    <div style="display:flex;align-items:center;gap:6px;font-size:0.8rem;color:var(--text-muted);margin-left:16px;">
+                        <span>Home</span>
+                        <i class='bx bx-chevron-right'></i>
+                        <span id="breadcrumbRoute" style="color:var(--text-main);font-weight:600;">Dashboard</span>
                     </div>
                 </div>
-                <div class="header-right">
-                    <button class="icon-btn notification-btn" aria-label="Notifications">
-                        <i class='bx bx-bell'></i>
-                        <span class="badge">3</span>
+                <div class="header-right" style="position: relative;">
+                    <!-- F66: Dark/Light Mode Toggle -->
+                    <button class="icon-btn" aria-label="Toggle theme" onclick="window.toggleTheme()" title="Toggle Dark/Light Mode (Alt+T)">
+                        <i class='bx bx-moon'></i>
                     </button>
-                    <button class="icon-btn" aria-label="Settings">
+                    <!-- F78: Keyboard Shortcuts -->
+                    <button class="icon-btn" aria-label="Keyboard shortcuts" onclick="window.showKeyboardShortcuts()" title="Keyboard Shortcuts (?)">
+                        <i class='bx bx-keyboard'></i>
+                    </button>
+                    <!-- F98: Print Mode -->
+                    <button class="icon-btn" aria-label="Print mode" onclick="window.togglePrintMode()" title="Print Mode">
+                        <i class='bx bx-printer'></i>
+                    </button>
+                    <button class="icon-btn notification-btn" aria-label="Notifications" onclick="window.toggleNotificationsDropdown()">
+                        <i class='bx bx-bell'></i>
+                        <span class="badge" id="notificationBadge">3</span>
+                    </button>
+                    <button class="icon-btn" aria-label="Settings" onclick="window.location.hash='#settings'">
                         <i class='bx bx-cog'></i>
                     </button>
+
+                    <!-- Notifications Dropdown -->
+                    <div id="notificationsDropdown" style="display: none; position: absolute; top: 48px; right: 40px; width: 320px; background: white; border-radius: 8px; box-shadow: var(--shadow-lg); border: 1px solid var(--border-color); z-index: 1000; overflow: hidden;">
+                        <div style="padding: 12px 16px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: var(--bg-main);">
+                            <strong style="font-size: 0.9rem;">Notifications</strong>
+                            <span style="font-size: 0.75rem; color: var(--primary-color); cursor: pointer;" onclick="window.clearNotifications()">Mark all read</span>
+                        </div>
+                        <div id="notificationsList" style="max-height: 250px; overflow-y: auto;">
+                            <div style="padding: 12px 16px; border-bottom: 1px solid var(--border-color); font-size: 0.8rem;">
+                                <div style="font-weight: 600; color: var(--danger-color);">Quality Alert</div>
+                                <div style="color: var(--text-muted);">Batch #B-2401 moisture test failed.</div>
+                            </div>
+                            <div style="padding: 12px 16px; border-bottom: 1px solid var(--border-color); font-size: 0.8rem;">
+                                <div style="font-weight: 600; color: var(--warning-color);">Stock Low Warning</div>
+                                <div style="color: var(--text-muted);">Gram Flour stock below threshold (450kg left).</div>
+                            </div>
+                            <div style="padding: 12px 16px; font-size: 0.8rem;">
+                                <div style="font-weight: 600; color: var(--info-color);">Dispatch Scheduled</div>
+                                <div style="color: var(--text-muted);">VIP Order SO-4501 ready for truck dispatch.</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </header>
 
@@ -205,61 +280,114 @@
                 <i class='bx bx-x' style="font-size: 24px; cursor: pointer;" onclick="document.getElementById('aiChatWindow').style.display='none'"></i>
             </div>
             <div id="chatMessages" style="height: 300px; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: var(--bg-main);">
-                <div style="align-self: flex-start; background: white; padding: 8px 12px; border-radius: 12px 12px 12px 0; border: 1px solid var(--border-color); font-size: 0.85rem; max-width: 80%;">
-                    Hi! I'm the Namkeen WMS AI Assistant. Ask me anything about inventory, orders, or reports!
+                <div style="align-self: flex-start; background: var(--bg-card); padding: 8px 12px; border-radius: 12px 12px 12px 0; border: 1px solid var(--border-color); font-size: 0.85rem; max-width: 80%;">
+                    Hi! I'm the Namkeen WMS AI. Ask me about inventory, orders, alerts or any module! 🏭
                 </div>
             </div>
+            <!-- F72: Suggested Prompts -->
+            <div style="padding: 8px 12px; display: flex; gap: 6px; flex-wrap: wrap; border-top: 1px solid var(--border-color);">
+                <button onclick="document.getElementById('chatInput').value='Show stock status';sendChatMessage()" style="background: var(--primary-light); color: var(--primary-color); border: none; padding: 3px 10px; border-radius: 12px; cursor: pointer; font-size: 0.72rem;">📦 Stock Status</button>
+                <button onclick="document.getElementById('chatInput').value='Any pending orders?';sendChatMessage()" style="background: var(--primary-light); color: var(--primary-color); border: none; padding: 3px 10px; border-radius: 12px; cursor: pointer; font-size: 0.72rem;">🛒 Pending Orders</button>
+                <button onclick="document.getElementById('chatInput').value='Show critical alerts';sendChatMessage()" style="background: var(--primary-light); color: var(--primary-color); border: none; padding: 3px 10px; border-radius: 12px; cursor: pointer; font-size: 0.72rem;">🔔 Alerts</button>
+                <button onclick="document.getElementById('chatInput').value='How many employees today?';sendChatMessage()" style="background: var(--primary-light); color: var(--primary-color); border: none; padding: 3px 10px; border-radius: 12px; cursor: pointer; font-size: 0.72rem;">👥 HR Status</button>
+                <button onclick="DataManager.clearChatHistory();document.getElementById('chatMessages').innerHTML='<div style=\'align-self:flex-start;background:var(--bg-card);padding:8px 12px;border-radius:12px 12px 12px 0;border:1px solid var(--border-color);font-size:0.85rem;\'>Chat cleared! How can I help?</div>';" style="background:rgba(239,68,68,0.1);color:var(--danger-color);border:none;padding:3px 10px;border-radius:12px;cursor:pointer;font-size:0.72rem;">🗑 Clear</button>
+            </div>
             <div style="padding: 12px; border-top: 1px solid var(--border-color); display: flex; gap: 8px;">
-                <input type="text" id="chatInput" placeholder="Ask WMS anything..." style="flex: 1; border: 1px solid var(--border-color); border-radius: 20px; padding: 8px 16px; font-size: 0.8rem; outline: none;" onkeypress="if(event.key === 'Enter') sendChatMessage()">
-                <button onclick="sendChatMessage()" class="btn btn-primary" style="border-radius: 50%; width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center;"><i class='bx bx-send'></i></button>
+                <!-- F74: Voice Input -->
+                <button onclick="document.getElementById('chatInput').value='Show me the current stock levels for all SKUs';document.getElementById('chatInput').focus();window.showToast('Voice captured!','info');" style="background: none; border: 1px solid var(--border-color); border-radius: 50%; width: 36px; height: 36px; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; flex-shrink:0;" title="Voice Input (F74)">
+                    <i class='bx bx-microphone' style="font-size: 1.1rem;"></i>
+                </button>
+                <input type="text" id="chatInput" placeholder="Ask WMS anything..." style="flex: 1; border: 1px solid var(--border-color); border-radius: 20px; padding: 8px 16px; font-size: 0.8rem; outline: none; background: var(--bg-main); color: var(--text-main);" onkeypress="if(event.key === 'Enter') sendChatMessage()">
+                <button onclick="sendChatMessage()" class="btn btn-primary" style="border-radius: 50%; width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center; flex-shrink:0;"><i class='bx bx-send'></i></button>
             </div>
         </div>
 
         <!-- Chatbot Floating Button -->
-        <div onclick="const w = document.getElementById('aiChatWindow'); w.style.display = w.style.display === 'none' ? 'flex' : 'none';" style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); cursor: pointer; float: right; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        <div onclick="const w = document.getElementById('aiChatWindow'); w.style.display = w.style.display === 'none' ? 'flex' : 'none'; if(w.style.display==='flex') window.loadChatHistory();" style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); cursor: pointer; float: right; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
             <i class='bx bx-message-rounded-dots'></i>
         </div>
     </div>
 
-    <!-- AI Chatbot Logic -->
+    <!-- AI Chatbot Logic — F71-F75 Upgraded -->
     <script>
+        // F73: Load chat history from localStorage
+        window.loadChatHistory = function() {
+            const history = DataManager.getChatHistory();
+            const chatBox = document.getElementById('chatMessages');
+            if (!chatBox || !history.length) return;
+            const msgs = history.slice(-10).map(m => m.type === 'user'
+                ? `<div style="align-self:flex-end;background:var(--primary-color);color:white;padding:8px 12px;border-radius:12px 12px 0 12px;font-size:0.85rem;max-width:80%;">${m.text}</div>`
+                : `<div style="align-self:flex-start;background:var(--bg-card);padding:8px 12px;border-radius:12px 12px 12px 0;border:1px solid var(--border-color);font-size:0.85rem;max-width:80%;">${m.text}</div>`
+            ).join('');
+            chatBox.innerHTML = `<div style="align-self:flex-start;background:var(--bg-card);padding:8px 12px;border-radius:12px 12px 12px 0;border:1px solid var(--border-color);font-size:0.85rem;max-width:80%;">Hi! I'm the Namkeen WMS AI. Here's our recent chat:</div>${msgs}`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        };
+
         function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
             if (!message) return;
             
             const chatBox = document.getElementById('chatMessages');
-            
-            // Add user message
-            chatBox.innerHTML += `
-                <div style="align-self: flex-end; background: var(--primary-color); color: white; padding: 8px 12px; border-radius: 12px 12px 0 12px; font-size: 0.85rem; max-width: 80%;">
-                    ${message}
-                </div>
-            `;
-            
+            chatBox.innerHTML += `<div style="align-self:flex-end;background:var(--primary-color);color:white;padding:8px 12px;border-radius:12px 12px 0 12px;font-size:0.85rem;max-width:80%;">${message}</div>`;
+            // F73: Save to history
+            DataManager.addChatMessage({ type: 'user', text: message, time: new Date().toISOString() });
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
             
-            // Simulate AI delay
+            // F75: Typing indicator
+            const typingId = 'typing_' + Date.now();
+            chatBox.innerHTML += `<div id="${typingId}" style="align-self:flex-start;background:var(--bg-card);padding:8px 12px;border-radius:12px;border:1px solid var(--border-color);font-size:0.85rem;"><span style="display:inline-flex;gap:4px;"><span style="width:6px;height:6px;background:var(--text-muted);border-radius:50%;animation:pulse 1s infinite;"></span><span style="width:6px;height:6px;background:var(--text-muted);border-radius:50%;animation:pulse 1s 0.2s infinite;"></span><span style="width:6px;height:6px;background:var(--text-muted);border-radius:50%;animation:pulse 1s 0.4s infinite;"></span></span></div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            // F71: Live data-aware replies
             setTimeout(() => {
-                let reply = "I'm sorry, I didn't understand that. You can ask me about 'inventory', 'sales', or 'reorder'.";
+                const typingEl = document.getElementById(typingId);
+                if (typingEl) typingEl.remove();
+
                 const lowerMsg = message.toLowerCase();
+                let reply = "I can help with inventory levels, orders, alerts, HR, expenses and more. Try asking about 'low stock', 'pending POs', or 'critical alerts'!";
                 
-                if (lowerMsg.includes('inventory') || lowerMsg.includes('stock')) {
-                    reply = "Your current top stock is Aloo Bhujia (500g) with 1,450 kg remaining. Warning: Namkeen Mix is currently flagged as Dead Stock.";
-                } else if (lowerMsg.includes('reorder') || lowerMsg.includes('po')) {
-                    reply = "I have drafted a PO for Besan (Gram Flour) because it dropped below the 500kg threshold. Would you like me to send it to the supplier?";
-                } else if (lowerMsg.includes('sale') || lowerMsg.includes('order')) {
-                    reply = "You have 2 Urgent (VIP) dispatch orders pending for Mega Mart. I recommend processing SO-4501 immediately.";
+                // F71: Read from DataManager
+                if (lowerMsg.includes('stock') || lowerMsg.includes('inventory')) {
+                    const products = DataManager.getProducts();
+                    const total = products.reduce((s,p) => s + (p.stock||0), 0);
+                    const low = products.filter(p => (p.stock||0) < 100);
+                    reply = `📦 Total stock: ${total.toLocaleString('en-IN')} units across ${products.length} SKUs.<br>${low.length ? `⚠️ ${low.length} SKU(s) below 100 units: ${low.map(p=>p.name).join(', ')}` : '✅ All SKUs above minimum threshold.'}`;
+                } else if (lowerMsg.includes('order') || lowerMsg.includes('dispatch') || lowerMsg.includes('sales')) {
+                    const orders = DataManager.getDispatchOrders();
+                    const urgent = orders.filter(o => o.status && o.status.includes('Urgent'));
+                    reply = `🚚 ${orders.length} active sales orders. ${urgent.length ? `🔴 ${urgent.length} URGENT: ${urgent.map(o=>o.id).join(', ')} — dispatch immediately!` : '✅ No urgent orders pending.'}`;
+                } else if (lowerMsg.includes('reorder') || lowerMsg.includes('po') || lowerMsg.includes('purchase')) {
+                    const pos = DataManager.getPurchaseOrders();
+                    const pending = pos.filter(p => p.status !== 'Delivered (Matched)');
+                    reply = `🛒 ${pos.length} total POs. ${pending.length} in-flight: ${pending.map(p=>p.id+' ('+p.supplier+')').join(', ')}.`;
+                } else if (lowerMsg.includes('alert') || lowerMsg.includes('critical') || lowerMsg.includes('problem')) {
+                    const alerts = DataManager.getAlerts().filter(a => !a.acknowledged);
+                    reply = `🔔 ${alerts.length} unacknowledged alerts: ${alerts.slice(0,3).map(a=>'<br>• '+a.type+': '+a.message).join('')}`;
+                } else if (lowerMsg.includes('employee') || lowerMsg.includes('staff') || lowerMsg.includes('hr')) {
+                    const workers = DataManager.getWorkers();
+                    const att = DataManager.getAttendance().filter(a => a.status === 'Clocked In' || a.status === 'Present' || a.status === 'Overtime');
+                    reply = `👥 ${workers.length} employees registered. ${att.length} currently active today.`;
+                } else if (lowerMsg.includes('expense') || lowerMsg.includes('cost') || lowerMsg.includes('budget')) {
+                    const exp = DataManager.getExpenses();
+                    const total = exp.reduce((s,e)=>s+e.amount, 0);
+                    const pending = exp.filter(e=>e.status==='Pending').length;
+                    reply = `💸 Total expenses this month: ₹${total.toLocaleString('en-IN')}. ${pending} expense(s) pending approval.`;
+                } else if (lowerMsg.includes('customer') || lowerMsg.includes('debtor') || lowerMsg.includes('outstanding')) {
+                    const customers = DataManager.getCustomers();
+                    const total30 = customers.reduce((s,c)=>s+c.outstanding30,0);
+                    reply = `🤝 ${customers.length} customers. Total 30-day outstanding: ₹${total30.toLocaleString('en-IN')}.`;
+                } else if (lowerMsg.includes('supplier') || lowerMsg.includes('vendor')) {
+                    const suppliers = DataManager.getSuppliers();
+                    const best = suppliers.sort((a,b)=>b.rating-a.rating)[0];
+                    reply = `🏭 ${suppliers.length} suppliers. Top rated: ${best?.name} (${best?.rating}★, ${best?.onTimeRate}% on-time).`;
                 }
 
-                chatBox.innerHTML += `
-                    <div style="align-self: flex-start; background: white; padding: 8px 12px; border-radius: 12px 12px 12px 0; border: 1px solid var(--border-color); font-size: 0.85rem; max-width: 80%;">
-                        ${reply}
-                    </div>
-                `;
+                chatBox.innerHTML += `<div style="align-self:flex-start;background:var(--bg-card);padding:8px 12px;border-radius:12px 12px 12px 0;border:1px solid var(--border-color);font-size:0.85rem;max-width:85%;">${reply}</div>`;
+                DataManager.addChatMessage({ type: 'bot', text: reply, time: new Date().toISOString() });
                 chatBox.scrollTop = chatBox.scrollHeight;
-            }, 800);
+            }, 1000);
         }
     </script>
 
@@ -285,5 +413,12 @@
     <script src="js/views/intelligence.js"></script>
     <script src="js/views/maintenance.js"></script>
     <script src="js/views/distributor.js"></script>
+    <script src="js/views/hr.js"></script>
+    <script src="js/views/supplier_scorecard.js"></script>
+    <script src="js/views/customers.js"></script>
+    <script src="js/views/expenses.js"></script>
+    <script src="js/views/alerts.js"></script>
+    <script src="js/views/power_features.js"></script>
+    <script src="js/views/module_enhancements.js"></script>
 </body>
 </html>

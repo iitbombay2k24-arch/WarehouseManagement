@@ -12,8 +12,8 @@ window.renderIntegrations = function() {
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                 <h1 class="page-title" style="margin: 0;"><i class='bx bx-plug' style="color: var(--primary-color);"></i> Apps & Integrations</h1>
                 <div style="display: flex; gap: 12px;">
-                    <button class="btn btn-outline"><i class='bx bx-code-alt'></i> Developer API Keys</button>
-                    <button class="btn btn-primary"><i class='bx bx-store'></i> Integrations Store</button>
+                    <button class="btn btn-outline" onclick="alert('🔑 Active Production API Key:\nwms_live_key_9942a1b8c03e7d\n\nRate Limit: 5,000 req/min')"><i class='bx bx-code-alt'></i> Developer API Keys</button>
+                    <button class="btn btn-primary" onclick="window.showToast('Integrations Store marketplace opened', 'info')"><i class='bx bx-store'></i> Integrations Store</button>
                 </div>
             </div>
 
@@ -56,7 +56,7 @@ window.renderIntegrations = function() {
                                     <div style="font-size: 0.8rem; color: var(--text-muted);">Auto-fill GRN qty</div>
                                 </div>
                             </div>
-                            <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.75rem;">Pair Device</button>
+                            <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.75rem;" onclick="window.showToast('IoT Scale Bluetooth pairing complete (Scale-04)', 'success')">Pair Device</button>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <div style="display: flex; align-items: center; gap: 12px;">
@@ -78,9 +78,10 @@ window.renderIntegrations = function() {
                         <h2 style="margin: 0 0 8px 0;">White-Label Multi-Tenant SaaS Engine <span style="background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: bold; vertical-align: middle; margin-left: 8px;">FUTURE</span></h2>
                         <p style="color: #cbd5e1; margin: 0; font-size: 0.9rem;">Package this WMS software as a cloud product to license to other regional namkeen manufacturers.</p>
                     </div>
-                    <button class="btn btn-primary" style="background: white; color: var(--text-main);">View SaaS Architecture</button>
+                    <button class="btn btn-primary" style="background: white; color: var(--text-main);" onclick="alert('🏢 Multi-Tenant Architecture Overview:\n- Isolated Postgres schemas per tenant\n- Custom domain CNAME routing\n- Automated tenant onboarding & billing')">View SaaS Architecture</button>
                 </div>
             </div>
+        </div>
         </div>
     `;
 };

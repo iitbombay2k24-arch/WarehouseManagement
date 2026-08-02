@@ -6,7 +6,7 @@ window.renderBatch = function() {
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                 <h1 class="page-title" style="margin: 0;">Batch Management</h1>
                 <div style="display: flex; gap: 12px;">
-                    <button class="btn btn-primary"><i class='bx bx-plus'></i> Create Batch</button>
+                    <button class="btn btn-primary" onclick="window.createBatchPrompt()"><i class='bx bx-plus'></i> Create Batch</button>
                 </div>
             </div>
             
@@ -32,7 +32,7 @@ window.renderBatch = function() {
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="batchTableBody">
                             <tr>
                                 <td><span style="font-weight: 600;">#B-2391</span></td>
                                 <td>Aloo Bhujia (500g)</td>
@@ -40,7 +40,7 @@ window.renderBatch = function() {
                                 <td>15-Jan-2027</td>
                                 <td>4,500</td>
                                 <td><span class="status status-success">Healthy</span></td>
-                                <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;">Trace</button></td>
+                                <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;" onclick="window.traceBatch('#B-2391')">Trace</button></td>
                             </tr>
                             <tr>
                                 <td><span style="font-weight: 600;">#B-2380</span></td>
@@ -49,7 +49,7 @@ window.renderBatch = function() {
                                 <td>10-Dec-2026</td>
                                 <td>800</td>
                                 <td><span class="status status-warning">Near Expiry</span></td>
-                                <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;">Trace</button></td>
+                                <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;" onclick="window.traceBatch('#B-2380')">Trace</button></td>
                             </tr>
                             <tr>
                                 <td><span style="font-weight: 600;">#B-2375</span></td>
@@ -58,7 +58,7 @@ window.renderBatch = function() {
                                 <td>01-Nov-2026</td>
                                 <td>0</td>
                                 <td><span class="status status-danger">Expired/Depleted</span></td>
-                                <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;">Trace</button></td>
+                                <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;" onclick="window.traceBatch('#B-2375')">Trace</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -67,3 +67,34 @@ window.renderBatch = function() {
         </div>
     `;
 };
+
+window.createBatchPrompt = function() {
+    const product = prompt("Enter Product Name:", "Aloo Bhujia (500g)");
+    if (!product) return;
+    const qty = prompt("Initial Quantity:", "1000");
+    if (!qty) return;
+
+    const bNum = '#B-' + Math.floor(2400 + Math.random() * 100);
+    const tbody = document.getElementById('batchTableBody');
+
+    if (tbody) {
+        tbody.innerHTML += `
+            <tr>
+                <td><span style="font-weight: 600;">${bNum}</span></td>
+                <td>${product}</td>
+                <td>Today</td>
+                <td>In 6 Months</td>
+                <td>${qty}</td>
+                <td><span class="status status-success">Healthy</span></td>
+                <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;" onclick="window.traceBatch('${bNum}')">Trace</button></td>
+            </tr>
+        `;
+    }
+
+    if (window.showToast) window.showToast(`Batch ${bNum} created for ${product}`, 'success');
+};
+
+window.traceBatch = function(bNum) {
+    if (window.showToast) window.showToast(`Full FEFO genealogy trace generated for ${bNum}`, 'info');
+};
+

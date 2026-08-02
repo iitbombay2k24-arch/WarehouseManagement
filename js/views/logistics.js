@@ -69,7 +69,7 @@ window.renderLogistics = function() {
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-outline" style="width: 100%; margin-top: 16px;">Recalculate Route</button>
+                        <button class="btn btn-outline" style="width: 100%; margin-top: 16px;" onclick="window.showToast('Route recalculated! Saved an estimated 14 minutes & 2.1km', 'success')">Recalculate Route</button>
                     </div>
                 </div>
             </div>

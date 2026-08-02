@@ -128,7 +128,7 @@ window.refreshReceivingTable = function() {
     
     grns.forEach(grn => {
         let actionBtn = grn.status === 'Passed' 
-            ? `<button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;">Auto Put-away</button>`
+            ? `<button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;" onclick="window.autoPutawayGRN('${grn.id}')">Auto Put-away</button>`
             : `<button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;" disabled>Wait</button>`;
             
         html += `

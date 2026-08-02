@@ -9,11 +9,28 @@ window.renderSettings = function() {
 
     return `
         <div class="fade-in">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <h1 class="page-title" style="margin: 0;">Users & Security</h1>
-                <div style="display: flex; gap: 12px;">
-                    <button class="btn btn-primary"><i class='bx bx-user-plus'></i> Add New User</button>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                <h1 class="page-title" style="margin:0;">Users & Security</h1>
+                <div style="display:flex;gap:12px;">
+                    <button class="btn btn-primary" onclick="window.addUserPrompt()"><i class='bx bx-user-plus'></i> Add New User</button>
                 </div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:24px;overflow-x:auto;padding-bottom:8px;">
+                <!-- F67: Company Profile -->
+                <button class="btn btn-outline" onclick="window.showCompanyProfile()"><i class='bx bx-buildings'></i> Company Profile</button>
+                <!-- F68: Warehouse Config -->
+                <button class="btn btn-outline" onclick="window.showWarehouseConfig()"><i class='bx bx-cog'></i> Warehouse Config</button>
+                <!-- F69: Notifications Setup -->
+                <button class="btn btn-outline" onclick="window.showNotificationsSetup()"><i class='bx bx-bell'></i> Notification Setup</button>
+                <!-- F87: Allergen Rules -->
+                <button class="btn btn-outline" onclick="window.showAllergenRules()"><i class='bx bx-shield-quarter'></i> Allergen Rules</button>
+                <!-- F88: Recall System -->
+                <button class="btn btn-outline" onclick="window.showRecallSystem()"><i class='bx bx-undo'></i> Mock Recall</button>
+                <!-- F89: Nutrition Calc -->
+                <button class="btn btn-outline" onclick="window.showNutritionCalc()"><i class='bx bx-food-menu'></i> Nutrition Calc</button>
+                <!-- F90: Traceability System -->
+                <button class="btn btn-outline" onclick="window.showTraceabilitySystem()"><i class='bx bx-network-chart'></i> Traceability</button>
             </div>
 
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
@@ -40,7 +57,7 @@ window.renderSettings = function() {
                 <div class="card" style="margin-top: 24px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <h2 class="section-title" style="margin: 0;">Labor Management & Task Productivity</h2>
-                        <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;">View Detailed Analytics</button>
+                        <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;" onclick="window.showToast('Labor productivity report downloaded', 'info')">View Detailed Analytics</button>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px;">
@@ -57,12 +74,6 @@ window.renderSettings = function() {
                             <div style="font-size: 1.5rem; font-weight: 700; color: var(--success-color);">94%</div>
                         </div>
                     </div>
-
-                    <h3 style="font-size: 0.9rem; margin-bottom: 12px; color: var(--text-main);">Real-time Task Prioritization</h3>
-                    <div class="table-container">
-                        <table class="table" style="font-size: 0.85rem;">
-                            <thead>
-                                <tr>
                                     <th>Worker</th>
                                     <th>Current Task</th>
                                     <th>Priority</th>
@@ -147,7 +158,7 @@ window.renderSettings = function() {
                             <div style="display: flex; gap: 8px;"><span style="color: var(--text-muted);">09:12 AM</span> <span>Scanner 1 logged in via API</span></div>
                             <div style="display: flex; gap: 8px;"><span style="color: var(--text-muted);">Yesterday</span> <span>Warehouse Mgr logged out</span></div>
                         </div>
-                        <button class="btn btn-outline" style="width: 100%; margin-top: 16px; padding: 4px; font-size: 0.8rem;">View Full Logs</button>
+                        <button class="btn btn-outline" style="width:100%;margin-top:16px;padding:4px;font-size:0.8rem;" onclick="window.showSessionLog()">View Full Logs (F70)</button>
                     </div>
                 </div>
             </div>

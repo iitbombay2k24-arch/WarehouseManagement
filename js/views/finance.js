@@ -3,12 +3,25 @@
 window.renderFinance = function() {
     return `
         <div class="fade-in">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <h1 class="page-title" style="margin: 0;"><i class='bx bx-rupee' style="color: var(--primary-color);"></i> Finance & Accounting</h1>
-                <div style="display: flex; gap: 12px;">
-                    <button class="btn btn-outline" style="display: flex; align-items: center; gap: 8px;"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Tally_Logo.png" style="height: 16px;"> Sync to Tally ERP</button>
-                    <button class="btn btn-primary"><i class='bx bx-file'></i> New Journal Entry</button>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                <h1 class="page-title" style="margin:0;"><i class='bx bx-rupee' style="color:var(--primary-color);"></i> Finance & Accounting</h1>
+                <div style="display:flex;gap:12px;">
+                    <button class="btn btn-outline" style="display:flex;align-items:center;gap:8px;" onclick="window.showToast('Tally ERP 9 Sync completed successfully! 14 vouchers updated.', 'success')"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Tally_Logo.png" style="height:16px;"> Sync to Tally ERP</button>
+                    <button class="btn btn-primary" onclick="window.showToast('Journal Entry #JE-891 created & posted', 'success')"><i class='bx bx-file'></i> New Journal Entry</button>
                 </div>
+            </div>
+            
+            <div style="display:flex;gap:12px;margin-bottom:24px;overflow-x:auto;padding-bottom:8px;">
+                <!-- F51: GST Manager -->
+                <button class="btn btn-outline" onclick="window.showGSTManager()"><i class='bx bx-receipt'></i> GST Filing</button>
+                <!-- F52: Aging Reports -->
+                <button class="btn btn-outline" onclick="window.showAgingReports()"><i class='bx bx-time-five'></i> AR/AP Aging</button>
+                <!-- F53: Payment Terms -->
+                <button class="btn btn-outline" onclick="window.showPaymentTerms()"><i class='bx bx-credit-card'></i> Payment Terms</button>
+                <!-- F54: P&L Statement -->
+                <button class="btn btn-outline" onclick="window.showPLStatement()"><i class='bx bx-line-chart'></i> P&L Report</button>
+                <!-- F55: Cash Flow -->
+                <button class="btn btn-outline" onclick="window.showCashFlow()"><i class='bx bx-water'></i> Cash Flow</button>
             </div>
 
             <div class="dashboard-grid">
@@ -53,13 +66,13 @@ window.renderFinance = function() {
                     <div>
                         <div style="font-weight: 600; margin-bottom: 8px;">Landed Cost Allocation</div>
                         <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">Apportion freight/duty to true SKU cost</div>
-                        <button class="btn btn-outline" style="width: 100%; font-size: 0.8rem;">Calculate Costs</button>
+                        <button class="btn btn-outline" style="width: 100%; font-size: 0.8rem;" onclick="window.showToast('Freight & duty apportioned to SKU landed costs', 'info')">Calculate Costs</button>
                     </div>
                     <hr style="border-top: 1px solid var(--border-color);">
                     <div>
                         <div style="font-weight: 600; margin-bottom: 8px;">Debit/Credit Notes</div>
                         <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">Manage supplier/distributor adjustments</div>
-                        <button class="btn btn-outline" style="width: 100%; font-size: 0.8rem;">Issue New Note</button>
+                        <button class="btn btn-outline" style="width: 100%; font-size: 0.8rem;" onclick="window.showToast('Credit Note #CN-402 draft created', 'info')">Issue New Note</button>
                     </div>
                     <hr style="border-top: 1px solid var(--border-color);">
                     <div>
@@ -67,7 +80,7 @@ window.renderFinance = function() {
                         <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">Active: WhatsApp & Email nudges to distributors</div>
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span style="font-size: 0.75rem; color: var(--danger-color); font-weight: 600;">3 Overdue AR</span>
-                            <button class="btn btn-outline" style="padding: 2px 8px; font-size: 0.75rem;">Send Nudge</button>
+                            <button class="btn btn-outline" style="padding: 2px 8px; font-size: 0.75rem;" onclick="window.showToast('WhatsApp reminders sent to 3 overdue distributors', 'success')">Send Nudge</button>
                         </div>
                     </div>
                 </div>
@@ -80,7 +93,8 @@ window.initFinance = function() {
     console.log("Finance initialized");
     const ctx = document.getElementById('financeChart');
     if (ctx) {
-        new Chart(ctx, {
+        if (window._financeChart) window._financeChart.destroy();
+        window._financeChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: ['Raw Materials', 'Packaging', 'Labor'],

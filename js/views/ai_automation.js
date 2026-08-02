@@ -35,7 +35,7 @@ window.renderAiAutomation = function() {
                     <div style="flex: 1;">
                         <h3 style="font-size: 1rem; margin-top: 0;">AI Recommendations</h3>
                         <p style="font-size: 0.85rem; color: var(--text-muted);">Based on historical data and market trends, AI suggests increasing production of <span style="font-weight: bold; color: var(--text-main);">Premium Gift Hampers</span> by 140% for October.</p>
-                        <button class="btn btn-primary" style="width: 100%;"><i class='bx bx-check'></i> Auto-Adjust Min/Max Levels</button>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="window.showToast('Min/Max thresholds auto-adjusted for Diwali surge (+140%)', 'success')"><i class='bx bx-check'></i> Auto-Adjust Min/Max Levels</button>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@ window.renderAiAutomation = function() {
                 <div class="card" style="display: flex; flex-direction: column;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <h2 class="section-title" style="margin: 0;">Digital Twin: Real-Time Warehouse Simulation <span style="background: rgba(16, 185, 129, 0.1); color: var(--secondary-color); padding: 2px 6px; border-radius: 10px; font-size: 0.65rem;">FUTURE</span></h2>
-                        <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;"><i class='bx bx-cube'></i> Enter 3D View</button>
+                        <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;" onclick="alert('🎮 WebGL 3D Simulation View:\nNavigating Zone A & B in interactive 3D canvas...')"><i class='bx bx-cube'></i> Enter 3D View</button>
                     </div>
                     <!-- Digital Twin Mock -->
                     <div style="flex: 1; min-height: 250px; background: #0f172a; border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color);">
@@ -66,8 +66,8 @@ window.renderAiAutomation = function() {
                         </div>
                         <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">Autonomous Mobile Robots (Picking)</div>
                         <div style="display: flex; gap: 8px;">
-                            <button class="btn btn-primary" style="flex: 1; font-size: 0.75rem; padding: 4px;">Assign Tasks</button>
-                            <button class="btn btn-outline" style="flex: 1; font-size: 0.75rem; padding: 4px;">Return to Base</button>
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.75rem; padding: 4px;" onclick="window.showToast('Batch picking route assigned to AMR Bots 1 & 2', 'info')">Assign Tasks</button>
+                            <button class="btn btn-outline" style="flex: 1; font-size: 0.75rem; padding: 4px;" onclick="window.showToast('AMR Bots returning to charging docks', 'warning')">Return to Base</button>
                         </div>
                     </div>
                     <hr style="border-top: 1px solid var(--border-color);">
@@ -78,8 +78,8 @@ window.renderAiAutomation = function() {
                         </div>
                         <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">Main Sortation Line speed and routing.</div>
                         <div style="display: flex; gap: 8px;">
-                            <button class="btn btn-outline" style="flex: 1; font-size: 0.75rem; padding: 4px;">Speed: 1.2m/s</button>
-                            <button class="btn btn-outline" style="flex: 1; font-size: 0.75rem; padding: 4px; color: var(--danger-color); border-color: var(--danger-color);">E-Stop</button>
+                            <button class="btn btn-outline" style="flex: 1; font-size: 0.75rem; padding: 4px;" onclick="window.showToast('Conveyor belt speed updated to 1.5m/s', 'info')">Speed: 1.2m/s</button>
+                            <button class="btn btn-outline" style="flex: 1; font-size: 0.75rem; padding: 4px; color: var(--danger-color); border-color: var(--danger-color);" onclick="window.showToast('EMERGENCY STOP ENGAGED for Conveyor Line', 'danger')">E-Stop</button>
                         </div>
                     </div>
                     <hr style="border-top: 1px solid var(--border-color);">
@@ -138,8 +138,8 @@ window.refreshReorderRulesTable = function() {
     
     rules.forEach(r => {
         let actionBtn = r.status === 'PO Drafted' 
-            ? `<button class="btn btn-primary" style="padding: 4px 12px; font-size: 0.75rem;">Review PO</button>`
-            : `<button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.75rem;">Edit Rule</button>`;
+            ? `<button class="btn btn-primary" style="padding: 4px 12px; font-size: 0.75rem;" onclick="window.location.hash='#purchase'">Review PO</button>`
+            : `<button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.75rem;" onclick="window.showToast('Rule threshold updated', 'success')">Edit Rule</button>`;
             
         html += `
             <tr>

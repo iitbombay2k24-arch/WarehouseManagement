@@ -11,7 +11,7 @@ window.renderMaintenance = function() {
                 <div class="card">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <h2 class="section-title" style="margin: 0;">Maintenance Scheduling</h2>
-                        <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;"><i class='bx bx-calendar-plus'></i> Schedule</button>
+                        <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;" onclick="window.showToast('New maintenance task draft initiated', 'info')"><i class='bx bx-calendar-plus'></i> Schedule</button>
                     </div>
                     
                     <div style="display: flex; flex-direction: column; gap: 12px;">
@@ -20,7 +20,7 @@ window.renderMaintenance = function() {
                                 <div style="font-weight: 600;">Packaging Machine #2 Servicing</div>
                                 <div style="font-size: 0.85rem; color: var(--text-muted);"><i class='bx bx-calendar'></i> Today, 02:00 PM (Overdue)</div>
                             </div>
-                            <button class="btn btn-primary" style="padding: 6px 12px; font-size: 0.8rem;">Mark Done</button>
+                            <button class="btn btn-primary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="window.showToast('Packaging Machine #2 Servicing marked DONE', 'success')">Mark Done</button>
                         </div>
                         
                         <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--warning-color);">
@@ -28,7 +28,7 @@ window.renderMaintenance = function() {
                                 <div style="font-weight: 600;">Forklift A Battery Replacement</div>
                                 <div style="font-size: 0.85rem; color: var(--text-muted);"><i class='bx bx-calendar'></i> Tomorrow, 10:00 AM</div>
                             </div>
-                            <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.8rem;">Reschedule</button>
+                            <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.8rem;" onclick="window.showToast('Task rescheduled to Next Monday 10:00 AM', 'warning')">Reschedule</button>
                         </div>
                         
                         <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--info-color);">
@@ -36,7 +36,7 @@ window.renderMaintenance = function() {
                                 <div style="font-weight: 600;">Cold Storage Temp Calibration</div>
                                 <div style="font-size: 0.85rem; color: var(--text-muted);"><i class='bx bx-calendar'></i> 15 Aug 2026</div>
                             </div>
-                            <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.8rem;">Edit</button>
+                            <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.8rem;" onclick="window.showToast('Calibration parameters updated', 'info')">Edit</button>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@ window.renderMaintenance = function() {
                 <div class="card">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <h2 class="section-title" style="margin: 0;">Document Management</h2>
-                        <button class="btn btn-primary" style="padding: 4px 12px; font-size: 0.8rem;"><i class='bx bx-upload'></i> Upload</button>
+                        <button class="btn btn-primary" style="padding: 4px 12px; font-size: 0.8rem;" onclick="window.showToast('Document uploaded: Compliance_Cert_2026.pdf', 'success')"><i class='bx bx-upload'></i> Upload</button>
                     </div>
                     
                     <div class="search-bar" style="width: 100%; margin-bottom: 16px; background: var(--bg-main);">

@@ -11,10 +11,19 @@ window.renderQuality = function() {
         <div class="fade-in">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                 <h1 class="page-title" style="margin: 0;"><i class='bx bx-check-shield' style="color: var(--primary-color);"></i> Quality & Compliance</h1>
-                <div style="display: flex; gap: 12px;">
-                    <button class="btn btn-outline"><i class='bx bx-list-check'></i> New GMP Audit</button>
+                <div style="display:flex;gap:12px;">
+                    <button class="btn btn-outline" onclick="window.showToast('New FSSAI GMP Audit checklist generated for Shift 1', 'info')"><i class='bx bx-list-check'></i> New GMP Audit</button>
                     <button class="btn btn-primary" onclick="window.toggleQuarantineForm()"><i class='bx bx-block'></i> Quarantine Batch</button>
                 </div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:24px;overflow-x:auto;padding-bottom:8px;">
+                <!-- F56: Test Parameters -->
+                <button class="btn btn-outline" onclick="window.showTestParameters()"><i class='bx bx-slider-alt'></i> Test Parameters</button>
+                <!-- F57: QC Checklist Config -->
+                <button class="btn btn-outline" onclick="window.showQCChecklist()"><i class='bx bx-check-square'></i> QC Checklist</button>
+                <!-- F58: CAPA Manager -->
+                <button class="btn btn-outline" onclick="window.showCAPA()"><i class='bx bx-bulb'></i> CAPA Manager</button>
             </div>
 
             <!-- Quarantine Form (Hidden by default) -->
@@ -160,7 +169,13 @@ window.refreshQualityTable = function() {
                 <td>${h.reason}</td>
                 <td>${h.date}</td>
                 <td>
-                    <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.75rem;" onclick="window.releaseQuarantine('${h.batch}')">Release / Destroy</button>
+                    <div style="display:flex;gap:4px;align-items:center;">
+                        <button class="btn btn-outline" style="padding:4px 12px;font-size:0.75rem;" onclick="window.releaseQuarantine('${h.batch}')">Release</button>
+                        <!-- F59: Supplier Quality Alert -->
+                        <button class="icon-btn" title="Alert Supplier (F59)" onclick="window.sendSupplierQualityAlert('${h.batch}')"><i class='bx bx-envelope' style="color:var(--warning-color);"></i></button>
+                        <!-- F60: Generate COA -->
+                        <button class="icon-btn" title="Generate COA (F60)" onclick="window.printCOA('${h.batch}')"><i class='bx bx-certification' style="color:var(--primary-color);"></i></button>
+                    </div>
                 </td>
             </tr>
         `;

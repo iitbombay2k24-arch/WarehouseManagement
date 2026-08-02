@@ -76,7 +76,7 @@ window.renderReturns = function() {
                 </div>
             </div>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
                 <div class="card">
                     <h2 class="section-title">Damaged Item Disposition</h2>
                     <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">Items awaiting final disposition decision after inspection.</p>
@@ -88,7 +88,7 @@ window.renderReturns = function() {
                                 <div style="font-size: 0.8rem; color: var(--text-muted);">Qty: 15 Kg | Reason: Pest Damage</div>
                             </div>
                             <div style="display: flex; gap: 8px;">
-                                <button class="btn" style="background: var(--danger-color); color: white; padding: 4px 12px; font-size: 0.8rem;">Write Off</button>
+                                <button class="btn" style="background: var(--danger-color); color: white; padding: 4px 12px; font-size: 0.8rem;" onclick="window.dispositionAction('Write Off', '#B-2391')">Write Off</button>
                             </div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px;">
@@ -97,8 +97,8 @@ window.renderReturns = function() {
                                 <div style="font-size: 0.8rem; color: var(--text-muted);">Qty: 50 Kg | Reason: Expired</div>
                             </div>
                             <div style="display: flex; gap: 8px;">
-                                <button class="btn" style="background: var(--warning-color); color: white; padding: 4px 12px; font-size: 0.8rem;">Repurpose</button>
-                                <button class="btn" style="background: var(--danger-color); color: white; padding: 4px 12px; font-size: 0.8rem;">Write Off</button>
+                                <button class="btn" style="background: var(--warning-color); color: white; padding: 4px 12px; font-size: 0.8rem;" onclick="window.dispositionAction('Repurpose for Animal Feed', '#B-2405')">Repurpose</button>
+                                <button class="btn" style="background: var(--danger-color); color: white; padding: 4px 12px; font-size: 0.8rem;" onclick="window.dispositionAction('Write Off', '#B-2405')">Write Off</button>
                             </div>
                         </div>
                     </div>
@@ -194,31 +194,38 @@ window.initReturns = function() {
     console.log("Returns & Reverse Logistics initialized");
     const ctx = document.getElementById('returnsChart');
     if (ctx) {
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Damaged', 'Expired', 'Overstock', 'Wrong Item'],
-                datasets: [{
-                    data: [45, 25, 20, 10],
-                    backgroundColor: [
-                        '#ef4444', // red
-                        '#f59e0b', // orange
-                        '#10b981', // green
-                        '#3b82f6'  // blue
-                    ],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right'
-                    }
+        try {
+            if (window._returnsChart) window._returnsChart.destroy();
+            window._returnsChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Damaged', 'Expired', 'Overstock', 'Wrong Item'],
+                    datasets: [{
+                        data: [45, 25, 20, 10],
+                        backgroundColor: [
+                            '#ef4444', // red
+                            '#f59e0b', // orange
+                            '#10b981', // green
+                            '#3b82f6'  // blue
+                        ],
+                        borderWidth: 0
+                    }]
                 },
-                cutout: '70%'
-            }
-        });
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+        } catch(e) { console.error("Chart error in returns", e); }
     }
 };
+
+window.dispositionAction = function(action, batch) {
+    if (window.showToast) window.showToast(`Disposition '${action}' logged for ${batch}`, 'success');
+};
+

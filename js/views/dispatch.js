@@ -1,18 +1,16 @@
 // Dispatch View
 
 window.renderDispatch = function() {
-    setTimeout(() => {
-        if(window.refreshDispatchTable) {
-            window.refreshDispatchTable();
-        }
-    }, 100);
+    setTimeout(() => { if(window.refreshDispatchTable) window.refreshDispatchTable(); }, 100);
 
     return `
         <div class="fade-in">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <h1 class="page-title" style="margin: 0;">Dispatch Management</h1>
-                <div style="display: flex; gap: 12px;">
-                    <button class="btn btn-primary"><i class='bx bx-file-blank'></i> New Sales Order</button>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+                <h1 class="page-title" style="margin:0;">Dispatch Management</h1>
+                <div style="display:flex;gap:12px;">
+                    <!-- F50: Dispatch Calendar -->
+                    <button class="btn btn-outline" onclick="window.showDispatchCalendar()"><i class='bx bx-calendar'></i> Dispatch Calendar</button>
+                    <button class="btn btn-primary" onclick="window.createSalesOrderPrompt()"><i class='bx bx-file-blank'></i> New Sales Order</button>
                 </div>
             </div>
 
@@ -35,34 +33,34 @@ window.renderDispatch = function() {
             </div>
 
             <!-- Advanced Order Management Strategies -->
-            <div style="display: flex; gap: 12px; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
-                <button class="btn btn-primary" style="border-radius: 20px;">B2B / Wholesale Fulfillment</button>
-                <button class="btn btn-outline" style="border-radius: 20px; border: none;">B2C / Omnichannel Streaming</button>
+            <div style="display:flex;gap:12px;margin-bottom:24px;border-bottom:1px solid var(--border-color);padding-bottom:16px;">
+                <button class="btn btn-primary" style="border-radius:20px;">B2B / Wholesale Fulfillment</button>
+                <button class="btn btn-outline" style="border-radius:20px;border:none;">B2C / Omnichannel Streaming</button>
             </div>
 
-            <div class="card" style="margin-bottom: 24px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                    <h2 class="section-title" style="margin: 0;"><i class='bx bx-water'></i> Wave Management & Order Streaming</h2>
-                    <button class="btn btn-primary" style="padding: 4px 12px; font-size: 0.8rem;"><i class='bx bx-play'></i> Launch Next Wave</button>
+            <div class="card" style="margin-bottom:24px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                    <h2 class="section-title" style="margin:0;"><i class='bx bx-water'></i> Wave Management & Order Streaming</h2>
+                    <button class="btn btn-primary" style="padding:4px 12px;font-size:0.8rem;" onclick="window.showToast('Wave #W-4413 released to warehouse pickers', 'success')"><i class='bx bx-play'></i> Launch Next Wave</button>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                    <div style="border: 1px solid var(--border-color); padding: 12px; border-radius: 8px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-weight: 600;">Wave #W-4412 (Morning B2B)</span>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                    <div style="border:1px solid var(--border-color);padding:12px;border-radius:8px;">
+                        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                            <span style="font-weight:600;">Wave #W-4412 (Morning B2B)</span>
                             <span class="status status-success">Releasing (75%)</span>
                         </div>
-                        <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">Orders: 42 | Estimated Duration: 1.5 hrs</div>
-                        <div style="width: 100%; background: var(--bg-main); height: 8px; border-radius: 4px;">
-                            <div style="width: 75%; background: var(--primary-color); height: 100%; border-radius: 4px;"></div>
+                        <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;">Orders: 42 | Estimated Duration: 1.5 hrs</div>
+                        <div style="width:100%;background:var(--bg-main);height:8px;border-radius:4px;">
+                            <div style="width:75%;background:var(--primary-color);height:100%;border-radius:4px;"></div>
                         </div>
                     </div>
-                    <div style="border: 1px dashed var(--border-color); padding: 12px; border-radius: 8px; background: rgba(59, 130, 246, 0.02);">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-weight: 600;">Waveless / Continuous E-com</span>
+                    <div style="border:1px dashed var(--border-color);padding:12px;border-radius:8px;background:rgba(59, 130, 246, 0.02);">
+                        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                            <span style="font-weight:600;">Waveless / Continuous E-com</span>
                             <span class="status status-info">Active</span>
                         </div>
-                        <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">Streaming individual D2C orders directly to floor.</div>
-                        <div style="display: flex; gap: 8px; font-size: 0.75rem; color: var(--primary-color);">
+                        <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;">Streaming individual D2C orders directly to floor.</div>
+                        <div style="display:flex;gap:8px;font-size:0.75rem;color:var(--primary-color);">
                             <span><i class='bx bx-loader-circle bx-spin'></i> 5 orders in buffer...</span>
                         </div>
                     </div>
@@ -70,12 +68,13 @@ window.renderDispatch = function() {
             </div>
 
             <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                    <h2 class="section-title" style="margin: 0;">Today's Dispatch Orders</h2>
-                    <div style="display: flex; gap: 8px;">
-                        <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;"><i class='bx bx-package'></i> Kitting / Bundling</button>
-                        <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;"><i class='bx bx-cut'></i> Split Large Order</button>
-                        <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;"><i class='bx bx-receipt'></i> Generate GST Invoice</button>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                    <h2 class="section-title" style="margin:0;">Today's Dispatch Orders</h2>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn btn-outline" style="padding:4px 12px;font-size:0.8rem;"><i class='bx bx-package'></i> Kitting / Bundling</button>
+                        <button class="btn btn-outline" style="padding:4px 12px;font-size:0.8rem;"><i class='bx bx-cut'></i> Split Large Order</button>
+                        <!-- F47: E-Way Bill Bulk Generation (mock) -->
+                        <button class="btn btn-outline" style="padding:4px 12px;font-size:0.8rem;" onclick="window.generateEWayBill('BULK')"><i class='bx bx-receipt'></i> Generate GST Invoice</button>
                     </div>
                 </div>
                 <div class="table-container">
@@ -102,28 +101,26 @@ window.renderDispatch = function() {
 
 window.refreshDispatchTable = function() {
     const tbody = document.getElementById('dispatchTableBody');
-    if(!tbody) return;
-    
-    if(typeof DataManager === 'undefined') return;
+    if(!tbody || typeof DataManager === 'undefined') return;
 
     const orders = DataManager.getDispatchOrders();
     let html = '';
     
     orders.forEach(order => {
         let actionBtn = order.status === 'Urgent Dispatch' 
-            ? `<button class="btn btn-primary" style="padding: 4px 8px; font-size: 0.8rem; background: var(--danger-color);">Dispatch Now</button>`
-            : (order.status === 'Ready for Dispatch' ? `<button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;">Dispatch</button>` : `<button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;">View List</button>`);
+            ? `<button class="btn btn-primary" style="padding:4px 8px;font-size:0.8rem;background:var(--danger-color);">Dispatch Now</button>`
+            : (order.status === 'Ready for Dispatch' ? `<button class="btn btn-outline" style="padding:4px 8px;font-size:0.8rem;">Dispatch</button>` : `<button class="btn btn-outline" style="padding:4px 8px;font-size:0.8rem;">View List</button>`);
             
         let generateBtn = order.invoice !== '' 
             ? order.invoice 
-            : `<button class="btn btn-outline" style="padding: 2px 8px; font-size: 0.7rem;">Generate</button>`;
+            : `<button class="btn btn-outline" style="padding:2px 8px;font-size:0.7rem;" onclick="window.generateEWayBill('${order.id}')">Generate</button>`;
 
-        let rowStyle = order.status === 'Urgent Dispatch' ? `style="background: rgba(239, 68, 68, 0.05);"` : '';
+        let rowStyle = order.status === 'Urgent Dispatch' ? `style="background:rgba(239, 68, 68, 0.05);"` : '';
 
         html += `
             <tr ${rowStyle}>
                 <td>
-                    <span style="font-weight: 600;">${order.id}</span>
+                    <span style="font-weight:600;">${order.id}</span>
                     ${order.flags}
                 </td>
                 <td>${order.customer}</td>
@@ -131,9 +128,16 @@ window.refreshDispatchTable = function() {
                 <td><span class="status ${order.statusClass}">${order.status}</span></td>
                 <td>${generateBtn}</td>
                 <td>
-                    <div style="display: flex; gap: 8px;">
+                    <div style="display:flex;gap:4px;align-items:center;">
                         ${actionBtn}
-                        <button class="icon-btn" style="color: var(--danger-color); padding: 2px;" onclick="window.deleteDispatchOrder('${order.id}')"><i class='bx bx-trash'></i></button>
+                        <!-- F46: Route Optimization -->
+                        <button class="icon-btn" title="Route Optimizer (F46)" onclick="window.showRouteOptimizer('${order.id}')"><i class='bx bx-map-alt' style="color:var(--primary-color);"></i></button>
+                        <!-- F48: Proof of Delivery -->
+                        <button class="icon-btn" title="Proof of Delivery (F48)" onclick="window.showPODUpload('${order.id}')"><i class='bx bx-camera'></i></button>
+                        <!-- F49: Vehicle Inspection -->
+                        <button class="icon-btn" title="Vehicle Inspection (F49)" onclick="window.showVehicleInspection('${order.id}')"><i class='bx bx-car'></i></button>
+                        
+                        <button class="icon-btn" style="color:var(--danger-color);padding:2px;" onclick="window.deleteDispatchOrder('${order.id}')"><i class='bx bx-trash'></i></button>
                     </div>
                 </td>
             </tr>
@@ -148,6 +152,29 @@ window.deleteDispatchOrder = function(id) {
         if(typeof DataManager !== 'undefined') {
             DataManager.deleteDispatchOrder(id);
             window.refreshDispatchTable();
+            if (window.showToast) window.showToast(`Dispatch Order ${id} deleted`, 'danger');
         }
     }
 };
+
+window.createSalesOrderPrompt = function() {
+    const customer = prompt("Enter Customer / Retailer Name:", "SuperMart Retailers");
+    if (!customer) return;
+
+    const newSO = {
+        id: 'SO-' + Math.floor(4500 + Math.random() * 500),
+        customer: customer,
+        type: 'Standard',
+        status: 'Urgent Dispatch',
+        statusClass: 'status-danger',
+        flags: '<span style="font-size: 0.7rem; color: var(--danger-color); font-weight: bold;">(Manual)</span>',
+        invoice: ''
+    };
+
+    if (typeof DataManager !== 'undefined') {
+        DataManager.addDispatchOrder(newSO);
+        window.refreshDispatchTable();
+        if (window.showToast) window.showToast(`Sales Order ${newSO.id} created for ${customer}`, 'success');
+    }
+};
+

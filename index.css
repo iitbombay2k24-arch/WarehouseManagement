@@ -542,3 +542,81 @@ button {
     font-size: 0.9rem;
     color: var(--text-muted);
 }
+
+/* ==========================================
+   NEW UTILITY STYLES — Power Features
+   ========================================== */
+
+/* F98: Print Mode */
+body.print-mode #sidebar,
+body.print-mode .top-header,
+body.print-mode #fabContainer,
+body.print-mode .chatbot-container {
+    display: none !important;
+}
+body.print-mode .main-content {
+    margin-left: 0 !important;
+    padding: 0 !important;
+}
+body.print-mode .card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+}
+
+/* F79: Context Menu hover effect */
+.ctx-item:hover {
+    background: var(--primary-light) !important;
+    color: var(--primary-color) !important;
+}
+
+/* F80: Sortable Table Column indicator */
+table thead th:hover {
+    background: var(--primary-light);
+    color: var(--primary-color);
+}
+table thead th:hover::after {
+    content: ' ↕';
+    font-size: 0.7rem;
+    opacity: 0.6;
+}
+
+/* F77: Skeleton animation */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+/* F99: FAB hover */
+#fabContainer > div:not(#fabMain):hover {
+    transform: scale(1.05);
+}
+
+/* Status badge colors */
+.status-info { background: rgba(59,130,246,0.1); color: #3b82f6; }
+
+/* Alert severity colors */
+[data-severity="danger"] { border-left-color: var(--danger-color) !important; }
+[data-severity="warning"] { border-left-color: var(--warning-color) !important; }
+
+/* Tooltip on table column headers */
+thead th[title] { position: relative; }
+
+/* New nav section label */
+.nav-section {
+    padding: 8px 20px 4px;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    opacity: 0.6;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+/* Alert nav badge */
+#alertNavBadge {
+    transition: transform 0.2s;
+}
+.nav-link:hover #alertNavBadge {
+    transform: scale(1.1);
+}
