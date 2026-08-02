@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namkeen WMS - Admin Panel</title>
+    <meta name="description" content="Warehouse Management System Admin Panel for Namkeen Manufacturing">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Boxicons for modern icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class='bx bx-package brand-icon'></i>
+                <span class="brand-name">Namkeen WMS</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#dashboard" class="nav-link active" data-target="dashboard">
+                            <i class='bx bx-grid-alt'></i>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-section">Management</li>
+                    <li class="nav-item">
+                        <a href="#products" class="nav-link" data-target="products">
+                            <i class='bx bx-box'></i>
+                            <span class="nav-text">Product Management</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#barcode" class="nav-link" data-target="barcode">
+                            <i class='bx bx-barcode-reader'></i>
+                            <span class="nav-text">Barcode</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#batch" class="nav-link" data-target="batch">
+                            <i class='bx bx-layer'></i>
+                            <span class="nav-text">Batch Management</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#inventory" class="nav-link" data-target="inventory">
+                            <i class='bx bx-store-alt'></i>
+                            <span class="nav-text">Inventory</span>
+                        </a>
+                    </li>
+                    <li class="nav-section">Operations</li>
+                    <li class="nav-item">
+                        <a href="#purchase" class="nav-link" data-target="purchase">
+                            <i class='bx bx-cart'></i>
+                            <span class="nav-text">Purchasing</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#receiving" class="nav-link" data-target="receiving">
+                            <i class='bx bx-log-in-circle'></i>
+                            <span class="nav-text">Receiving</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#production" class="nav-link" data-target="production">
+                            <i class='bx bx-cog'></i>
+                            <span class="nav-text">Production</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#dispatch" class="nav-link" data-target="dispatch">
+                            <i class='bx bx-log-out-circle'></i>
+                            <span class="nav-text">Dispatch</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#returns" class="nav-link" data-target="returns">
+                            <i class='bx bx-revision'></i>
+                            <span class="nav-text">Returns & Reverse</span>
+                        </a>
+                    </li>
+                    <li class="nav-section">Analytics & Admin</li>
+                    <li class="nav-item">
+                        <a href="#finance" class="nav-link" data-target="finance">
+                            <i class='bx bx-rupee'></i>
+                            <span class="nav-text">Finance (AP/AR)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#quality" class="nav-link" data-target="quality">
+                            <i class='bx bx-check-shield'></i>
+                            <span class="nav-text">Quality & FSSAI</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#reports" class="nav-link" data-target="reports">
+                            <i class='bx bx-chart'></i>
+                            <span class="nav-text">Reports</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#settings" class="nav-link" data-target="settings">
+                            <i class='bx bx-user-circle'></i>
+                            <span class="nav-text">Users & Security</span>
+                        </a>
+                    </li>
+                    <li class="nav-section">Future Enhancements</li>
+                    <li class="nav-item">
+                        <a href="#integrations" class="nav-link" data-target="integrations">
+                            <i class='bx bx-plug'></i>
+                            <span class="nav-text">Apps & Integrations</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#ai_automation" class="nav-link" data-target="ai_automation">
+                            <i class='bx bx-brain'></i>
+                            <span class="nav-text">AI & Automation</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#logistics" class="nav-link" data-target="logistics">
+                            <i class='bx bx-map-alt'></i>
+                            <span class="nav-text">Logistics</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#intelligence" class="nav-link" data-target="intelligence">
+                            <i class='bx bx-radar'></i>
+                            <span class="nav-text">Intelligence</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#maintenance" class="nav-link" data-target="maintenance">
+                            <i class='bx bx-wrench'></i>
+                            <span class="nav-text">Operations & Maint</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#distributor" class="nav-link" data-target="distributor">
+                            <i class='bx bx-store'></i>
+                            <span class="nav-text">Distributor Portal</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=3b82f6&color=fff" alt="User Avatar" class="user-avatar">
+                    <div class="user-details">
+                        <span class="user-name">Admin User</span>
+                        <span class="user-role">Super Admin</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar-btn" id="toggleSidebar" aria-label="Toggle Sidebar">
+                        <i class='bx bx-menu'></i>
+                    </button>
+                    <div class="search-bar">
+                        <i class='bx bx-search'></i>
+                        <input type="text" placeholder="Search SKU, batch, or orders...">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="icon-btn notification-btn" aria-label="Notifications">
+                        <i class='bx bx-bell'></i>
+                        <span class="badge">3</span>
+                    </button>
+                    <button class="icon-btn" aria-label="Settings">
+                        <i class='bx bx-cog'></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dynamic Views Container -->
+            <div class="view-container" id="app-content">
+                <!-- Views will be dynamically loaded here by JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- AI Floating Chatbot Widget (Mock) -->
+    <div style="position: fixed; bottom: 24px; right: 24px; z-index: 1000;">
+        <!-- Chatbot Window -->
+        <div id="aiChatWindow" style="display: none; width: 350px; background: white; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 1px solid var(--border-color); margin-bottom: 16px; overflow: hidden; flex-direction: column;">
+            <div style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; padding: 16px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class='bx bx-bot' style="font-size: 24px;"></i>
+                    <span style="font-weight: 600;">Namkeen AI Assistant</span>
+                </div>
+                <i class='bx bx-x' style="font-size: 24px; cursor: pointer;" onclick="document.getElementById('aiChatWindow').style.display='none'"></i>
+            </div>
+            <div id="chatMessages" style="height: 300px; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: var(--bg-main);">
+                <div style="align-self: flex-start; background: white; padding: 8px 12px; border-radius: 12px 12px 12px 0; border: 1px solid var(--border-color); font-size: 0.85rem; max-width: 80%;">
+                    Hi! I'm the Namkeen WMS AI Assistant. Ask me anything about inventory, orders, or reports!
+                </div>
+            </div>
+            <div style="padding: 12px; border-top: 1px solid var(--border-color); display: flex; gap: 8px;">
+                <input type="text" id="chatInput" placeholder="Ask WMS anything..." style="flex: 1; border: 1px solid var(--border-color); border-radius: 20px; padding: 8px 16px; font-size: 0.8rem; outline: none;" onkeypress="if(event.key === 'Enter') sendChatMessage()">
+                <button onclick="sendChatMessage()" class="btn btn-primary" style="border-radius: 50%; width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center;"><i class='bx bx-send'></i></button>
+            </div>
+        </div>
+
+        <!-- Chatbot Floating Button -->
+        <div onclick="const w = document.getElementById('aiChatWindow'); w.style.display = w.style.display === 'none' ? 'flex' : 'none';" style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); cursor: pointer; float: right; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <i class='bx bx-message-rounded-dots'></i>
+        </div>
+    </div>
+
+    <!-- AI Chatbot Logic -->
+    <script>
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            const chatBox = document.getElementById('chatMessages');
+            
+            // Add user message
+            chatBox.innerHTML += `
+                <div style="align-self: flex-end; background: var(--primary-color); color: white; padding: 8px 12px; border-radius: 12px 12px 0 12px; font-size: 0.85rem; max-width: 80%;">
+                    ${message}
+                </div>
+            `;
+            
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            // Simulate AI delay
+            setTimeout(() => {
+                let reply = "I'm sorry, I didn't understand that. You can ask me about 'inventory', 'sales', or 'reorder'.";
+                const lowerMsg = message.toLowerCase();
+                
+                if (lowerMsg.includes('inventory') || lowerMsg.includes('stock')) {
+                    reply = "Your current top stock is Aloo Bhujia (500g) with 1,450 kg remaining. Warning: Namkeen Mix is currently flagged as Dead Stock.";
+                } else if (lowerMsg.includes('reorder') || lowerMsg.includes('po')) {
+                    reply = "I have drafted a PO for Besan (Gram Flour) because it dropped below the 500kg threshold. Would you like me to send it to the supplier?";
+                } else if (lowerMsg.includes('sale') || lowerMsg.includes('order')) {
+                    reply = "You have 2 Urgent (VIP) dispatch orders pending for Mega Mart. I recommend processing SO-4501 immediately.";
+                }
+
+                chatBox.innerHTML += `
+                    <div style="align-self: flex-start; background: white; padding: 8px 12px; border-radius: 12px 12px 12px 0; border: 1px solid var(--border-color); font-size: 0.85rem; max-width: 80%;">
+                        ${reply}
+                    </div>
+                `;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 800);
+        }
+    </script>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/views/dashboard.js"></script>
+    <script src="js/views/products.js"></script>
+    <script src="js/views/barcode.js"></script>
+    <script src="js/views/batch.js"></script>
+    <script src="js/views/inventory.js"></script>
+    <script src="js/views/purchase.js"></script>
+    <script src="js/views/receiving.js"></script>
+    <script src="js/views/production.js"></script>
+    <script src="js/views/dispatch.js"></script>
+    <script src="js/views/returns.js"></script>
+    <script src="js/views/quality.js"></script>
+    <script src="js/views/finance.js"></script>
+    <script src="js/views/reports.js"></script>
+    <script src="js/views/settings.js"></script>
+    <script src="js/views/integrations.js"></script>
+    <script src="js/views/ai_automation.js"></script>
+    <script src="js/views/logistics.js"></script>
+    <script src="js/views/intelligence.js"></script>
+    <script src="js/views/maintenance.js"></script>
+    <script src="js/views/distributor.js"></script>
+</body>
+</html>
