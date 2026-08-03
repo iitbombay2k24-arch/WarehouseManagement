@@ -17,11 +17,9 @@
         <div class="container nav-container">
             <div class="logo">Yash Namkeen</div>
             <ul class="nav-links">
-                <li><a href="#" class="active">Flavors</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Stores</a></li>
-                <li><a href="#">Recipes</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="#products-section">Flavors</a></li>
+                <li><a href="#about-section">About</a></li>
+                <li><a href="#contact-section">Contact</a></li>
             </ul>
             <div class="nav-actions">
                 <button class="icon-btn" aria-label="Search"><i class='bx bx-search'></i></button>
@@ -38,8 +36,8 @@
                 <h1>Feel the Ultimate Taste of Every Crisp 🥔</h1>
                 <p>Made from carefully selected potatoes and seasoned to perfection, every crisp delivers bold flavor and an unforgettable crunch you'll crave again and again.</p>
                 <div class="hero-buttons">
-                    <button class="btn btn-primary btn-large">Explore Flavors</button>
-                    <button class="btn btn-outline btn-large">Shop Now</button>
+                    <a href="#products-section" class="btn btn-primary btn-large">Explore Flavors</a>
+                    <a href="#products-section" class="btn btn-outline btn-large">Shop Now</a>
                 </div>
             </div>
             <div class="hero-image-container">
@@ -144,7 +142,7 @@
     </section>
 
     <!-- Top-Rated Flavors Section -->
-    <section class="products-section">
+    <section class="products-section" id="products-section">
         <div class="container">
             <div class="section-header text-center">
                 <h2 class="section-title">Top-Rated Flavors Loved by Crunch Seekers</h2>
@@ -276,13 +274,101 @@
         </div>
     </section>
 
+    <!-- About Section -->
+    <section class="about-section" id="about-section">
+        <div class="container">
+            <h2 class="section-title text-center">About Yash Namkeen</h2>
+            <p class="section-subtitle text-center">A legacy of taste, crunch, and pure satisfaction.</p>
+            
+            <div class="about-grid">
+                <div class="about-content">
+                    <div class="mission-vision-card">
+                        <div class="mv-block">
+                            <h3><i class='bx bx-bullseye'></i> Our Mission</h3>
+                            <p>To bring the authentic, crunchiest, and most delicious traditional Indian namkeen to snack lovers everywhere, using premium ingredients and hygienic manufacturing processes.</p>
+                        </div>
+                        <div class="mv-divider"></div>
+                        <div class="mv-block">
+                            <h3><i class='bx bx-show'></i> Our Vision</h3>
+                            <p>To become India’s most trusted snack brand, known for innovative flavors, uncompromised quality, and delivering ultimate happiness in every single bite.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-team">
+                    <h3 class="team-title text-center">Leadership Team</h3>
+                    <div class="team-grid">
+                        <div class="team-card">
+                            <div class="member-avatar">
+                                <i class='bx bx-user' style="font-size: 3rem; color: var(--brand-yellow);"></i>
+                            </div>
+                            <h4>Bhavesh Maru</h4>
+                            <span class="member-role">Founder</span>
+                        </div>
+                        <div class="team-card">
+                            <div class="member-avatar">
+                                <i class='bx bx-user-pin' style="font-size: 3rem; color: var(--brand-yellow);"></i>
+                            </div>
+                            <h4>Yash Maru</h4>
+                            <span class="member-role">CEO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact-section">
+        <div class="container">
+            <h2 class="section-title text-center text-white">Get in Touch</h2>
+            <p class="section-subtitle text-center" style="color: #ccc; max-width: 600px; margin-left: auto; margin-right: auto;">Have queries, feedback, or bulk orders? Reach out to us directly.</p>
+            
+            <div class="contact-grid">
+                <div class="contact-info-card">
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class='bx bx-phone-call'></i></div>
+                        <div class="contact-text">
+                            <h4>Phone Number</h4>
+                            <p><a href="tel:8275607959" style="color: inherit; text-decoration: none;">8275607959</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class='bx bx-map'></i></div>
+                        <div class="contact-text">
+                            <h4>Address</h4>
+                            <p>Karan Chaufuli, Nandurbar - 425412</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-card">
+                    <form onsubmit="event.preventDefault(); alert('Thank you for reaching out! We will contact you soon.'); this.reset();">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div class="form-group">
+                                <input type="text" placeholder="Your Name" required style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-family: inherit;">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="Your Email" required style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-family: inherit;">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 16px;">
+                            <textarea placeholder="Your Message" rows="4" required style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-family: inherit; resize: none;"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 16px; width: 100%; border-radius: 8px;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Ready to Crunch (CTA) -->
     <section class="ready-to-crunch">
         <div class="container text-center">
             <h2>Ready To Crunch?</h2>
             <p>Find your favorite flavor with irresistible taste, and perfect price.</p>
-            <button class="btn btn-primary btn-large">Shop Now</button>
+            <a href="#products-section" class="btn btn-primary btn-large">Shop Now</a>
         </div>
     </section>
 
