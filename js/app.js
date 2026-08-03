@@ -22,10 +22,10 @@ const DataManager = {
         if (!localStorage.getItem('wms_integrations')) {
             localStorage.setItem('wms_integrations', JSON.stringify([
                 { id: 'shopify', name: 'Shopify', desc: 'Sync orders & stock', type: 'ecommerce', status: 'Connected', icon: 'S', bg: '#96bf48' },
-                { id: 'amazon', name: 'Amazon Seller', desc: 'FBA / FBM Sync', type: 'ecommerce', status: 'Not Connected', icon: 'a', bg: '#ff9900' },
-                { id: 'zomato', name: 'Zomato B2B', desc: 'Quick-commerce', type: 'ecommerce', status: 'Not Connected', icon: 'Z', bg: '#cb202d' },
+                { id: 'amazon', name: 'Amazon Seller', desc: 'FBA / FBM Sync', type: 'ecommerce', status: 'Connected', icon: 'a', bg: '#ff9900' },
+                { id: 'zomato', name: 'Zomato B2B', desc: 'Quick-commerce', type: 'ecommerce', status: 'Connected', icon: 'Z', bg: '#cb202d' },
                 { id: 'whatsapp', name: 'WhatsApp API', desc: 'Automated alerts', type: 'erp', status: 'Active', icon: "<i class='bx bxl-whatsapp'></i>", bg: '#25D366' },
-                { id: 'sap', name: 'SAP ERP', desc: 'Bi-directional sync', type: 'erp', status: 'Testing', icon: 'SAP', bg: '#0088cc' },
+                { id: 'sap', name: 'SAP ERP', desc: 'Bi-directional sync', type: 'erp', status: 'Connected', icon: 'SAP', bg: '#0088cc' },
                 { id: 'email', name: 'Email Digests', desc: 'Daily manager reports', type: 'erp', status: 'Active', icon: "<i class='bx bx-envelope'></i>", bg: '#000' }
             ]));
         }
@@ -141,7 +141,7 @@ const DataManager = {
             localStorage.setItem('wms_chat_history', JSON.stringify([]));
         }
         if (!localStorage.getItem('wms_theme')) {
-            localStorage.setItem('wms_theme', 'dark');
+            localStorage.setItem('wms_theme', 'light');
         }
     },
     getProducts: function() { return JSON.parse(localStorage.getItem('wms_products')) || []; },
@@ -227,7 +227,7 @@ const DataManager = {
     addChatMessage: function(msg) { const list = this.getChatHistory(); list.push(msg); localStorage.setItem('wms_chat_history', JSON.stringify(list)); },
     clearChatHistory: function() { localStorage.setItem('wms_chat_history', JSON.stringify([])); },
 
-    getTheme: function() { return localStorage.getItem('wms_theme') || 'dark'; },
+    getTheme: function() { return localStorage.getItem('wms_theme') || 'light'; },
     setTheme: function(theme) { localStorage.setItem('wms_theme', theme); },
 
     logAction: function(action, details, user) {
@@ -241,7 +241,36 @@ const DataManager = {
 
 // Main Application Logic & Routing
 
-document.addEventListener('DOMContentLoaded', () => {
+// Monkey-patch localStorage to sync to our new Python API Server
+const originalSetItem = localStorage.setItem;
+localStorage.setItem = function(key, value) {
+    originalSetItem.apply(this, [key, value]);
+    if (key.startsWith('wms_') && key !== 'wms_theme') {
+        const collection = key.replace('wms_', '');
+        fetch('/api/' + collection, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: value
+        }).catch(e => console.error("API Sync error for", collection, e));
+    }
+};
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // 0. Fetch existing backend database state before initializing frontend
+    try {
+        const res = await fetch('/api/all');
+        if (res.ok) {
+            const data = await res.json();
+            for (const [table, rows] of Object.entries(data)) {
+                if (rows && rows.length > 0) {
+                    originalSetItem.call(localStorage, 'wms_' + table, JSON.stringify(rows));
+                }
+            }
+        }
+    } catch (e) {
+        console.log("Running in offline mode or backend not reachable.");
+    }
+
     // Initialize Data
     DataManager.init();
 

@@ -13,17 +13,17 @@ window.renderLogistics = function() {
                         <h2 class="section-title" style="margin: 0;">Live GPS Tracking</h2>
                     </div>
                     <!-- Mock Map -->
-                    <div style="flex: 1; background: #e5e7eb; position: relative; display: flex; align-items: center; justify-content: center;">
+                    <div style="flex: 1; background: var(--bg-main); position: relative; display: flex; align-items: center; justify-content: center;">
                         <i class='bx bx-map' style="font-size: 120px; color: #9ca3af; opacity: 0.5;"></i>
                         
                         <!-- Map Pins -->
                         <div style="position: absolute; top: 30%; left: 40%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center;">
-                            <div style="background: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; box-shadow: var(--shadow-sm); margin-bottom: 4px;">Truck MH-12-AB-1234</div>
+                            <div style="background: var(--bg-card); padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; box-shadow: var(--shadow-sm); margin-bottom: 4px;">Truck MH-12-AB-1234</div>
                             <div style="width: 16px; height: 16px; background: var(--primary-color); border-radius: 50%; border: 3px solid white; box-shadow: var(--shadow-sm);"></div>
                         </div>
                         
                         <div style="position: absolute; top: 60%; left: 70%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center;">
-                            <div style="background: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; box-shadow: var(--shadow-sm); margin-bottom: 4px;">Warehouse (HQ)</div>
+                            <div style="background: var(--bg-card); padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; box-shadow: var(--shadow-sm); margin-bottom: 4px;">Warehouse (HQ)</div>
                             <div style="width: 20px; height: 20px; background: var(--danger-color); border-radius: 50%; border: 3px solid white; box-shadow: var(--shadow-sm);"></div>
                         </div>
 
@@ -46,7 +46,7 @@ window.renderLogistics = function() {
                         </div>
                         <div style="background: var(--bg-main); padding: 16px; border-radius: 8px; font-size: 0.85rem;">
                             <div style="display: flex; gap: 12px; margin-bottom: 12px; position: relative;">
-                                <div style="width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--primary-color); background: white; z-index: 2; margin-top: 4px;"></div>
+                                <div style="width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--primary-color); background: var(--bg-main); z-index: 2; margin-top: 4px;"></div>
                                 <div>
                                     <div style="font-weight: 600;">Start: Main Warehouse</div>
                                     <div style="color: var(--text-muted);">08:00 AM</div>

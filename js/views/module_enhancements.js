@@ -130,34 +130,34 @@ window.showPOPreview = function(poId) {
     modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';
     const po = DataManager.getPurchaseOrders().find(p => p.id === poId) || { id: poId, supplier: 'ABC Spices Ltd.', items: [], total: '₹29,700', date: '02 Aug 2026' };
     modal.innerHTML = `
-        <div style="background:white;border-radius:16px;padding:32px;min-width:580px;max-height:85vh;overflow-y:auto;color:#1e293b;border:1px solid #e2e8f0;">
+        <div style="background:var(--bg-card);border-radius:16px;padding:32px;min-width:580px;max-height:85vh;overflow-y:auto;color:var(--text-main);border:1px solid var(--border-color);box-shadow:var(--shadow-lg);">
             <div style="display:flex;justify-content:space-between;margin-bottom:24px;">
                 <div>
-                    <div style="font-size:1.5rem;font-weight:900;color:#2563eb;">📦 PURCHASE ORDER</div>
-                    <div style="font-size:1.1rem;font-weight:700;color:#1e293b;margin-top:4px;">${po.id}</div>
-                    <div style="font-size:0.8rem;color:#64748b;">Date: ${po.date||new Date().toLocaleDateString()}</div>
+                    <div style="font-size:1.5rem;font-weight:900;color:var(--primary-color);">📦 PURCHASE ORDER</div>
+                    <div style="font-size:1.1rem;font-weight:700;color:var(--text-main);margin-top:4px;">${po.id}</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);">Date: ${po.date||new Date().toLocaleDateString()}</div>
                 </div>
                 <div style="text-align:right;">
                     <div style="font-weight:700;font-size:1rem;">Namkeen WMS Ltd.</div>
-                    <div style="font-size:0.8rem;color:#64748b;">FSSAI: 10023102002345</div>
-                    <div style="font-size:0.8rem;color:#64748b;">GSTIN: 27AAAFN2345R1Z5</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);">FSSAI: 10023102002345</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);">GSTIN: 27AAAFN2345R1Z5</div>
                 </div>
             </div>
-            <div style="padding:12px;background:#f1f5f9;border-radius:8px;margin-bottom:16px;font-size:0.85rem;">
-                <strong>Supplier:</strong> ${po.supplier} | <strong>Status:</strong> <span style="color:#2563eb;">${po.status||'Approved'}</span>
+            <div style="padding:12px;background:var(--bg-main);border-radius:8px;margin-bottom:16px;font-size:0.85rem;">
+                <strong>Supplier:</strong> ${po.supplier} | <strong>Status:</strong> <span style="color:var(--primary-color);">${po.status||'Approved'}</span>
             </div>
             <table style="width:100%;border-collapse:collapse;font-size:0.82rem;">
-                <thead><tr style="background:#f1f5f9;"><th style="padding:8px;text-align:left;border:1px solid #e2e8f0;">Item</th><th style="padding:8px;text-align:right;border:1px solid #e2e8f0;">Qty</th><th style="padding:8px;text-align:right;border:1px solid #e2e8f0;">Rate</th><th style="padding:8px;text-align:right;border:1px solid #e2e8f0;">Amount</th></tr></thead>
+                <thead><tr style="background:rgba(0,0,0,0.05);"><th style="padding:8px;text-align:left;border:1px solid var(--border-color);">Item</th><th style="padding:8px;text-align:right;border:1px solid var(--border-color);">Qty</th><th style="padding:8px;text-align:right;border:1px solid var(--border-color);">Rate</th><th style="padding:8px;text-align:right;border:1px solid var(--border-color);">Amount</th></tr></thead>
                 <tbody>
-                    <tr><td style="padding:8px;border:1px solid #e2e8f0;">Besan (Gram Flour)</td><td style="padding:8px;border:1px solid #e2e8f0;text-align:right;">500 kg</td><td style="padding:8px;border:1px solid #e2e8f0;text-align:right;">₹55/kg</td><td style="padding:8px;border:1px solid #e2e8f0;text-align:right;">₹27,500</td></tr>
-                    <tr><td style="padding:8px;border:1px solid #e2e8f0;">Refined Oil (15L)</td><td style="padding:8px;border:1px solid #e2e8f0;text-align:right;">1 can</td><td style="padding:8px;border:1px solid #e2e8f0;text-align:right;">₹1,490</td><td style="padding:8px;border:1px solid #e2e8f0;text-align:right;">₹1,490</td></tr>
-                    <tr style="background:#eff6ff;font-weight:700;"><td colspan="3" style="padding:8px;border:1px solid #e2e8f0;text-align:right;">Total:</td><td style="padding:8px;border:1px solid #e2e8f0;text-align:right;color:#2563eb;">${po.total||'₹28,990'}</td></tr>
+                    <tr><td style="padding:8px;border:1px solid var(--border-color);">Besan (Gram Flour)</td><td style="padding:8px;border:1px solid var(--border-color);text-align:right;">500 kg</td><td style="padding:8px;border:1px solid var(--border-color);text-align:right;">₹55/kg</td><td style="padding:8px;border:1px solid var(--border-color);text-align:right;">₹27,500</td></tr>
+                    <tr><td style="padding:8px;border:1px solid var(--border-color);">Refined Oil (15L)</td><td style="padding:8px;border:1px solid var(--border-color);text-align:right;">1 can</td><td style="padding:8px;border:1px solid var(--border-color);text-align:right;">₹1,490</td><td style="padding:8px;border:1px solid var(--border-color);text-align:right;">₹1,490</td></tr>
+                    <tr style="background:var(--primary-light);font-weight:700;"><td colspan="3" style="padding:8px;border:1px solid var(--border-color);text-align:right;">Total:</td><td style="padding:8px;border:1px solid var(--border-color);text-align:right;color:var(--primary-color);">${po.total||'₹28,990'}</td></tr>
                 </tbody>
             </table>
             <div style="margin-top:20px;display:flex;gap:8px;">
-                <button onclick="window.showToast('PO PDF downloaded','success');" style="background:#2563eb;color:white;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-weight:600;"><i class='bx bx-download'></i> Download PDF</button>
-                <button onclick="window.showToast('PO sent to supplier via email','success');" style="background:#10b981;color:white;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-weight:600;"><i class='bx bx-send'></i> Send to Supplier</button>
-                <button onclick="this.closest('[style*=fixed]').remove()" style="background:#f1f5f9;color:#1e293b;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;">Close</button>
+                <button class="btn btn-primary" onclick="window.showToast('PO PDF downloaded','success');"><i class='bx bx-download'></i> Download PDF</button>
+                <button class="btn btn-success" onclick="window.showToast('PO sent to supplier via email','success');"><i class='bx bx-send'></i> Send to Supplier</button>
+                <button class="btn btn-outline" onclick="this.closest('[style*=fixed]').remove()">Close</button>
             </div>
         </div>`;
     document.body.appendChild(modal);
@@ -200,22 +200,22 @@ window.generatePackingSlip = function(orderId) {
     const modal = document.createElement('div');
     modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';
     modal.innerHTML = `
-        <div style="background:white;border-radius:16px;padding:28px;min-width:500px;color:#1e293b;border:1px solid #e2e8f0;">
-            <div style="text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:2px dashed #e2e8f0;">
-                <div style="font-size:1.3rem;font-weight:900;color:#2563eb;">PACKING SLIP (F47)</div>
+        <div style="background:var(--bg-card);border-radius:16px;padding:28px;min-width:500px;color:var(--text-main);border:1px solid var(--border-color);box-shadow:var(--shadow-lg);">
+            <div style="text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:2px dashed var(--border-color);">
+                <div style="font-size:1.3rem;font-weight:900;color:var(--primary-color);">PACKING SLIP (F47)</div>
                 <div style="font-size:0.9rem;">Order: ${orderId||'SO-4502'} | Date: ${new Date().toLocaleDateString()}</div>
             </div>
             <div style="font-size:0.85rem;margin-bottom:12px;"><strong>Ship To:</strong> Mega Mart, Dadar, Mumbai 400014</div>
             <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:12px;">
-                <thead><tr style="background:#f1f5f9;"><th style="padding:6px;text-align:left;border:1px solid #e2e8f0;">Item</th><th style="padding:6px;text-align:center;border:1px solid #e2e8f0;">Ordered</th><th style="padding:6px;text-align:center;border:1px solid #e2e8f0;">Shipped</th></tr></thead>
+                <thead><tr style="background:rgba(0,0,0,0.05);"><th style="padding:6px;text-align:left;border:1px solid var(--border-color);">Item</th><th style="padding:6px;text-align:center;border:1px solid var(--border-color);">Ordered</th><th style="padding:6px;text-align:center;border:1px solid var(--border-color);">Shipped</th></tr></thead>
                 <tbody>
-                    <tr><td style="padding:6px;border:1px solid #e2e8f0;">Aloo Bhujia (500g)</td><td style="padding:6px;border:1px solid #e2e8f0;text-align:center;">150</td><td style="padding:6px;border:1px solid #e2e8f0;text-align:center;">150</td></tr>
-                    <tr><td style="padding:6px;border:1px solid #e2e8f0;">Navratna Mix (1kg)</td><td style="padding:6px;border:1px solid #e2e8f0;text-align:center;">80</td><td style="padding:6px;border:1px solid #e2e8f0;text-align:center;">80</td></tr>
+                    <tr><td style="padding:6px;border:1px solid var(--border-color);">Aloo Bhujia (500g)</td><td style="padding:6px;border:1px solid var(--border-color);text-align:center;">150</td><td style="padding:6px;border:1px solid var(--border-color);text-align:center;">150</td></tr>
+                    <tr><td style="padding:6px;border:1px solid var(--border-color);">Navratna Mix (1kg)</td><td style="padding:6px;border:1px solid var(--border-color);text-align:center;">80</td><td style="padding:6px;border:1px solid var(--border-color);text-align:center;">80</td></tr>
                 </tbody>
             </table>
             <div style="display:flex;gap:8px;">
-                <button onclick="window.showToast('Packing slip printed','success');" style="background:#2563eb;color:white;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-size:0.8rem;"><i class='bx bx-printer'></i> Print</button>
-                <button onclick="this.closest('[style*=fixed]').remove()" style="background:#f1f5f9;color:#1e293b;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-size:0.8rem;">Close</button>
+                <button class="btn btn-primary" onclick="window.showToast('Packing slip printed','success');"><i class='bx bx-printer'></i> Print</button>
+                <button class="btn btn-outline" onclick="this.closest('[style*=fixed]').remove()">Close</button>
             </div>
         </div>`;
     document.body.appendChild(modal);
@@ -632,7 +632,7 @@ window.showScheduledReports = function() {
             ${scheds.map(s=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg-main);border-radius:10px;margin-bottom:8px;">
                 <div><div style="font-weight:600;font-size:0.85rem;">${s.report}</div><div style="font-size:0.75rem;color:var(--text-muted);">${s.freq} → ${s.email}</div></div>
                 <div style="width:42px;height:22px;background:${s.active?'var(--secondary-color)':'var(--border-color)'};border-radius:11px;position:relative;cursor:pointer;flex-shrink:0;" onclick="window.showToast('Schedule toggled','info')">
-                    <div style="width:16px;height:16px;background:white;border-radius:50%;position:absolute;top:3px;${s.active?'right:3px':'left:3px'};transition:all 0.2s;"></div>
+                    <div style="width:16px;height:16px;background:var(--bg-main);border-radius:50%;position:absolute;top:3px;${s.active?'right:3px':'left:3px'};transition:all 0.2s;"></div>
                 </div>
             </div>`).join('')}
             <button class="btn btn-primary" style="width:100%;margin-top:8px;" onclick="window.showToast('New schedule created','success')"><i class='bx bx-plus'></i> Add Schedule</button>
@@ -775,7 +775,7 @@ window.showNotificationSettings = function() {
                     <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--bg-main);border-radius:8px;">
                         <span style="font-size:0.85rem;">${label}</span>
                         <div style="width:44px;height:24px;background:${active?'var(--secondary-color)':'var(--border-color)'};border-radius:12px;position:relative;cursor:pointer;flex-shrink:0;" onclick="this.style.background=this.style.background.includes('secondary')?'var(--border-color)':'var(--secondary-color)';window.showToast('Notification preference updated','info')">
-                            <div style="width:18px;height:18px;background:white;border-radius:50%;position:absolute;top:3px;${active?'right:3px':'left:3px'};transition:all 0.2s;"></div>
+                            <div style="width:18px;height:18px;background:var(--bg-main);border-radius:50%;position:absolute;top:3px;${active?'right:3px':'left:3px'};transition:all 0.2s;"></div>
                         </div>
                     </div>`).join('')}
             </div>

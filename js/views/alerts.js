@@ -39,25 +39,25 @@ window.renderAlerts = function() {
                         <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:var(--bg-main);border-radius:6px;">
                             <div style="font-size:0.8rem;"><i class='bx bx-box' style="color:var(--danger-color);"></i> Stock &lt; Min Threshold</div>
                             <div style="width:36px;height:18px;background:var(--secondary-color);border-radius:9px;position:relative;cursor:pointer;" onclick="window.showToast('Rule toggled','info')">
-                                <div style="width:14px;height:14px;background:white;border-radius:50%;position:absolute;right:2px;top:2px;"></div>
+                                <div style="width:14px;height:14px;background:var(--bg-main);border-radius:50%;position:absolute;right:2px;top:2px;"></div>
                             </div>
                         </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:var(--bg-main);border-radius:6px;">
                             <div style="font-size:0.8rem;"><i class='bx bx-calendar-x' style="color:var(--warning-color);"></i> Expiry &lt; 10 days</div>
                             <div style="width:36px;height:18px;background:var(--secondary-color);border-radius:9px;position:relative;cursor:pointer;" onclick="window.showToast('Rule toggled','info')">
-                                <div style="width:14px;height:14px;background:white;border-radius:50%;position:absolute;right:2px;top:2px;"></div>
+                                <div style="width:14px;height:14px;background:var(--bg-main);border-radius:50%;position:absolute;right:2px;top:2px;"></div>
                             </div>
                         </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:var(--bg-main);border-radius:6px;">
                             <div style="font-size:0.8rem;"><i class='bx bx-shield-x' style="color:var(--danger-color);"></i> QC Failure Detected</div>
                             <div style="width:36px;height:18px;background:var(--secondary-color);border-radius:9px;position:relative;cursor:pointer;" onclick="window.showToast('Rule toggled','info')">
-                                <div style="width:14px;height:14px;background:white;border-radius:50%;position:absolute;right:2px;top:2px;"></div>
+                                <div style="width:14px;height:14px;background:var(--bg-main);border-radius:50%;position:absolute;right:2px;top:2px;"></div>
                             </div>
                         </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:var(--bg-main);border-radius:6px;">
                             <div style="font-size:0.8rem;"><i class='bx bx-cart-download' style="color:var(--info-color);"></i> PO Delivery Overdue</div>
                             <div style="width:36px;height:18px;background:var(--secondary-color);border-radius:9px;position:relative;cursor:pointer;" onclick="window.showToast('Rule toggled','info')">
-                                <div style="width:14px;height:14px;background:white;border-radius:50%;position:absolute;right:2px;top:2px;"></div>
+                                <div style="width:14px;height:14px;background:var(--bg-main);border-radius:50%;position:absolute;right:2px;top:2px;"></div>
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@ window.renderAlerts = function() {
                         Current: 50 units | Min: 100 units<br>
                         _Raised by: Namkeen WMS • Auto-Alert_
                     </div>
-                    <button style="background:white;color:#075e54;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.8rem;" onclick="window.showToast('WhatsApp alert sent to Warehouse Manager','success')">Send Now</button>
+                    <button class="btn btn-outline" style="color:#075e54;border-color:#075e54;" onclick="window.showToast('WhatsApp alert sent to Warehouse Manager','success')"><i class='bx bxl-whatsapp'></i> Send Now</button>
                 </div>
 
                 <!-- F25: Escalation -->

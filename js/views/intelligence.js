@@ -26,30 +26,30 @@ window.renderIntelligence = function() {
                         </div>
                     </div>
                     <!-- Digital Twin Simulation Area -->
-                    <div style="height: 300px; background: #f8fafc; border-radius: 8px; position: relative; border: 1px solid var(--border-color); overflow: hidden; box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);">
+                    <div style="height: 300px; background: var(--bg-main); border-radius: 8px; position: relative; border: 1px solid var(--border-color); overflow: hidden; box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);">
                         <!-- Grid lines -->
                         <div style="position: absolute; inset: 0; background-image: linear-gradient(var(--border-color) 1px, transparent 1px), linear-gradient(90deg, var(--border-color) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.5;"></div>
                         
                         <!-- Racks & Zones -->
-                        <div style="position: absolute; top: 40px; left: 40px; width: 120px; height: 60px; background: white; border: 2px solid var(--primary-color); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                        <div style="position: absolute; top: 40px; left: 40px; width: 120px; height: 60px; background: var(--bg-card); border: 2px solid var(--primary-color); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
                             Zone A (Bhujia)
                             <span style="font-size: 0.65rem; font-weight: normal; color: var(--text-muted); margin-top: 4px;">Cap: 85%</span>
                         </div>
-                        <div style="position: absolute; top: 140px; left: 40px; width: 120px; height: 60px; background: white; border: 2px solid var(--secondary-color); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                        <div style="position: absolute; top: 140px; left: 40px; width: 120px; height: 60px; background: var(--bg-card); border: 2px solid var(--secondary-color); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
                             Zone B (Mix)
                             <span style="font-size: 0.65rem; font-weight: normal; color: var(--text-muted); margin-top: 4px;">Cap: 42%</span>
                         </div>
-                        <div style="position: absolute; top: 40px; right: 40px; width: 100px; height: 160px; background: white; border: 2px dashed var(--warning-color); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">Dispatch</div>
+                        <div style="position: absolute; top: 40px; right: 40px; width: 100px; height: 160px; background: var(--bg-card); border: 2px dashed var(--warning-color); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">Dispatch</div>
 
                         <!-- Active Assets / Robots -->
                         <div style="position: absolute; top: 110px; left: 180px; display: flex; flex-direction: column; align-items: center;">
                             <div style="width: 24px; height: 24px; background: var(--primary-color); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px;"><i class='bx bx-car'></i></div>
-                            <span style="font-size: 0.6rem; background: white; padding: 2px 4px; border-radius: 4px; margin-top: 2px; border: 1px solid var(--border-color); font-weight: 600;">AMR-1</span>
+                            <span style="font-size: 0.6rem; background: var(--bg-card); padding: 2px 4px; border-radius: 4px; margin-top: 2px; border: 1px solid var(--border-color); font-weight: 600;">AMR-1</span>
                         </div>
 
                         <div style="position: absolute; top: 60px; right: 160px; display: flex; flex-direction: column; align-items: center;">
                             <div style="width: 20px; height: 20px; background: var(--warning-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px;"><i class='bx bx-user'></i></div>
-                            <span style="font-size: 0.6rem; background: white; padding: 2px 4px; border-radius: 4px; margin-top: 2px; border: 1px solid var(--border-color);">Rahul</span>
+                            <span style="font-size: 0.6rem; background: var(--bg-card); padding: 2px 4px; border-radius: 4px; margin-top: 2px; border: 1px solid var(--border-color);">Rahul</span>
                         </div>
 
                         <!-- Heat Spots -->
@@ -88,7 +88,7 @@ window.renderIntelligence = function() {
                         <div style="font-size: 0.85rem; color: var(--text-muted);">Enable API link for voice-directed warehouse picking.</div>
                     </div>
                     <div style="width: 40px; height: 20px; background: var(--primary-color); border-radius: 10px; position: relative; cursor: pointer;">
-                        <div style="width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
+                        <div style="width: 16px; height: 16px; background: var(--bg-main); border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
                     </div>
                 </div>
                 <div style="display: flex; gap: 12px;">

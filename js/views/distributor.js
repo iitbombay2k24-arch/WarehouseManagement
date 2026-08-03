@@ -8,7 +8,7 @@ window.renderDistributor = function() {
                 <button class="btn btn-outline" onclick="window.openMockPortal()"><i class='bx bx-link-external'></i> Open Mock Portal</button>
             </div>
 
-            <div class="card" style="margin-bottom: 24px; background: linear-gradient(135deg, var(--bg-sidebar), #1e293b); color: white; border: none;">
+            <div class="card" style="margin-bottom: 24px; background: linear-gradient(135deg, var(--primary-light), var(--bg-card)); color: var(--text-main); border: none;">
                 <div style="display: flex; align-items: center; gap: 24px;">
                     <div style="background: rgba(255,255,255,0.1); padding: 24px; border-radius: 50%; font-size: 48px; display: flex; align-items: center; justify-content: center;">
                         <i class='bx bx-globe'></i>
@@ -71,7 +71,7 @@ window.renderDistributor = function() {
                                 <td>North Zone</td>
                                 <td>
                                     <div style="width: 40px; height: 20px; background: var(--primary-color); border-radius: 10px; position: relative; cursor: pointer;" onclick="window.toggleDistributorAccess(this, 'SuperMart Retailers')">
-                                        <div style="width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
+                                        <div style="width: 16px; height: 16px; background: var(--bg-main); border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
                                     </div>
                                 </td>
                             </tr>
@@ -80,7 +80,7 @@ window.renderDistributor = function() {
                                 <td>West Zone</td>
                                 <td>
                                     <div style="width: 40px; height: 20px; background: var(--primary-color); border-radius: 10px; position: relative; cursor: pointer;" onclick="window.toggleDistributorAccess(this, 'City Traders')">
-                                        <div style="width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
+                                        <div style="width: 16px; height: 16px; background: var(--bg-main); border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
                                     </div>
                                 </td>
                             </tr>
@@ -89,7 +89,7 @@ window.renderDistributor = function() {
                                 <td>South Zone</td>
                                 <td>
                                     <div style="width: 40px; height: 20px; background: var(--border-color); border-radius: 10px; position: relative; cursor: pointer;" onclick="window.toggleDistributorAccess(this, 'Fresh Foods Pvt Ltd')">
-                                        <div style="width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; left: 2px; top: 2px;"></div>
+                                        <div style="width: 16px; height: 16px; background: var(--bg-main); border-radius: 50%; position: absolute; left: 2px; top: 2px;"></div>
                                     </div>
                                 </td>
                             </tr>

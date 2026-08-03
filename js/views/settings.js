@@ -114,7 +114,7 @@ window.renderSettings = function() {
                                 <div style="font-size: 0.8rem; color: var(--text-muted);">Enable managing multiple locations</div>
                             </div>
                             <div style="width: 40px; height: 20px; background: var(--primary-color); border-radius: 10px; position: relative; cursor: pointer;">
-                                <div style="width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
+                                <div style="width: 16px; height: 16px; background: var(--bg-main); border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
                             </div>
                         </div>
 
@@ -123,8 +123,8 @@ window.renderSettings = function() {
                                 <div style="font-weight: 500; display: flex; align-items: center; gap: 8px;">Two-Factor Auth (2FA) <span style="background: var(--danger-color); color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.65rem;">CRITICAL</span></div>
                                 <div style="font-size: 0.8rem; color: var(--text-muted);">Require OTP/Authenticator app on login</div>
                             </div>
-                            <div style="width: 40px; height: 20px; background: var(--border-color); border-radius: 10px; position: relative; cursor: pointer;">
-                                <div style="width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; left: 2px; top: 2px;"></div>
+                            <div style="width: 40px; height: 20px; background: var(--primary-color); border-radius: 10px; position: relative; cursor: pointer;">
+                                <div style="width: 16px; height: 16px; background: var(--bg-main); border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
                             </div>
                         </div>
 
@@ -134,7 +134,7 @@ window.renderSettings = function() {
                                 <div style="font-size: 0.8rem; color: var(--text-muted);">Enforce immutable record of all system changes</div>
                             </div>
                             <div style="width: 40px; height: 20px; background: var(--primary-color); border-radius: 10px; position: relative; cursor: pointer;">
-                                <div style="width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
+                                <div style="width: 16px; height: 16px; background: var(--bg-main); border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
                             </div>
                         </div>
 
@@ -144,7 +144,7 @@ window.renderSettings = function() {
                                 <div style="font-size: 0.8rem; color: var(--text-muted);">Allow barcode scanners to connect</div>
                             </div>
                             <div style="width: 40px; height: 20px; background: var(--primary-color); border-radius: 10px; position: relative; cursor: pointer;">
-                                <div style="width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
+                                <div style="width: 16px; height: 16px; background: var(--bg-main); border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
                             </div>
                         </div>
 

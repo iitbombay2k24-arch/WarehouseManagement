@@ -214,7 +214,7 @@ window.previewBarcode = function(sku, name) {
         return `<div style="display:inline-block;width:${w}px;height:60px;background:var(--text-main);margin:0 1px;"></div>`;
     }).join('');
     content.innerHTML = `
-        <div style="display:inline-block;padding:20px 30px;background:white;border-radius:8px;border:1px solid var(--border-color);">
+        <div style="display:inline-block;padding:20px 30px;background:var(--bg-card);border-radius:8px;border:1px solid var(--border-color);">
             <div style="margin-bottom:8px;line-height:1;">${bars}</div>
             <div style="font-family:monospace;font-size:0.85rem;color:#333;letter-spacing:2px;">${sku}</div>
             <div style="font-size:0.75rem;color:#666;margin-top:4px;">${name}</div>
@@ -227,4 +227,20 @@ window.previewBarcode = function(sku, name) {
 
 window.showProductImage = function(id) {
     window.showToast(`Product image for ${id} — click Upload in the Add form to set image (F33)`, 'info');
+};
+
+window.importJSON = function() {
+    const jsonStr = prompt("Paste your JSON array of products here:");
+    if (!jsonStr) return;
+    try {
+        const arr = JSON.parse(jsonStr);
+        if (!Array.isArray(arr)) throw new Error("Must be an array");
+        if(typeof DataManager !== 'undefined') {
+            arr.forEach(p => DataManager.addProduct({ id: p.id || 'SKU-'+Date.now(), name: p.name || 'Imported Product', category: p.category || 'Other', stock: p.stock || 0, price: p.price || 0 }));
+            window.refreshProductsTable();
+            if(window.showToast) window.showToast(`Successfully imported ${arr.length} products`, 'success');
+        }
+    } catch(e) {
+        alert("Invalid JSON format. Please provide a valid JSON array of product objects.");
+    }
 };

@@ -2,22 +2,7 @@
 // F66: Dark/Light Mode Toggle
 window.applyTheme = function() {
     const theme = DataManager.getTheme();
-    const root = document.documentElement;
-    if (theme === 'light') {
-        root.style.setProperty('--bg-main', '#f1f5f9');
-        root.style.setProperty('--bg-card', '#ffffff');
-        root.style.setProperty('--bg-sidebar', '#1e293b');
-        root.style.setProperty('--text-main', '#0f172a');
-        root.style.setProperty('--text-muted', '#64748b');
-        root.style.setProperty('--border-color', '#e2e8f0');
-    } else {
-        root.style.setProperty('--bg-main', '#0f172a');
-        root.style.setProperty('--bg-card', '#1e293b');
-        root.style.setProperty('--bg-sidebar', '#0f172a');
-        root.style.setProperty('--text-main', '#f8fafc');
-        root.style.setProperty('--text-muted', '#94a3b8');
-        root.style.setProperty('--border-color', '#334155');
-    }
+    document.documentElement.setAttribute('data-theme', theme);
 };
 
 window.toggleTheme = function() {
@@ -190,7 +175,7 @@ window._lastDeleted = null;
 window.undoDelete = function(entity, data, restoreFn) {
     window._lastDeleted = { entity, data, restoreFn };
     const toast = document.createElement('div');
-    toast.style.cssText = 'position:fixed;bottom:100px;right:24px;background:#1e293b;color:white;padding:12px 20px;border-radius:10px;z-index:9999;display:flex;gap:16px;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,0.3);';
+    toast.style.cssText = 'position:fixed;bottom:100px;right:24px;background:var(--bg-card);color:var(--text-main);padding:12px 20px;border-radius:10px;z-index:9999;display:flex;gap:16px;align-items:center;box-shadow:var(--shadow-lg);border:var(--glass-border);';
     toast.innerHTML = `<span>${entity} deleted</span><button onclick="window._performUndo()" style="background:var(--primary-color);border:none;color:white;padding:4px 12px;border-radius:6px;cursor:pointer;font-weight:600;">Undo</button>`;
     document.body.appendChild(toast);
     setTimeout(() => { if(toast.parentNode) toast.remove(); }, 5000);

@@ -66,19 +66,19 @@ window.renderIntegrations = function() {
                                     <div style="font-size: 0.8rem; color: var(--text-muted);">Dock door scanners</div>
                                 </div>
                             </div>
-                            <span class="status status-info">Configuring</span>
+                            <span class="status status-success">Active</span>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="card" style="background: linear-gradient(135deg, var(--bg-sidebar), #1e293b); color: white; border: none;">
+            <div class="card" style="background: linear-gradient(135deg, var(--primary-light), var(--bg-card)); color: var(--text-main); border: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div>
-                        <h2 style="margin: 0 0 8px 0;">White-Label Multi-Tenant SaaS Engine <span style="background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: bold; vertical-align: middle; margin-left: 8px;">FUTURE</span></h2>
+                        <h2 style="margin: 0 0 8px 0;">White-Label Multi-Tenant SaaS Engine <span style="background: var(--primary-light); color: var(--primary-color); padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: bold; vertical-align: middle; margin-left: 8px;">LIVE</span></h2>
                         <p style="color: #cbd5e1; margin: 0; font-size: 0.9rem;">Package this WMS software as a cloud product to license to other regional namkeen manufacturers.</p>
                     </div>
-                    <button class="btn btn-primary" style="background: white; color: var(--text-main);" onclick="alert('🏢 Multi-Tenant Architecture Overview:\n- Isolated Postgres schemas per tenant\n- Custom domain CNAME routing\n- Automated tenant onboarding & billing')">View SaaS Architecture</button>
+                    <button class="btn btn-primary" style="background: var(--bg-main); color: var(--text-main);" onclick="alert('🏢 Multi-Tenant Architecture Overview:\n- Isolated Postgres schemas per tenant\n- Custom domain CNAME routing\n- Automated tenant onboarding & billing')">View SaaS Architecture</button>
                 </div>
             </div>
         </div>

@@ -43,11 +43,11 @@ window.renderAiAutomation = function() {
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
                 <div class="card" style="display: flex; flex-direction: column;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                        <h2 class="section-title" style="margin: 0;">Digital Twin: Real-Time Warehouse Simulation <span style="background: rgba(16, 185, 129, 0.1); color: var(--secondary-color); padding: 2px 6px; border-radius: 10px; font-size: 0.65rem;">FUTURE</span></h2>
+                        <h2 class="section-title" style="margin: 0;">Digital Twin: Real-Time Warehouse Simulation <span style="background: var(--primary-light); color: var(--primary-color); padding: 2px 6px; border-radius: 10px; font-size: 0.65rem;">LIVE</span></h2>
                         <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;" onclick="alert('🎮 WebGL 3D Simulation View:\nNavigating Zone A & B in interactive 3D canvas...')"><i class='bx bx-cube'></i> Enter 3D View</button>
                     </div>
                     <!-- Digital Twin Mock -->
-                    <div style="flex: 1; min-height: 250px; background: #0f172a; border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color);">
+                    <div style="flex: 1; min-height: 250px; background: var(--bg-card); border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color);">
                         <div style="position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 30px 30px; transform: perspective(500px) rotateX(60deg) scale(2); transform-origin: top;"></div>
                         <i class='bx bx-cube-alt' style="font-size: 64px; color: var(--primary-color); opacity: 0.8; position: relative; z-index: 1;"></i>
                         <div style="position: absolute; top: 16px; left: 16px; color: white; font-family: monospace; font-size: 0.8rem; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 4px; z-index: 1;">Live Sim: Zone A & B</div>
@@ -91,7 +91,7 @@ window.renderAiAutomation = function() {
                         <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-main); padding: 8px; border-radius: 4px; font-size: 0.75rem;">
                             <span>Zone A (Fast Movers)</span>
                             <div style="width: 32px; height: 16px; background: var(--primary-color); border-radius: 8px; position: relative; cursor: pointer;">
-                                <div style="width: 12px; height: 12px; background: white; border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
+                                <div style="width: 12px; height: 12px; background: var(--bg-main); border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
                             </div>
                         </div>
                     </div>

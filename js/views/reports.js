@@ -13,7 +13,7 @@ window.renderReports = function() {
                 <h1 class="page-title" style="margin:0;">Reports & Analytics</h1>
                 <div style="display:flex;gap:12px;">
                     <button class="btn btn-outline" onclick="window.showToast('Generating & downloading PDF Report...', 'info')"><i class='bx bx-export'></i> Export PDF</button>
-                    <button class="btn btn-outline" onclick="window.showToast('CSV Audit Report downloaded: audit_logs.csv', 'success')"><i class='bx bx-export'></i> Export CSV</button>
+                    <button class="btn btn-outline" onclick="window.exportReportCSV()"><i class='bx bx-export'></i> Export CSV</button>
                 </div>
             </div>
 
@@ -70,7 +70,7 @@ window.renderReports = function() {
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
-                <div class="card" style="display: flex; align-items: center; justify-content: center; min-height: 200px; border: 2px dashed var(--border-color); background: rgba(0,0,0,0.02); cursor: pointer; transition: all 0.2s;">
+                <div class="card" style="display: flex; align-items: center; justify-content: center; min-height: 200px; border: 2px dashed var(--border-color); background: var(--bg-main); cursor: pointer; transition: all 0.2s;">
                     <div style="text-align: center;">
                         <i class='bx bx-layer-plus' style="font-size: 48px; color: var(--primary-color); margin-bottom: 8px;"></i>
                         <h3 style="margin: 0; color: var(--text-main);">Custom Report Builder</h3>
@@ -129,7 +129,7 @@ window.renderReports = function() {
                     <hr style="border-top: 1px solid var(--border-color);">
                     <div>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                            <div style="font-weight: 600;">Carbon Footprint Estimate <span style="background: rgba(16, 185, 129, 0.1); color: var(--secondary-color); padding: 2px 6px; border-radius: 10px; font-size: 0.65rem;">FUTURE</span></div>
+                            <div style="font-weight: 600;">Carbon Footprint Estimate <span style="background: var(--primary-light); color: var(--primary-color); padding: 2px 6px; border-radius: 10px; font-size: 0.65rem;">LIVE</span></div>
                             <i class='bx bx-leaf' style="color: var(--secondary-color);"></i>
                         </div>
                         <div style="font-size: 0.8rem; color: var(--text-muted);">Estimated CO2 emissions from manufacturing and logistics: <span style="font-weight: bold; color: var(--text-main);">12.4 Tons (YTD)</span></div>
@@ -201,4 +201,23 @@ window.deleteAuditLog = function(id) {
             window.refreshAuditTrailTable();
         }
     }
+};
+
+window.exportReportCSV = function() {
+    if(typeof DataManager === 'undefined') return;
+    const data = DataManager.getAuditTrail();
+    let csv = "ID,Date,User,Action,Details\n";
+    data.forEach(row => {
+        csv += `"${row.id}","${row.date}","${row.user}","${row.action}","${row.details}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'audit_logs.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if(window.showToast) window.showToast('CSV Audit Report downloaded', 'success');
 };

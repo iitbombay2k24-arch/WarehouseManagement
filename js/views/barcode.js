@@ -74,10 +74,36 @@ window.generateBarcodePreview = function() {
 
     if (display) display.innerText = sku;
     if (graphic) {
+        graphic.innerHTML = '';
         if (bType === 'QR Code') {
-            graphic.innerHTML = `<i class='bx bx-qr-code' style="font-size: 90px; color: var(--primary-color);"></i>`;
+            const qrContainer = document.createElement('div');
+            graphic.appendChild(qrContainer);
+            if (typeof QRCode !== 'undefined') {
+                new QRCode(qrContainer, {
+                    text: sku,
+                    width: 128,
+                    height: 128,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            } else {
+                graphic.innerHTML = `<i class='bx bx-qr-code' style="font-size: 90px; color: var(--primary-color);"></i>`;
+            }
         } else {
-            graphic.innerHTML = `<i class='bx bx-barcode' style="font-size: 90px; color: var(--primary-color);"></i>`;
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            graphic.appendChild(svg);
+            if (typeof JsBarcode !== 'undefined') {
+                JsBarcode(svg, sku, {
+                    format: "CODE128",
+                    lineColor: "#000",
+                    width: 2,
+                    height: 80,
+                    displayValue: false
+                });
+            } else {
+                graphic.innerHTML = `<i class='bx bx-barcode' style="font-size: 90px; color: var(--primary-color);"></i>`;
+            }
         }
     }
 
@@ -97,7 +123,33 @@ window.printBarcodeLabels = function() {
         let val = parseInt(countEl.innerText.replace(',', '')) || 850;
         countEl.innerText = (val + parseInt(qty)).toLocaleString();
     }
-    if (window.showToast) window.showToast(`Sent ${qty} label job(s) to Zebra ZD420 Printer`, 'success');
+    
+    const graphic = document.getElementById('barcodePreviewGraphic');
+    if (!graphic || graphic.innerHTML.includes('bx-barcode')) {
+        alert("Please generate a barcode first.");
+        return;
+    }
+    
+    // Create print window
+    const printWin = window.open('', '_blank');
+    printWin.document.write(`
+        <html>
+            <head>
+                <title>Print Barcodes</title>
+                <style>
+                    body { font-family: monospace; display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; }
+                    .label { border: 1px dashed #ccc; padding: 10px; text-align: center; width: 160px; }
+                </style>
+            </head>
+            <body>
+                ${Array(parseInt(qty)).fill(`<div class="label">${graphic.innerHTML}<br>${document.getElementById('barcodeSkuDisplay').innerText}</div>`).join('')}
+                <script>window.onload = function() { window.print(); window.close(); }<\/script>
+            </body>
+        </html>
+    `);
+    printWin.document.close();
+    
+    if (window.showToast) window.showToast(`Sent ${qty} label job(s) to Printer`, 'success');
 };
 
 window.showScanHistory = function() {
