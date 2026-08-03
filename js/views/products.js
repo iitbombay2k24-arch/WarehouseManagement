@@ -205,24 +205,33 @@ window.previewBarcode = function(sku, name) {
     if (!panel || !content) return;
     panel.style.display = 'block';
     panel.scrollIntoView({ behavior: 'smooth' });
-    // Generate visual barcode simulation using CSS bars
-    const bars = sku.split('').map(c => {
-        const w = (c.charCodeAt(0) % 3) + 1;
-        return `<div style="display:inline-block;width:${w}px;height:60px;background:var(--text-main);margin:0 1px;"></div>`;
-    }).join('') + sku.split('').reverse().map(c => {
-        const w = (c.charCodeAt(0) % 2) + 1;
-        return `<div style="display:inline-block;width:${w}px;height:60px;background:var(--text-main);margin:0 1px;"></div>`;
-    }).join('');
+    
     content.innerHTML = `
-        <div style="display:inline-block;padding:20px 30px;background:white;border-radius:8px;border:1px solid var(--border-color);">
-            <div style="margin-bottom:8px;line-height:1;">${bars}</div>
-            <div style="font-family:monospace;font-size:0.85rem;color:#333;letter-spacing:2px;">${sku}</div>
+        <div style="display:inline-block;padding:20px 30px;background:white;border-radius:8px;border:1px solid var(--border-color);text-align:center;box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <svg id="productBarcodeSvg" style="max-width: 100%; height: auto; margin-bottom: 8px;"></svg>
+            <div style="font-family:monospace;font-size:0.85rem;color:#333;letter-spacing:2px;font-weight:600;">${sku}</div>
             <div style="font-size:0.75rem;color:#666;margin-top:4px;">${name}</div>
         </div>
         <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;">
             <button class="btn btn-primary" onclick="window.showToast('Barcode PDF sent to printer','success')"><i class='bx bx-printer'></i> Print</button>
             <button class="btn btn-outline" onclick="document.getElementById('barcodePreviewPanel').style.display='none'">Close</button>
         </div>`;
+
+    try {
+        if (window.JsBarcode) {
+            JsBarcode("#productBarcodeSvg", sku, {
+                format: "CODE128",
+                width: 2,
+                height: 60,
+                displayValue: false,
+                margin: 0
+            });
+        } else {
+            console.warn("JsBarcode library is not loaded.");
+        }
+    } catch (err) {
+        console.error("Error generating product barcode:", err);
+    }
 };
 
 window.showProductImage = function(id) {

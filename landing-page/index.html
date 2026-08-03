@@ -26,7 +26,7 @@
             <div class="nav-actions">
                 <button class="icon-btn" aria-label="Search"><i class='bx bx-search'></i></button>
                 <button class="icon-btn" aria-label="Cart"><i class='bx bx-shopping-bag'></i></button>
-                <button class="btn btn-primary">Sign In</button>
+                <button class="btn btn-primary" onclick="showLoginModal()">Sign In</button>
             </div>
         </div>
     </nav>
@@ -331,5 +331,73 @@
             <p>&copy; 2026 YASH NAMKEEN. All Rights Reserved.</p>
         </div>
     </footer>
+    <!-- Login Modal overlay -->
+    <div class="modal-overlay" id="loginModalOverlay">
+        <div class="login-modal" style="position: relative;">
+            <button class="login-modal-close" onclick="hideLoginModal()">&times;</button>
+            <h3><i class='bx bx-lock-alt'></i> Admin Portal Sign In</h3>
+            <p>Access the Yash Namkeen Warehouse Management System.</p>
+            
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="loginUsername">User ID</label>
+                    <input type="text" id="loginUsername" placeholder="Enter Admin Username" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter Password">
+                </div>
+                <div class="login-error" id="loginErrorMessage">Invalid User ID or Password.</div>
+                
+                <button class="btn btn-primary btn-full" style="width: 100%; margin-top: 16px; border-radius: 30px;" onclick="attemptLogin()">Sign In to Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLoginModal() {
+            document.getElementById('loginModalOverlay').classList.add('active');
+            document.getElementById('loginUsername').focus();
+        }
+
+        function hideLoginModal() {
+            document.getElementById('loginModalOverlay').classList.remove('active');
+            document.getElementById('loginErrorMessage').style.display = 'none';
+        }
+
+        function attemptLogin() {
+            const user = document.getElementById('loginUsername').value;
+            const pass = document.getElementById('loginPassword').value;
+            
+            if (user === 'admin' && pass === 'admin123') {
+                localStorage.setItem('isLoggedIn', 'true');
+                window.location.href = '../index.html';
+            } else {
+                const err = document.getElementById('loginErrorMessage');
+                err.style.display = 'block';
+                // Add shake animation
+                const modal = document.querySelector('.login-modal');
+                modal.style.animation = 'shake 0.3s ease';
+                setTimeout(() => {
+                    modal.style.animation = '';
+                }, 300);
+            }
+        }
+
+        // Close on clicking overlay background
+        document.getElementById('loginModalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideLoginModal();
+            }
+        });
+
+        // Add Enter key listener for form submit
+        document.getElementById('loginPassword').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') attemptLogin();
+        });
+        document.getElementById('loginUsername').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') attemptLogin();
+        });
+    </script>
 </body>
 </html>

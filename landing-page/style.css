@@ -849,3 +849,128 @@ body {
         gap: 40px;
     }
 }
+
+/* Login Modal overlay & styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(17, 17, 17, 0.85);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 99999;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.login-modal {
+    background: #1A1A1A;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    width: 90%;
+    max-width: 440px;
+    padding: 40px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    color: var(--white);
+    box-sizing: border-box;
+}
+
+.modal-overlay.active .login-modal {
+    transform: scale(1) translateY(0);
+}
+
+.login-modal h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--brand-yellow);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-modal p {
+    font-size: 14px;
+    color: #888888;
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+.login-form .form-group {
+    margin-bottom: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.login-form label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #AAAAAA;
+    font-weight: 600;
+}
+
+.login-form input {
+    background: #262626;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: var(--white);
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: var(--brand-yellow);
+    background: #2e2e2e;
+    box-shadow: 0 0 0 4px rgba(255, 198, 51, 0.15);
+}
+
+.login-error {
+    color: var(--brand-red);
+    font-size: 13px;
+    margin-top: 10px;
+    font-weight: 500;
+    display: none;
+}
+
+.login-modal-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: transparent;
+    border: none;
+    color: #888888;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.login-modal-close:hover {
+    color: var(--white);
+}
+
+.btn-full {
+    width: 100%;
+}
+
+@keyframes shake {
+    0%, 100% { transform: scale(1) translateX(0); }
+    20%, 60% { transform: scale(1) translateX(-6px); }
+    40%, 80% { transform: scale(1) translateX(6px); }
+}

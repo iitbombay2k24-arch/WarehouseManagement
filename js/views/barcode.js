@@ -49,12 +49,12 @@ window.renderBarcode = function() {
                         </div>
                         <button class="btn btn-primary" style="margin-top: 8px;" onclick="window.generateBarcodePreview()">Generate & Preview</button>
                     </div>
-                    <div style="border: 1px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--bg-main); min-height: 220px;">
-                        <div style="text-align: center;">
-                            <div id="barcodePreviewGraphic">
+                    <div style="border: 1px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--bg-main); min-height: 220px; padding: 20px;">
+                        <div style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div id="barcodePreviewGraphic" style="display: flex; align-items: center; justify-content: center; min-height: 120px; min-width: 150px;">
                                 <i class='bx bx-barcode' style="font-size: 80px; color: var(--text-main);"></i>
                             </div>
-                            <div style="font-family: monospace; font-size: 14px; margin-top: 8px; font-weight: 600;" id="barcodeSkuDisplay">SKU-ALB-500-B2391</div>
+                            <div style="font-family: monospace; font-size: 14px; margin-top: 12px; font-weight: 600; color: var(--text-main);" id="barcodeSkuDisplay">SKU-ALB-500-B2391</div>
                             <button class="btn btn-outline" style="margin-top: 16px;" onclick="window.printBarcodeLabels()"><i class='bx bx-printer'></i> Print Labels</button>
                         </div>
                     </div>
@@ -64,7 +64,11 @@ window.renderBarcode = function() {
     `;
 };
 
-window.generateBarcodePreview = function() {
+window.initBarcode = function() {
+    window.generateBarcodePreview(true);
+};
+
+window.generateBarcodePreview = function(isInit = false) {
     const sel = document.getElementById('barcodeProductSelect');
     const sku = sel ? sel.value : 'SKU-ALB-500-B2391';
     const typeSel = document.getElementById('barcodeTypeSelect');
@@ -75,19 +79,51 @@ window.generateBarcodePreview = function() {
     if (display) display.innerText = sku;
     if (graphic) {
         if (bType === 'QR Code') {
-            graphic.innerHTML = `<i class='bx bx-qr-code' style="font-size: 90px; color: var(--primary-color);"></i>`;
+            graphic.innerHTML = `<canvas id="qrcodeCanvas" style="background: white; padding: 12px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"></canvas>`;
+            try {
+                if (window.QRious) {
+                    new QRious({
+                        element: document.getElementById('qrcodeCanvas'),
+                        value: sku,
+                        size: 120,
+                        level: 'H'
+                    });
+                } else {
+                    graphic.innerHTML = `<p style="color:var(--danger-color);font-size:12px;">QR Code Library not loaded</p>`;
+                }
+            } catch (err) {
+                console.error("Error generating QR code:", err);
+                graphic.innerHTML = `<p style="color:var(--danger-color);font-size:12px;">Error generating QR Code</p>`;
+            }
         } else {
-            graphic.innerHTML = `<i class='bx bx-barcode' style="font-size: 90px; color: var(--primary-color);"></i>`;
+            graphic.innerHTML = `<svg id="barcodeSvg" style="background: white; padding: 12px 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 100%; height: auto;"></svg>`;
+            try {
+                if (window.JsBarcode) {
+                    JsBarcode("#barcodeSvg", sku, {
+                        format: "CODE128",
+                        width: 2,
+                        height: 70,
+                        displayValue: false,
+                        margin: 0
+                    });
+                } else {
+                    graphic.innerHTML = `<p style="color:var(--danger-color);font-size:12px;">Barcode Library not loaded</p>`;
+                }
+            } catch (err) {
+                console.error("Error generating barcode:", err);
+                graphic.innerHTML = `<p style="color:var(--danger-color);font-size:12px;">Error generating Barcode</p>`;
+            }
         }
     }
 
-    const countEl = document.getElementById('barcodesGeneratedCount');
-    if (countEl) {
-        let val = parseInt(countEl.innerText.replace(',', '')) || 1204;
-        countEl.innerText = (val + 1).toLocaleString();
+    if (!isInit) {
+        const countEl = document.getElementById('barcodesGeneratedCount');
+        if (countEl) {
+            let val = parseInt(countEl.innerText.replace(',', '')) || 1204;
+            countEl.innerText = (val + 1).toLocaleString();
+        }
+        if (window.showToast) window.showToast(`Generated ${bType} for ${sku}`, 'success');
     }
-
-    if (window.showToast) window.showToast(`Generated ${bType} for ${sku}`, 'success');
 };
 
 window.printBarcodeLabels = function() {

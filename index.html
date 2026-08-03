@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'landing-page/index.html';
+        }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Namkeen WMS - Admin Panel</title>
@@ -11,6 +16,9 @@
     <!-- Boxicons for modern icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- JsBarcode & QRious for barcode/QR generation -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -184,11 +192,16 @@
             </nav>
             
             <div class="sidebar-footer">
-                <div class="user-info">
-                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=3b82f6&color=fff" alt="User Avatar" class="user-avatar">
-                    <div class="user-details">
-                        <span class="user-name">Admin User</span>
-                        <span class="user-role">Super Admin</span>
+                <div class="user-info" style="position: relative; width: 100%;">
+                    <div style="display: flex; align-items: center; width: 100%;">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=3b82f6&color=fff" alt="User Avatar" class="user-avatar">
+                        <div class="user-details">
+                            <span class="user-name">Admin User</span>
+                            <span class="user-role">Super Admin</span>
+                        </div>
+                        <button onclick="window.logoutUser()" class="btn btn-outline" style="margin-left: auto; padding: 6px 10px; font-size: 0.75rem; display: flex; align-items: center; gap: 4px; border: 1px solid var(--danger-color); color: var(--danger-color); background: transparent; border-radius: 6px; cursor: pointer; transition: all 0.2s ease;" title="Logout" onmouseover="this.style.background='var(--danger-color)'; this.style.color='white';" onmouseout="this.style.background='transparent'; this.style.color='var(--danger-color)';">
+                            <i class='bx bx-log-out'></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -389,6 +402,11 @@
                 chatBox.scrollTop = chatBox.scrollHeight;
             }, 1000);
         }
+
+        window.logoutUser = function() {
+            localStorage.removeItem('isLoggedIn');
+            window.location.href = 'landing-page/index.html';
+        };
     </script>
 
     <!-- Scripts -->
