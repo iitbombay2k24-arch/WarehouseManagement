@@ -86,13 +86,13 @@ window.refreshAttendance = function() {
         tbody.innerHTML = records.map(r => {
             const scls = r.status === 'Present' ? 'status-success' : r.status === 'Overtime' ? 'status-warning' : r.status === 'Clocked In' ? 'status-info' : 'status-danger';
             return `<tr>
-                <td><strong>${r.worker}</strong></td>
+                <td><strong>${escapeHtml(r.worker)}</strong></td>
                 <td>${workers.find(w=>w.name===r.worker)?.shift || 'AM'}</td>
-                <td>${r.punchIn || '—'}</td>
-                <td>${r.punchOut || '—'}</td>
-                <td>${r.hours || '—'}</td>
-                <td><span class="status ${scls}">${r.status}</span></td>
-                <td><button class="btn btn-outline" style="padding:2px 8px;font-size:0.75rem;" onclick="window.punchOutWorker('${r.id}','${r.worker}')">Punch Out</button></td>
+                <td>${escapeHtml(r.punchIn || '—')}</td>
+                <td>${escapeHtml(r.punchOut || '—')}</td>
+                <td>${escapeHtml(r.hours || '—')}</td>
+                <td><span class="status ${scls}">${escapeHtml(r.status)}</span></td>
+                <td><button class="btn btn-outline" style="padding:2px 8px;font-size:0.75rem;" onclick="window.punchOutWorker('${escJs(r.id)}','${escJs(r.worker)}')">Punch Out</button></td>
             </tr>`;
         }).join('');
     }
@@ -102,10 +102,10 @@ window.refreshAttendance = function() {
     if (rosterEl) {
         rosterEl.innerHTML = workers.map(w => `
             <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--bg-main);border-radius:8px;">
-                <div style="font-weight:600;">${w.name}</div>
+                <div style="font-weight:600;">${escapeHtml(w.name)}</div>
                 <div style="display:flex;gap:8px;">
-                    <span class="status ${w.shift==='AM'?'status-success':'status-info'}">${w.shift} Shift</span>
-                    <button class="btn btn-outline" style="padding:2px 8px;font-size:0.75rem;" onclick="window.toggleShift('${w.email}','${w.shift}')">Toggle</button>
+                    <span class="status ${w.shift==='AM'?'status-success':'status-info'}">${escapeHtml(w.shift)} Shift</span>
+                    <button class="btn btn-outline" style="padding:2px 8px;font-size:0.75rem;" onclick="window.toggleShift('${escJs(w.email)}','${escJs(w.shift)}')">Toggle</button>
                 </div>
             </div>`).join('');
     }
@@ -121,7 +121,7 @@ window.refreshAttendance = function() {
             const pay = totalHrs * (w.hourlyRate || 150);
             total += pay;
             return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border-color);">
-                <div><div style="font-weight:600;">${w.name}</div><div style="font-size:0.75rem;color:var(--text-muted);">${totalHrs}h × ₹${w.hourlyRate||150}/hr</div></div>
+                <div><div style="font-weight:600;">${escapeHtml(w.name)}</div><div style="font-size:0.75rem;color:var(--text-muted);">${totalHrs}h × ₹${w.hourlyRate||150}/hr</div></div>
                 <div style="font-weight:700;color:var(--secondary-color);">₹${pay.toLocaleString('en-IN')}</div>
             </div>`;
         }).join('');
@@ -135,7 +135,7 @@ window.refreshAttendance = function() {
         const ot = records.filter(r => r.status === 'Overtime');
         otEl.innerHTML = ot.length ? ot.map(r => `
             <div style="display:flex;justify-content:space-between;padding:10px;background:rgba(245,158,11,0.08);border-left:3px solid var(--warning-color);border-radius:4px;">
-                <div><strong>${r.worker}</strong> <span style="font-size:0.8rem;color:var(--text-muted);">— ${r.punchIn} to ${r.punchOut}</span></div>
+                <div><strong>${escapeHtml(r.worker)}</strong> <span style="font-size:0.8rem;color:var(--text-muted);">— ${escapeHtml(r.punchIn)} to ${escapeHtml(r.punchOut)}</span></div>
                 <span style="color:var(--warning-color);font-weight:700;">${r.hours}h (OT: ${r.hours - 8}h)</span>
             </div>`).join('')
         : '<div style="color:var(--text-muted);font-size:0.85rem;">No overtime logged today.</div>';

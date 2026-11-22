@@ -82,8 +82,8 @@ window.refreshCustomers = function() {
             const utilPct = Math.round(c.used/c.creditLimit*100);
             const utilColor = utilPct > 80 ? 'var(--danger-color)' : utilPct > 60 ? 'var(--warning-color)' : 'var(--secondary-color)';
             return `<tr>
-                <td><strong>${c.name}</strong></td>
-                <td style="font-family:monospace;font-size:0.8rem;">${c.gst}</td>
+                <td><strong>${escapeHtml(c.name)}</strong></td>
+                <td style="font-family:monospace;font-size:0.8rem;">${escapeHtml(c.gst)}</td>
                 <td>₹${c.creditLimit.toLocaleString('en-IN')}</td>
                 <td><span style="color:${utilColor};font-weight:600;">₹${c.used.toLocaleString('en-IN')} (${utilPct}%)</span></td>
                 <td>₹${avail.toLocaleString('en-IN')}</td>
@@ -91,8 +91,8 @@ window.refreshCustomers = function() {
                 <td style="color:${c.outstanding60>0?'var(--danger-color)':'var(--text-muted)'};">₹${c.outstanding60.toLocaleString('en-IN')}</td>
                 <td style="color:${c.outstanding90>0?'var(--danger-color)':'var(--text-muted)'};">₹${c.outstanding90.toLocaleString('en-IN')}</td>
                 <td>
-                    <button class="btn btn-outline" style="padding:2px 8px;font-size:0.75rem;" onclick="window.sendPaymentReminder('${c.id}','${c.name}')">Remind</button>
-                    <button class="icon-btn" style="color:var(--danger-color);" onclick="window.deleteCustomer('${c.id}')"><i class='bx bx-trash'></i></button>
+                    <button class="btn btn-outline" style="padding:2px 8px;font-size:0.75rem;" onclick="window.sendPaymentReminder('${escJs(c.id)}','${escJs(c.name)}')">Remind</button>
+                    <button class="icon-btn" style="color:var(--danger-color);" onclick="window.deleteCustomer('${escJs(c.id)}')"><i class='bx bx-trash'></i></button>
                 </td>
             </tr>`;
         }).join('');
@@ -106,7 +106,7 @@ window.refreshCustomers = function() {
         chartEl.innerHTML = sorted.map((c,i) => `
             <div>
                 <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;">
-                    <span>${['🥇','🥈','🥉','4️⃣','5️⃣'][i]||''} ${c.name}</span>
+                    <span>${['🥇','🥈','🥉','4️⃣','5️⃣'][i]||''} ${escapeHtml(c.name)}</span>
                     <strong>₹${(c.used/1000).toFixed(0)}K</strong>
                 </div>
                 <div style="background:var(--bg-main);border-radius:4px;height:10px;overflow:hidden;">
@@ -120,10 +120,10 @@ window.refreshCustomers = function() {
     const histEl = document.getElementById('custOrderHistory');
     if(histEl) {
         histEl.innerHTML = orders.slice(0,6).map(o => `<tr>
-            <td><strong>${o.id}</strong></td>
-            <td>${o.customer}</td>
+            <td><strong>${escapeHtml(o.id)}</strong></td>
+            <td>${escapeHtml(o.customer)}</td>
             <td>₹${Math.floor(Math.random()*50000+20000).toLocaleString('en-IN')}</td>
-            <td><span class="status ${o.statusClass}">${o.status}</span></td>
+            <td><span class="status ${o.statusClass}">${escapeHtml(o.status)}</span></td>
         </tr>`).join('');
     }
 };

@@ -440,6 +440,7 @@
         </div>
     </div>
 
+    <script src="../js/auth.js"></script>
     <script>
         function showLoginModal() {
             document.getElementById('loginModalOverlay').classList.add('active');
@@ -454,20 +455,16 @@
         function attemptLogin() {
             const user = document.getElementById('loginUsername').value;
             const pass = document.getElementById('loginPassword').value;
-            
-            if (user === 'admin' && pass === 'admin123') {
-                localStorage.setItem('isLoggedIn', 'true');
+            const err = document.getElementById('loginErrorMessage');
+            WMSAuth.login(user, pass).then(function () {
                 window.location.href = '../index.html';
-            } else {
-                const err = document.getElementById('loginErrorMessage');
+            }).catch(function (e) {
+                err.textContent = e.message || 'Invalid User ID or Password.';
                 err.style.display = 'block';
-                // Add shake animation
                 const modal = document.querySelector('.login-modal');
                 modal.style.animation = 'shake 0.3s ease';
-                setTimeout(() => {
-                    modal.style.animation = '';
-                }, 300);
-            }
+                setTimeout(() => { modal.style.animation = ''; }, 300);
+            });
         }
 
         // Close on clicking overlay background

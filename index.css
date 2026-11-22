@@ -16,7 +16,8 @@
 
     /* Backgrounds */
     --bg-main: #f8fafc;
-    --bg-surface: #ffffff;
+    --bg-card: #ffffff;
+    --bg-surface: var(--bg-card); /* follows the theme switcher, which sets --bg-card */
     --bg-sidebar: #0f172a;
     --bg-sidebar-hover: #1e293b;
     --bg-sidebar-active: #2563eb;
@@ -426,8 +427,11 @@ button {
     border-radius: 8px;
     font-size: 0.9rem;
     color: var(--text-main);
+    background: var(--bg-main);
     transition: all var(--transition-fast);
 }
+
+select.form-control option { background: var(--bg-card); color: var(--text-main); }
 
 .form-control:focus {
     outline: none;
@@ -619,4 +623,15 @@ thead th[title] { position: relative; }
 }
 .nav-link:hover #alertNavBadge {
     transform: scale(1.1);
+}
+
+/* Print / Save as PDF: show only the page content */
+@media print {
+    .sidebar, .top-header, #toastContainer, .no-print, .wms-table-tools, .chat-widget, #wmsPwModal, .fab, [class*="chatbot"] { display: none !important; }
+    .main-content { margin: 0 !important; width: 100% !important; padding: 0 !important; }
+    .app-container { display: block !important; }
+    body { background: #fff !important; color: #000 !important; }
+    .card { break-inside: avoid; box-shadow: none !important; border: 1px solid #ccc !important; background: #fff !important; color: #000 !important; }
+    .table th, .table td { color: #000 !important; }
+    canvas { max-width: 100% !important; }
 }

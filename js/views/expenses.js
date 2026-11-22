@@ -84,7 +84,7 @@ window.refreshExpenses = function() {
             const over = actual > budget;
             return `<div>
                 <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;">
-                    <span>${cat}</span>
+                    <span>${escapeHtml(cat)}</span>
                     <span><strong style="color:${over?'var(--danger-color)':'var(--secondary-color)'};">₹${actual.toLocaleString('en-IN')}</strong> / ₹${budget.toLocaleString('en-IN')}</span>
                 </div>
                 <div style="background:var(--bg-main);border-radius:4px;height:12px;overflow:hidden;position:relative;">
@@ -106,7 +106,7 @@ window.refreshExpenses = function() {
             return `<div style="display:flex;align-items:center;gap:10px;">
                 <div style="width:12px;height:12px;border-radius:3px;background:${colors[i%colors.length]};flex-shrink:0;"></div>
                 <div style="flex:1;">
-                    <div style="display:flex;justify-content:space-between;font-size:0.78rem;"><span>${cat}</span><strong>${pct}%</strong></div>
+                    <div style="display:flex;justify-content:space-between;font-size:0.78rem;"><span>${escapeHtml(cat)}</span><strong>${pct}%</strong></div>
                     <div style="background:var(--bg-main);border-radius:3px;height:6px;margin-top:2px;"><div style="height:100%;width:${pct}%;background:${colors[i%colors.length]};border-radius:3px;"></div></div>
                 </div>
             </div>`;
@@ -119,13 +119,13 @@ window.refreshExpenses = function() {
         tbody.innerHTML = expenses.map(e => {
             const cls = e.status==='Approved'?'status-success':'status-warning';
             return `<tr>
-                <td>${e.date}</td>
-                <td><span style="background:var(--primary-light);color:var(--primary-color);padding:2px 8px;border-radius:10px;font-size:0.75rem;">${e.category}</span></td>
-                <td>${e.description}</td>
+                <td>${escapeHtml(e.date)}</td>
+                <td><span style="background:var(--primary-light);color:var(--primary-color);padding:2px 8px;border-radius:10px;font-size:0.75rem;">${escapeHtml(e.category)}</span></td>
+                <td>${escapeHtml(e.description)}</td>
                 <td><strong>₹${e.amount.toLocaleString('en-IN')}</strong></td>
-                <td><span class="status ${cls}">${e.status}</span></td>
-                <td>${e.approver || '—'}</td>
-                <td><button class="icon-btn" style="color:var(--danger-color);" onclick="window.deleteExpense('${e.id}')"><i class='bx bx-trash'></i></button></td>
+                <td><span class="status ${cls}">${escapeHtml(e.status)}</span></td>
+                <td>${escapeHtml(e.approver || '—')}</td>
+                <td><button class="icon-btn" style="color:var(--danger-color);" onclick="window.deleteExpense('${escJs(e.id)}')"><i class='bx bx-trash'></i></button></td>
             </tr>`;
         }).join('');
     }
@@ -136,13 +136,13 @@ window.refreshExpenses = function() {
     if(aqEl) {
         aqEl.innerHTML = pending_exp.length ? pending_exp.map(e => `
             <div style="padding:12px;border-radius:8px;background:var(--bg-main);border-left:3px solid var(--warning-color);">
-                <div style="font-weight:600;margin-bottom:4px;">${e.category}</div>
-                <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;">${e.description}</div>
+                <div style="font-weight:600;margin-bottom:4px;">${escapeHtml(e.category)}</div>
+                <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;">${escapeHtml(e.description)}</div>
                 <div style="display:flex;justify-content:space-between;align-items:center;">
                     <strong>₹${e.amount.toLocaleString('en-IN')}</strong>
                     <div style="display:flex;gap:6px;">
-                        <button class="btn btn-primary" style="padding:2px 8px;font-size:0.75rem;" onclick="window.approveExpense('${e.id}')">Approve</button>
-                        <button class="btn btn-outline" style="padding:2px 8px;font-size:0.75rem;color:var(--danger-color);" onclick="window.deleteExpense('${e.id}')">Reject</button>
+                        <button class="btn btn-primary" style="padding:2px 8px;font-size:0.75rem;" onclick="window.approveExpense('${escJs(e.id)}')">Approve</button>
+                        <button class="btn btn-outline" style="padding:2px 8px;font-size:0.75rem;color:var(--danger-color);" onclick="window.deleteExpense('${escJs(e.id)}')">Reject</button>
                     </div>
                 </div>
             </div>`).join('')

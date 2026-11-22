@@ -1,5 +1,15 @@
 {
-  "dependencies": {
-    "firebase": "^12.17.0"
+  "name": "namkeen-wms",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Warehouse management system for a namkeen (snacks) manufacturer: stock ledger, GST invoicing, production, returns, purchasing and reports. Runs entirely in the browser.",
+  "scripts": {
+    "start": "node scripts/serve.js",
+    "test": "node tests/run.js",
+    "check": "node scripts/check.js",
+    "verify": "node scripts/check.js && node tests/run.js"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

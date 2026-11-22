@@ -180,23 +180,23 @@ window.refreshInventoryTable = function() {
     const inventory = DataManager.getInventory();
     let html = '';
     inventory.forEach(inv => {
-        let altStockHtml = inv.altStock ? `<span style="font-size: 0.75rem; color: var(--text-muted); display: block;">${inv.altStock}</span>` : '';
+        let altStockHtml = inv.altStock ? `<span style="font-size: 0.75rem; color: var(--text-muted); display: block;">${escapeHtml(inv.altStock)}</span>` : '';
         html += `
             <tr>
-                <td>${inv.item}</td>
-                <td><span style="background: ${inv.classBg}; color: ${inv.classColor}; padding: 2px 6px; border-radius: 4px; font-weight: bold;">${inv.class}</span></td>
-                <td><span style="background: var(--primary-light); padding: 4px 8px; border-radius: 4px; font-family: monospace; color: var(--primary-color);">${inv.location}</span></td>
-                <td>${inv.currentStock} ${altStockHtml}</td>
-                <td>${inv.reserved}</td>
-                <td style="font-weight: 600;">${inv.available}</td>
+                <td>${escapeHtml(inv.item)}</td>
+                <td><span style="background: ${inv.classBg}; color: ${inv.classColor}; padding: 2px 6px; border-radius: 4px; font-weight: bold;">${escapeHtml(inv.class)}</span></td>
+                <td><span style="background: var(--primary-light); padding: 4px 8px; border-radius: 4px; font-family: monospace; color: var(--primary-color);">${escapeHtml(inv.location)}</span></td>
+                <td>${escapeHtml(inv.currentStock)} ${altStockHtml}</td>
+                <td>${escapeHtml(inv.reserved)}</td>
+                <td style="font-weight: 600;">${escapeHtml(inv.available)}</td>
                 <td>${inv.flagHtml}</td>
                 <td>
                     <div style="display:flex;gap:4px;">
-                        <button class="icon-btn" onclick="window.showLocationOnMap('${inv.id}')"><i class='bx bx-map-pin'></i></button>
+                        <button class="icon-btn" onclick="window.showLocationOnMap('${escJs(inv.id)}')"><i class='bx bx-map-pin'></i></button>
                         <!-- F37: Reserve toggle -->
-                        <button class="icon-btn" title="Toggle Reserve (F37)" onclick="window.toggleReserve('${inv.id}')"><i class='bx bx-lock-alt'></i></button>
+                        <button class="icon-btn" title="Toggle Reserve (F37)" onclick="window.toggleReserve('${escJs(inv.id)}')"><i class='bx bx-lock-alt'></i></button>
                         <!-- F40: Bin transfer -->
-                        <button class="icon-btn" title="Transfer Bin (F40)" onclick="window.multiBinTransfer('${inv.id}','${inv.item}')"><i class='bx bx-transfer'></i></button>
+                        <button class="icon-btn" title="Transfer Bin (F40)" onclick="window.multiBinTransfer('${escJs(inv.id)}','${escJs(inv.item)}')"><i class='bx bx-transfer'></i></button>
                     </div>
                 </td>
             </tr>
@@ -244,8 +244,8 @@ window.toggleReserve = function(id) {
     const inv = DataManager.getInventory().find(i => i.id === id);
     if (!inv) return;
     const isReserved = inv.reserved && inv.reserved !== '0';
-    window.showToast(isReserved ? `Stock for ${inv.item} unreserved` : `Stock for ${inv.item} marked as reserved`, 'info');
-    DataManager.logAction('Reserve Toggle', `${inv.item} reserve status toggled`);
+    window.showToast(isReserved ? `Stock for ${escapeHtml(inv.item)} unreserved` : `Stock for ${escapeHtml(inv.item)} marked as reserved`, 'info');
+    DataManager.logAction('Reserve Toggle', `${escapeHtml(inv.item)} reserve status toggled`);
 };
 
 // F38: Inventory Snapshot
@@ -292,7 +292,7 @@ window.showAgingReport = function() {
             <div style="display:flex;justify-content:space-between;margin-bottom:16px;"><h2 style="margin:0;">⏳ Stock Aging Report (F39)</h2><button onclick="document.getElementById('agingModal').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">✕</button></div>
             <table class="table">
                 <thead><tr><th>Item</th><th>Location</th><th>Days No Movement</th><th>Risk</th><th>Action</th></tr></thead>
-                <tbody>${items.map(i=>`<tr><td>${i.item}</td><td><code>${i.location}</code></td><td>${i.lastMoved} days</td><td><span class="status ${i.class}">${i.lastMoved>90?'Dead Stock':i.lastMoved>60?'Slow Moving':'Normal'}</span></td><td><button class="btn btn-outline" style="font-size:0.75rem;padding:2px 8px;" onclick="window.showToast('Markdown/transfer action initiated','info')">Action</button></td></tr>`).join('')}</tbody>
+                <tbody>${items.map(i=>`<tr><td>${escapeHtml(i.item)}</td><td><code>${escapeHtml(i.location)}</code></td><td>${i.lastMoved} days</td><td><span class="status ${i.class}">${i.lastMoved>90?'Dead Stock':i.lastMoved>60?'Slow Moving':'Normal'}</span></td><td><button class="btn btn-outline" style="font-size:0.75rem;padding:2px 8px;" onclick="window.showToast('Markdown/transfer action initiated','info')">Action</button></td></tr>`).join('')}</tbody>
             </table>
         </div>`;
     document.body.appendChild(modal);

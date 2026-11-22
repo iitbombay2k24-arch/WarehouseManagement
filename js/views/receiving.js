@@ -42,6 +42,8 @@ window.renderReceiving = function() {
                     <input type="text" id="grnSupplier" placeholder="Supplier" class="form-control">
                     <input type="text" id="grnDate" placeholder="Date/Time (e.g. Today, 11:00 AM)" class="form-control">
                     <input type="number" id="grnItems" placeholder="Number of Items" class="form-control">
+                    <select id="grnSku" class="form-control"><option value="">Product (stock is added on put-away)</option>${DataManager.getProducts().map(p => `<option value="${escapeHtml(p.id)}">${escapeHtml(p.id)} — ${escapeHtml(p.name)}</option>`).join('')}</select>
+                    <input type="number" id="grnQty" placeholder="Received quantity" min="0" step="any" class="form-control">
                 </div>
                 <div style="display: flex; gap: 8px;">
                     <button class="btn btn-primary" onclick="window.saveNewGRN()">Save GRN</button>
@@ -85,15 +87,19 @@ window.saveNewGRN = function() {
     const supplier = document.getElementById('grnSupplier').value;
     const date = document.getElementById('grnDate').value;
     const items = document.getElementById('grnItems').value;
+    const sku = document.getElementById('grnSku').value;
+    const qty = Number(document.getElementById('grnQty').value) || 0;
 
     if (!id || !supplier) {
         alert("Please enter GRN Number and Supplier");
         return;
     }
+    if (sku && qty <= 0) { alert("Enter a received quantity greater than 0"); return; }
+    if (DataManager.getReceiving().some(g => g.id === id)) { alert("GRN " + id + " already exists"); return; }
 
     if(typeof DataManager !== 'undefined') {
         DataManager.addReceiving({ 
-            id, supplier, date, items, status: 'Pending', statusClass: 'status-warning'
+            id, supplier, date, items, sku, qty, status: 'Pending', statusClass: 'status-warning'
         });
         
         document.getElementById('grnId').value = '';
@@ -127,21 +133,24 @@ window.refreshReceivingTable = function() {
     let html = '';
     
     grns.forEach(grn => {
-        let actionBtn = grn.status === 'Passed' 
-            ? `<button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;" onclick="window.autoPutawayGRN('${grn.id}')">Auto Put-away</button>`
-            : `<button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;" disabled>Wait</button>`;
+        const gid = grn.id;
+        let actionBtn = grn.status === 'Passed'
+            ? `<button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;" onclick="window.autoPutawayGRN('${escJs(gid)}')">Auto Put-away</button>`
+            : (grn.status === 'Put Away'
+                ? `<span style="font-size:0.8rem;color:var(--text-muted);">Stocked${grn.qty ? ' (+' + escapeHtml(grn.qty) + ')' : ''}</span>`
+                : `<button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.8rem;" onclick="window.passGRN('${escJs(gid)}')">Pass QC</button>`);
             
         html += `
             <tr>
-                <td><span style="font-family: monospace; font-weight: 600;">${grn.id}</span></td>
-                <td>${grn.supplier}</td>
-                <td>${grn.date}</td>
-                <td>${grn.items}</td>
-                <td><span class="status ${grn.statusClass}">${grn.status}</span></td>
+                <td><span style="font-family: monospace; font-weight: 600;">${escapeHtml(gid)}</span></td>
+                <td>${escapeHtml(grn.supplier)}</td>
+                <td>${escapeHtml(grn.date)}</td>
+                <td>${escapeHtml(grn.items)}</td>
+                <td><span class="status ${escapeHtml(grn.statusClass)}">${escapeHtml(grn.status)}</span></td>
                 <td>
                     <div style="display: flex; gap: 8px;">
                         ${actionBtn}
-                        <button class="icon-btn" style="color: var(--danger-color); padding: 2px;" onclick="window.deleteGRN('${grn.id}')"><i class='bx bx-trash'></i></button>
+                        <button class="icon-btn" style="color: var(--danger-color); padding: 2px;" onclick="window.deleteGRN('${escJs(gid)}')"><i class='bx bx-trash'></i></button>
                     </div>
                 </td>
             </tr>
@@ -149,4 +158,27 @@ window.refreshReceivingTable = function() {
     });
     
     tbody.innerHTML = html;
+};
+
+
+window.passGRN = function(id) {
+    const g = DataManager.getReceiving().find(x => x.id === id);
+    if (!g) return;
+    DataManager.updateReceiving(id, { status: 'Passed', statusClass: 'status-success' });
+    DataManager.logAction('GRN QC Passed', id + ' passed quality inspection');
+    window.refreshReceivingTable();
+    window.showToast(id + ' passed QC', 'success');
+};
+
+window.autoPutawayGRN = function(id) {
+    const g = DataManager.getReceiving().find(x => x.id === id);
+    if (!g || g.status !== 'Passed') return;
+    try {
+        if (g.sku && Number(g.qty) > 0) {
+            StockLedger.post({ sku: g.sku, type: 'RECEIPT', qty: g.qty, ref: g.id, note: 'Put-away from ' + g.supplier, idempotent: true });
+        }
+        DataManager.updateReceiving(id, { status: 'Put Away', statusClass: 'status-info' });
+        window.showToast(g.sku ? `${id} put away: +${g.qty} added to stock` : `${id} marked put away (no product linked, stock unchanged)`, 'success');
+    } catch (e) { window.showToast(e.message, 'danger'); }
+    window.refreshReceivingTable();
 };

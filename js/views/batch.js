@@ -80,21 +80,21 @@ window.createBatchPrompt = function() {
     if (tbody) {
         tbody.innerHTML += `
             <tr>
-                <td><span style="font-weight: 600;">${bNum}</span></td>
-                <td>${product}</td>
+                <td><span style="font-weight: 600;">${escapeHtml(bNum)}</span></td>
+                <td>${escapeHtml(product)}</td>
                 <td>Today</td>
                 <td>In 6 Months</td>
-                <td>${qty}</td>
+                <td>${escapeHtml(qty)}</td>
                 <td><span class="status status-success">Healthy</span></td>
-                <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;" onclick="window.traceBatch('${bNum}')">Trace</button></td>
+                <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.8rem;" onclick="window.traceBatch('${escJs(bNum)}')">Trace</button></td>
             </tr>
         `;
     }
 
-    if (window.showToast) window.showToast(`Batch ${bNum} created for ${product}`, 'success');
+    if (window.showToast) window.showToast(`Batch ${escapeHtml(bNum)} created for ${escapeHtml(product)}`, 'success');
 };
 
 window.traceBatch = function(bNum) {
-    if (window.showToast) window.showToast(`Full FEFO genealogy trace generated for ${bNum}`, 'info');
+    if (window.showToast) window.showToast(`Full FEFO genealogy trace generated for ${escapeHtml(bNum)}`, 'info');
 };
 

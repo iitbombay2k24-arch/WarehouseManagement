@@ -143,15 +143,15 @@ window.refreshReorderRulesTable = function() {
             
         html += `
             <tr>
-                <td>${r.material}</td>
-                <td>${r.stock}</td>
-                <td>${r.min}</td>
-                <td>${r.max}</td>
-                <td><span class="status ${r.statusClass}">${r.status}</span></td>
+                <td>${escapeHtml(r.material)}</td>
+                <td>${escapeHtml(r.stock)}</td>
+                <td>${escapeHtml(r.min)}</td>
+                <td>${escapeHtml(r.max)}</td>
+                <td><span class="status ${r.statusClass}">${escapeHtml(r.status)}</span></td>
                 <td>
                     <div style="display: flex; gap: 8px;">
                         ${actionBtn}
-                        <button class="icon-btn" style="color: var(--danger-color); padding: 2px;" onclick="window.deleteReorderRule('${r.id}')"><i class='bx bx-trash'></i></button>
+                        <button class="icon-btn" style="color: var(--danger-color); padding: 2px;" onclick="window.deleteReorderRule('${escJs(r.id)}')"><i class='bx bx-trash'></i></button>
                     </div>
                 </td>
             </tr>

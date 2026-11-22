@@ -31,7 +31,7 @@ window.rejectPO = function(id) {
         po.rejectionReason = reason;
         localStorage.setItem('wms_purchase_orders', JSON.stringify(orders));
         window.showToast(`PO ${id} rejected`, 'danger');
-        DataManager.logAction('PO Rejected', `${id} rejected: ${reason}`);
+        DataManager.logAction('PO Rejected', `${id} rejected: ${escapeHtml(reason)}`);
         if (typeof window.refreshPurchaseTable === 'function') window.refreshPurchaseTable();
     }
 };
@@ -57,14 +57,14 @@ window.showBlanketPOManager = function() {
                 <thead><tr><th>BPO ID</th><th>Supplier</th><th>Item</th><th>Total Qty</th><th>Released</th><th>Balance</th><th>Expiry</th><th>Action</th></tr></thead>
                 <tbody>${blanket.map(b=>`
                     <tr>
-                        <td><strong>${b.id}</strong></td>
-                        <td>${b.supplier}</td>
-                        <td>${b.item}</td>
+                        <td><strong>${escapeHtml(b.id)}</strong></td>
+                        <td>${escapeHtml(b.supplier)}</td>
+                        <td>${escapeHtml(b.item)}</td>
                         <td>${b.totalQty}</td>
                         <td style="color:var(--primary-color);">${b.released}</td>
                         <td style="color:var(--secondary-color);font-weight:700;">${b.balance}</td>
                         <td>${b.expiry}</td>
-                        <td><button class="btn btn-outline" style="font-size:0.75rem;padding:3px 10px;" onclick="window.showToast('Release created for ${b.id}','success')">Release</button></td>
+                        <td><button class="btn btn-outline" style="font-size:0.75rem;padding:3px 10px;" onclick="window.showToast('Release created for ${escapeHtml(b.id)}','success')">Release</button></td>
                     </tr>`).join('')}
                 </tbody>
             </table>
@@ -103,7 +103,7 @@ window.showPOAmendments = function(poId) {
     modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';
     modal.innerHTML = `
         <div style="background:var(--bg-card);border-radius:16px;padding:28px;min-width:520px;border:1px solid var(--border-color);">
-            <div style="display:flex;justify-content:space-between;margin-bottom:16px;"><h2 style="margin:0;">PO Amendment Log (F44) — ${poId||'PO-2026-1046'}</h2><button onclick="this.closest('[style*=fixed]').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">✕</button></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:16px;"><h2 style="margin:0;">PO Amendment Log (F44) — ${escapeHtml(poId||'PO-2026-1046')}</h2><button onclick="this.closest('[style*=fixed]').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">✕</button></div>
             <div style="display:flex;flex-direction:column;gap:10px;">
                 ${[
                     { time: '02 Aug 2026 09:12', user: 'Admin', change: 'Quantity changed: 500kg → 600kg (Besan)' },
@@ -112,8 +112,8 @@ window.showPOAmendments = function(poId) {
                 ].map(a => `
                     <div style="padding:10px;background:var(--bg-main);border-radius:8px;border-left:3px solid var(--primary-color);">
                         <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-                            <strong style="font-size:0.8rem;">${a.user}</strong>
-                            <span style="font-size:0.75rem;color:var(--text-muted);">${a.time}</span>
+                            <strong style="font-size:0.8rem;">${escapeHtml(a.user)}</strong>
+                            <span style="font-size:0.75rem;color:var(--text-muted);">${escapeHtml(a.time)}</span>
                         </div>
                         <div style="font-size:0.82rem;">${a.change}</div>
                     </div>`).join('')}
@@ -134,7 +134,7 @@ window.showPOPreview = function(poId) {
             <div style="display:flex;justify-content:space-between;margin-bottom:24px;">
                 <div>
                     <div style="font-size:1.5rem;font-weight:900;color:#2563eb;">📦 PURCHASE ORDER</div>
-                    <div style="font-size:1.1rem;font-weight:700;color:#1e293b;margin-top:4px;">${po.id}</div>
+                    <div style="font-size:1.1rem;font-weight:700;color:#1e293b;margin-top:4px;">${escapeHtml(po.id)}</div>
                     <div style="font-size:0.8rem;color:#64748b;">Date: ${po.date||new Date().toLocaleDateString()}</div>
                 </div>
                 <div style="text-align:right;">
@@ -144,7 +144,7 @@ window.showPOPreview = function(poId) {
                 </div>
             </div>
             <div style="padding:12px;background:#f1f5f9;border-radius:8px;margin-bottom:16px;font-size:0.85rem;">
-                <strong>Supplier:</strong> ${po.supplier} | <strong>Status:</strong> <span style="color:#2563eb;">${po.status||'Approved'}</span>
+                <strong>Supplier:</strong> ${escapeHtml(po.supplier)} | <strong>Status:</strong> <span style="color:#2563eb;">${escapeHtml(po.status||'Approved')}</span>
             </div>
             <table style="width:100%;border-collapse:collapse;font-size:0.82rem;">
                 <thead><tr style="background:#f1f5f9;"><th style="padding:8px;text-align:left;border:1px solid #e2e8f0;">Item</th><th style="padding:8px;text-align:right;border:1px solid #e2e8f0;">Qty</th><th style="padding:8px;text-align:right;border:1px solid #e2e8f0;">Rate</th><th style="padding:8px;text-align:right;border:1px solid #e2e8f0;">Amount</th></tr></thead>
@@ -174,7 +174,7 @@ window.generatePickList = function(orderId) {
     modal.innerHTML = `
         <div style="background:var(--bg-card);border-radius:16px;padding:28px;min-width:560px;border:1px solid var(--border-color);">
             <div style="display:flex;justify-content:space-between;margin-bottom:16px;">
-                <h2 style="margin:0;"><i class='bx bx-list-check'></i> Pick List (F46) — ${orderId||'SO-4502'}</h2>
+                <h2 style="margin:0;"><i class='bx bx-list-check'></i> Pick List (F46) — ${escapeHtml(orderId||'SO-4502')}</h2>
                 <button onclick="this.closest('[style*=fixed]').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">✕</button>
             </div>
             <table class="table">
@@ -203,7 +203,7 @@ window.generatePackingSlip = function(orderId) {
         <div style="background:white;border-radius:16px;padding:28px;min-width:500px;color:#1e293b;border:1px solid #e2e8f0;">
             <div style="text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:2px dashed #e2e8f0;">
                 <div style="font-size:1.3rem;font-weight:900;color:#2563eb;">PACKING SLIP (F47)</div>
-                <div style="font-size:0.9rem;">Order: ${orderId||'SO-4502'} | Date: ${new Date().toLocaleDateString()}</div>
+                <div style="font-size:0.9rem;">Order: ${escapeHtml(orderId||'SO-4502')} | Date: ${new Date().toLocaleDateString()}</div>
             </div>
             <div style="font-size:0.85rem;margin-bottom:12px;"><strong>Ship To:</strong> Mega Mart, Dadar, Mumbai 400014</div>
             <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:12px;">
@@ -225,7 +225,7 @@ window.generatePackingSlip = function(orderId) {
 // F48: Vehicle Assignment
 window.assignVehicle = function(orderId) {
     const vehicles = ['MH04 AB 1234 — Tata 407 (Available)', 'MH04 CD 5678 — Mahindra Bolero (Available)', 'MH04 EF 9012 — Ashok Leyland (On Route)'];
-    const choice = prompt(`Assign vehicle to ${orderId||'SO-4502'}:\n${vehicles.map((v,i)=>`${i+1}. ${v}`).join('\n')}\nEnter number:`);
+    const choice = prompt(`Assign vehicle to ${escapeHtml(orderId||'SO-4502')}:\n${vehicles.map((v,i)=>`${i+1}. ${v}`).join('\n')}\nEnter number:`);
     if (!choice) return;
     const vehicle = vehicles[parseInt(choice)-1];
     if (!vehicle) { window.showToast('Invalid selection','danger'); return; }
@@ -239,7 +239,7 @@ window.captureDeliveryProof = function(orderId) {
     modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';
     modal.innerHTML = `
         <div style="background:var(--bg-card);border-radius:16px;padding:28px;min-width:460px;border:1px solid var(--border-color);">
-            <div style="display:flex;justify-content:space-between;margin-bottom:16px;"><h2 style="margin:0;"><i class='bx bx-camera'></i> Delivery Proof (F49) — ${orderId||'SO-4502'}</h2><button onclick="this.closest('[style*=fixed]').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">✕</button></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:16px;"><h2 style="margin:0;"><i class='bx bx-camera'></i> Delivery Proof (F49) — ${escapeHtml(orderId||'SO-4502')}</h2><button onclick="this.closest('[style*=fixed]').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">✕</button></div>
             <div style="display:flex;flex-direction:column;gap:12px;">
                 <div style="padding:30px;border:2px dashed var(--border-color);border-radius:12px;text-align:center;cursor:pointer;" onclick="window.showToast('Signature captured','success')">
                     <i class='bx bx-pencil' style="font-size:2.5rem;color:var(--text-muted);"></i>
@@ -278,8 +278,8 @@ window.showDispatchCalendar = function() {
             <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;">
                 ${days.map(d=>`
                     <div style="padding:10px;background:var(--bg-main);border-radius:10px;min-height:100px;border:1px solid var(--border-color);">
-                        <div style="font-size:0.75rem;font-weight:700;margin-bottom:6px;color:var(--text-muted);">${d}</div>
-                        ${(events[d]||[]).map(e=>`<div style="background:var(--primary-color);color:white;padding:3px 6px;border-radius:5px;font-size:0.68rem;margin-bottom:3px;cursor:pointer;" onclick="window.showToast('${e}','info')">${e.split(':')[0]}</div>`).join('')}
+                        <div style="font-size:0.75rem;font-weight:700;margin-bottom:6px;color:var(--text-muted);">${escapeHtml(d)}</div>
+                        ${(events[d]||[]).map(e=>`<div style="background:var(--primary-color);color:white;padding:3px 6px;border-radius:5px;font-size:0.68rem;margin-bottom:3px;cursor:pointer;" onclick="window.showToast('${escJs(e)}','info')">${e.split(':')[0]}</div>`).join('')}
                         ${(events[d]||[]).length===0?`<div style="font-size:0.72rem;color:var(--text-muted);text-align:center;margin-top:10px;">No dispatches</div>`:''}
                     </div>`).join('')}
             </div>
@@ -497,7 +497,7 @@ window.showTestParams = function() {
         <div style="background:var(--bg-card);border-radius:16px;padding:28px;min-width:620px;border:1px solid var(--border-color);">
             <div style="display:flex;justify-content:space-between;margin-bottom:16px;"><h2 style="margin:0;"><i class='bx bx-test-tube'></i> Test Parameter Library (F56)</h2><button onclick="this.closest('[style*=fixed]').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">✕</button></div>
             <table class="table"><thead><tr><th>Parameter</th><th>Unit</th><th>Min</th><th>Max</th><th>Method</th><th>Actions</th></tr></thead>
-            <tbody>${params.map(p=>`<tr><td><strong>${p.name}</strong></td><td>${p.unit||'—'}</td><td>${p.min}</td><td>${p.max}</td><td><code style="font-size:0.75rem;">${p.method}</code></td><td><button class="icon-btn" onclick="window.showToast('Parameter ${p.name} edited','info')"><i class='bx bx-edit'></i></button></td></tr>`).join('')}</tbody></table>
+            <tbody>${params.map(p=>`<tr><td><strong>${escapeHtml(p.name)}</strong></td><td>${p.unit||'—'}</td><td>${p.min}</td><td>${p.max}</td><td><code style="font-size:0.75rem;">${p.method}</code></td><td><button class="icon-btn" onclick="window.showToast('Parameter ${escapeHtml(p.name)} edited','info')"><i class='bx bx-edit'></i></button></td></tr>`).join('')}</tbody></table>
             <button class="btn btn-primary" style="margin-top:12px;" onclick="window.showToast('New test parameter added','success')"><i class='bx bx-plus'></i> Add Parameter</button>
         </div>`;
     document.body.appendChild(modal);
@@ -516,7 +516,7 @@ window.showQCChecklist = function() {
             <div style="display:flex;flex-direction:column;gap:8px;">
                 ${items.map((item,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg-main);border-radius:8px;">
                     <input type="checkbox" id="qcCheck${i}" onchange="window.checkQCItem(${i})" style="width:18px;height:18px;cursor:pointer;">
-                    <label for="qcCheck${i}" style="cursor:pointer;font-size:0.85rem;">${item}</label>
+                    <label for="qcCheck${i}" style="cursor:pointer;font-size:0.85rem;">${escapeHtml(item)}</label>
                     <span id="qcStatus${i}" style="margin-left:auto;font-size:0.75rem;"></span>
                 </div>`).join('')}
             </div>
@@ -600,16 +600,16 @@ window.showSavedReports = function() {
             <div style="display:flex;justify-content:space-between;margin-bottom:16px;"><h2 style="margin:0;"><i class='bx bx-library'></i> Saved Reports (F61)</h2><button onclick="this.closest('[style*=fixed]').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">✕</button></div>
             <div style="display:flex;flex-direction:column;gap:8px;">
                 ${reports.map(r=>`
-                    <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg-main);border-radius:10px;cursor:pointer;" onclick="window.showToast('Downloading ${r.name}...','info')">
+                    <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg-main);border-radius:10px;cursor:pointer;" onclick="window.showToast('Downloading ${escapeHtml(r.name)}...','info')">
                         <div style="width:40px;height:40px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <i class='bx ${r.icon}' style="color:var(--primary-color);font-size:1.2rem;"></i>
                         </div>
                         <div style="flex:1;">
-                            <div style="font-size:0.85rem;font-weight:600;">${r.name}</div>
-                            <div style="font-size:0.72rem;color:var(--text-muted);">${r.type} • ${r.date} • ${r.size}</div>
+                            <div style="font-size:0.85rem;font-weight:600;">${escapeHtml(r.name)}</div>
+                            <div style="font-size:0.72rem;color:var(--text-muted);">${escapeHtml(r.type)} • ${escapeHtml(r.date)} • ${escapeHtml(r.size)}</div>
                         </div>
-                        <button class="icon-btn" onclick="event.stopPropagation();window.showToast('${r.name} downloaded','success')"><i class='bx bx-download'></i></button>
-                        <button class="icon-btn" style="color:var(--danger-color);" onclick="event.stopPropagation();window.showToast('${r.name} deleted','danger')"><i class='bx bx-trash'></i></button>
+                        <button class="icon-btn" onclick="event.stopPropagation();window.showToast('${escapeHtml(r.name)} downloaded','success')"><i class='bx bx-download'></i></button>
+                        <button class="icon-btn" style="color:var(--danger-color);" onclick="event.stopPropagation();window.showToast('${escapeHtml(r.name)} deleted','danger')"><i class='bx bx-trash'></i></button>
                     </div>`).join('')}
             </div>
         </div>`;
@@ -630,7 +630,7 @@ window.showScheduledReports = function() {
         <div style="background:var(--bg-card);border-radius:16px;padding:28px;min-width:580px;border:1px solid var(--border-color);">
             <div style="display:flex;justify-content:space-between;margin-bottom:16px;"><h2 style="margin:0;"><i class='bx bx-mail-send'></i> Scheduled Reports (F62)</h2><button onclick="this.closest('[style*=fixed]').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">✕</button></div>
             ${scheds.map(s=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg-main);border-radius:10px;margin-bottom:8px;">
-                <div><div style="font-weight:600;font-size:0.85rem;">${s.report}</div><div style="font-size:0.75rem;color:var(--text-muted);">${s.freq} → ${s.email}</div></div>
+                <div><div style="font-weight:600;font-size:0.85rem;">${escapeHtml(s.report)}</div><div style="font-size:0.75rem;color:var(--text-muted);">${escapeHtml(s.freq)} → ${escapeHtml(s.email)}</div></div>
                 <div style="width:42px;height:22px;background:${s.active?'var(--secondary-color)':'var(--border-color)'};border-radius:11px;position:relative;cursor:pointer;flex-shrink:0;" onclick="window.showToast('Schedule toggled','info')">
                     <div style="width:16px;height:16px;background:white;border-radius:50%;position:absolute;top:3px;${s.active?'right:3px':'left:3px'};transition:all 0.2s;"></div>
                 </div>
@@ -656,7 +656,7 @@ window.showStockValuation = function() {
                 <div style="font-size:0.78rem;opacity:0.8;">${products.length} SKUs at cost price</div>
             </div>
             <table class="table"><thead><tr><th>SKU</th><th>Name</th><th>Stock</th><th>Cost Price</th><th>Value</th></tr></thead>
-            <tbody>${products.slice(0,10).map(p=>`<tr><td><code>${p.id}</code></td><td>${p.name}</td><td>${p.stock||0}</td><td>₹${p.price||0}</td><td style="font-weight:700;color:var(--primary-color);">₹${((p.stock||0)*(p.price||0)).toLocaleString('en-IN')}</td></tr>`).join('')}</tbody></table>
+            <tbody>${products.slice(0,10).map(p=>`<tr><td><code>${escapeHtml(p.id)}</code></td><td>${escapeHtml(p.name)}</td><td>${p.stock||0}</td><td>₹${p.price||0}</td><td style="font-weight:700;color:var(--primary-color);">₹${((p.stock||0)*(p.price||0)).toLocaleString('en-IN')}</td></tr>`).join('')}</tbody></table>
         </div>`;
     document.body.appendChild(modal);
     modal.addEventListener('click', e => { if(e.target===modal) modal.remove(); });
@@ -698,7 +698,7 @@ window.showProfitabilityReport = function() {
                 const gp = sale - cost;
                 const gpPct = sale ? Math.round((gp/sale)*100) : 0;
                 const grade = gpPct>30?'A':gpPct>20?'B':'C';
-                return `<tr><td><code>${p.id}</code></td><td>${p.name}</td><td>₹${sale.toFixed(0)}</td><td>₹${cost}</td><td style="color:var(--secondary-color);font-weight:700;">₹${gp.toFixed(0)}</td><td style="color:var(--primary-color);font-weight:700;">${gpPct}%</td><td><span class="status ${grade==='A'?'status-success':grade==='B'?'status-warning':'status-danger'}">${grade}</span></td></tr>`;
+                return `<tr><td><code>${escapeHtml(p.id)}</code></td><td>${escapeHtml(p.name)}</td><td>₹${sale.toFixed(0)}</td><td>₹${cost}</td><td style="color:var(--secondary-color);font-weight:700;">₹${gp.toFixed(0)}</td><td style="color:var(--primary-color);font-weight:700;">${gpPct}%</td><td><span class="status ${grade==='A'?'status-success':grade==='B'?'status-warning':'status-danger'}">${grade}</span></td></tr>`;
             }).join('')}</tbody></table>
         </div>`;
     document.body.appendChild(modal);
@@ -717,16 +717,16 @@ window.showCompanyProfile = function() {
         <div style="background:var(--bg-card);border-radius:16px;padding:32px;min-width:560px;max-height:85vh;overflow-y:auto;border:1px solid var(--border-color);">
             <div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h2 style="margin:0;"><i class='bx bx-building'></i> Company Profile (F67)</h2><button onclick="this.closest('[style*=fixed]').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">✕</button></div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                <div style="grid-column:span 2;"><label style="font-size:0.8rem;color:var(--text-muted);">Company Name</label><input type="text" class="form-control" value="${profile.name||'Namkeen WMS Ltd.'}" style="margin-top:4px;"></div>
-                <div><label style="font-size:0.8rem;color:var(--text-muted);">FSSAI License No.</label><input type="text" class="form-control" value="${profile.fssai||'10023102002345'}" style="margin-top:4px;"></div>
-                <div><label style="font-size:0.8rem;color:var(--text-muted);">GSTIN</label><input type="text" class="form-control" value="${profile.gstin||'27AAAFN2345R1Z5'}" style="margin-top:4px;"></div>
-                <div><label style="font-size:0.8rem;color:var(--text-muted);">License Expiry</label><input type="date" class="form-control" value="${profile.licenseExpiry||'2027-03-31'}" style="margin-top:4px;"></div>
-                <div><label style="font-size:0.8rem;color:var(--text-muted);">Phone</label><input type="text" class="form-control" value="${profile.phone||'+91 22 1234 5678'}" style="margin-top:4px;"></div>
-                <div style="grid-column:span 2;"><label style="font-size:0.8rem;color:var(--text-muted);">Address</label><textarea class="form-control" style="margin-top:4px;height:60px;resize:none;">${profile.address||'123, Warehouse Road, Andheri East, Mumbai 400069'}</textarea></div>
+                <div style="grid-column:span 2;"><label style="font-size:0.8rem;color:var(--text-muted);">Company Name</label><input type="text" class="form-control" value="${escapeHtml(profile.name||'Namkeen WMS Ltd.')}" style="margin-top:4px;"></div>
+                <div><label style="font-size:0.8rem;color:var(--text-muted);">FSSAI License No.</label><input type="text" class="form-control" value="${escapeHtml(profile.fssai||'10023102002345')}" style="margin-top:4px;"></div>
+                <div><label style="font-size:0.8rem;color:var(--text-muted);">GSTIN</label><input type="text" class="form-control" value="${escapeHtml(profile.gstin||'27AAAFN2345R1Z5')}" style="margin-top:4px;"></div>
+                <div><label style="font-size:0.8rem;color:var(--text-muted);">License Expiry</label><input type="date" class="form-control" value="${escapeHtml(profile.licenseExpiry||'2027-03-31')}" style="margin-top:4px;"></div>
+                <div><label style="font-size:0.8rem;color:var(--text-muted);">Phone</label><input type="text" class="form-control" value="${escapeHtml(profile.phone||'+91 22 1234 5678')}" style="margin-top:4px;"></div>
+                <div style="grid-column:span 2;"><label style="font-size:0.8rem;color:var(--text-muted);">Address</label><textarea class="form-control" style="margin-top:4px;height:60px;resize:none;">${escapeHtml(profile.address||'123, Warehouse Road, Andheri East, Mumbai 400069')}</textarea></div>
             </div>
             <!-- F86: FSSAI License status -->
             <div style="padding:12px;background:rgba(16,185,129,0.1);border-radius:8px;margin-top:12px;border:1px solid var(--secondary-color);">
-                <div style="font-weight:600;font-size:0.85rem;color:var(--secondary-color);"><i class='bx bx-shield-check'></i> FSSAI License (F86): Valid until ${profile.licenseExpiry||'31 Mar 2027'}</div>
+                <div style="font-weight:600;font-size:0.85rem;color:var(--secondary-color);"><i class='bx bx-shield-check'></i> FSSAI License (F86): Valid until ${escapeHtml(profile.licenseExpiry||'31 Mar 2027')}</div>
                 <div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px;">Renewal reminder will be sent 90 days before expiry</div>
             </div>
             <button class="btn btn-primary" style="width:100%;margin-top:16px;" onclick="window.showToast('Company profile saved successfully','success');this.closest('[style*=fixed]').remove();">Save Profile</button>
@@ -773,7 +773,7 @@ window.showNotificationSettings = function() {
             <div style="display:flex;flex-direction:column;gap:8px;">
                 ${categories.map(([label, active])=>`
                     <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--bg-main);border-radius:8px;">
-                        <span style="font-size:0.85rem;">${label}</span>
+                        <span style="font-size:0.85rem;">${escapeHtml(label)}</span>
                         <div style="width:44px;height:24px;background:${active?'var(--secondary-color)':'var(--border-color)'};border-radius:12px;position:relative;cursor:pointer;flex-shrink:0;" onclick="this.style.background=this.style.background.includes('secondary')?'var(--border-color)':'var(--secondary-color)';window.showToast('Notification preference updated','info')">
                             <div style="width:18px;height:18px;background:white;border-radius:50%;position:absolute;top:3px;${active?'right:3px':'left:3px'};transition:all 0.2s;"></div>
                         </div>
@@ -802,8 +802,8 @@ window.showSessionLog = function() {
                     <div style="display:flex;gap:10px;padding:8px 12px;background:var(--bg-main);border-radius:8px;">
                         <i class='bx bx-user-circle' style="color:var(--primary-color);margin-top:2px;"></i>
                         <div style="flex:1;">
-                            <div style="font-size:0.82rem;font-weight:600;">${log.action} <span style="font-weight:400;color:var(--text-muted);">by ${log.user||'admin'}</span></div>
-                            <div style="font-size:0.75rem;color:var(--text-muted);">${log.details} • ${log.timestamp}</div>
+                            <div style="font-size:0.82rem;font-weight:600;">${escapeHtml(log.action)} <span style="font-weight:400;color:var(--text-muted);">by ${escapeHtml(log.user||'admin')}</span></div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">${escapeHtml(log.details)} • ${escapeHtml(log.timestamp)}</div>
                         </div>
                     </div>`).join('')}
             </div>
@@ -826,8 +826,8 @@ window.showAllergenRegister = function() {
             <div style="display:flex;justify-content:space-between;margin-bottom:16px;"><h2 style="margin:0;"><i class='bx bx-shield-quarter'></i> Allergen Register (F87)</h2><button onclick="this.closest('[style*=fixed]').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">✕</button></div>
             <div style="overflow-x:auto;">
                 <table class="table" style="font-size:0.8rem;">
-                    <thead><tr><th>Product</th>${allergens.map(a=>`<th style="white-space:nowrap;">${a}</th>`).join('')}</tr></thead>
-                    <tbody>${products.slice(0,8).map(p=>`<tr><td><strong>${p.name}</strong></td>${allergens.map(()=>`<td style="text-align:center;cursor:pointer;" onclick="this.innerHTML=this.innerHTML==='⚠️'?'':'⚠️'">${Math.random()>0.8?'⚠️':''}</td>`).join('')}</tr>`).join('')}</tbody>
+                    <thead><tr><th>Product</th>${allergens.map(a=>`<th style="white-space:nowrap;">${escapeHtml(a)}</th>`).join('')}</tr></thead>
+                    <tbody>${products.slice(0,8).map(p=>`<tr><td><strong>${escapeHtml(p.name)}</strong></td>${allergens.map(()=>`<td style="text-align:center;cursor:pointer;" onclick="this.innerHTML=this.innerHTML==='⚠️'?'':'⚠️'">${Math.random()>0.8?'⚠️':''}</td>`).join('')}</tr>`).join('')}</tbody>
                 </table>
             </div>
             <div style="font-size:0.78rem;color:var(--text-muted);margin-top:10px;padding:8px;background:var(--bg-main);border-radius:6px;">⚠️ = Allergen present or cross-contamination risk. Click any cell to toggle.</div>
@@ -842,9 +842,9 @@ window.initiateRecall = function() {
     if (!batchId) return;
     const reason = prompt('Recall reason (e.g., Contamination, Mislabelling):');
     if (!reason) return;
-    DataManager.addAlert({ id:'RCL-'+Date.now(), type:'PRODUCT RECALL', severity:'danger', message:`⚠️ RECALL INITIATED: Batch ${batchId} — ${reason}. Contact all dispatched customers immediately.`, time:new Date().toLocaleTimeString(), acknowledged:false, rule:'manual' });
-    window.showToast(`🚨 Recall initiated for Batch ${batchId}. Alert sent to all stakeholders.`, 'danger');
-    DataManager.logAction('Product Recall', `Batch ${batchId} recalled: ${reason}`);
+    DataManager.addAlert({ id:'RCL-'+Date.now(), type:'PRODUCT RECALL', severity:'danger', message:`⚠️ RECALL INITIATED: Batch ${escapeHtml(batchId)} — ${escapeHtml(reason)}. Contact all dispatched customers immediately.`, time:new Date().toLocaleTimeString(), acknowledged:false, rule:'manual' });
+    window.showToast(`🚨 Recall initiated for Batch ${escapeHtml(batchId)}. Alert sent to all stakeholders.`, 'danger');
+    DataManager.logAction('Product Recall', `Batch ${escapeHtml(batchId)} recalled: ${escapeHtml(reason)}`);
 };
 
 // F89: Nutritional Info per SKU
@@ -874,11 +874,11 @@ window.showTraceabilityReport = function() {
     modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;';
     modal.innerHTML = `
         <div style="background:var(--bg-card);border-radius:16px;padding:28px;min-width:600px;border:1px solid var(--border-color);">
-            <div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h2 style="margin:0;"><i class='bx bx-git-branch'></i> Traceability Report (F90) — ${batchId}</h2><button onclick="this.closest('[style*=fixed]').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">✕</button></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h2 style="margin:0;"><i class='bx bx-git-branch'></i> Traceability Report (F90) — ${escapeHtml(batchId)}</h2><button onclick="this.closest('[style*=fixed]').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">✕</button></div>
             <div style="display:flex;flex-direction:column;gap:0;">
                 ${[
                     { icon:'bx-store', color:'var(--primary-color)', title:'Supplier Origin', detail:'ABC Spices Ltd. — Besan delivery 28 Jul 2026 (PO-2026-1043)' },
-                    { icon:'bx-factory', color:'var(--secondary-color)', title:'Production', detail:`Manufactured 01 Aug 2026 — Batch ${batchId} — Line 2, Shift AM` },
+                    { icon:'bx-factory', color:'var(--secondary-color)', title:'Production', detail:`Manufactured 01 Aug 2026 — Batch ${escapeHtml(batchId)} — Line 2, Shift AM` },
                     { icon:'bx-test-tube', color:'var(--warning-color)', title:'QC Inspection', detail:'QC passed 01 Aug 2026 — All parameters within limits' },
                     { icon:'bx-package', color:'var(--info-color)', title:'Inventory Stored', detail:'Zone B-R3-B08 since 02 Aug 2026' },
                     { icon:'bx-send', color:'var(--secondary-color)', title:'Dispatched To', detail:'Mega Mart, D-Mart (SO-4501, SO-4502) — 02 Aug 2026' }
@@ -891,8 +891,8 @@ window.showTraceabilityReport = function() {
                             ${i<arr.length-1?`<div style="width:2px;flex:1;background:var(--border-color);min-height:24px;margin:2px 0;"></div>`:''}
                         </div>
                         <div style="padding:8px 0 16px 0;">
-                            <div style="font-weight:700;font-size:0.85rem;">${s.title}</div>
-                            <div style="font-size:0.78rem;color:var(--text-muted);">${s.detail}</div>
+                            <div style="font-weight:700;font-size:0.85rem;">${escapeHtml(s.title)}</div>
+                            <div style="font-size:0.78rem;color:var(--text-muted);">${escapeHtml(s.detail)}</div>
                         </div>
                     </div>`).join('')}
             </div>

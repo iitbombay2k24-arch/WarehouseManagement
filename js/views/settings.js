@@ -177,19 +177,19 @@ window.refreshWorkerTable = function() {
     
     workers.forEach(w => {
         let statusHtml = w.status === 'Active' 
-            ? `<span class="status status-success">${w.status}</span>` 
-            : `<span class="status status-danger">${w.status}</span>`;
+            ? `<span class="status status-success">${escapeHtml(w.status)}</span>` 
+            : `<span class="status status-danger">${escapeHtml(w.status)}</span>`;
             
         html += `
             <tr>
-                <td style="font-weight: 500;">${w.name}</td>
-                <td>${w.email}</td>
-                <td><span style="background: ${w.roleBg}; padding: 4px 8px; border-radius: 4px; color: ${w.roleColor}; font-size: 0.8rem; font-weight: 600;">${w.role}</span></td>
+                <td style="font-weight: 500;">${escapeHtml(w.name)}</td>
+                <td>${escapeHtml(w.email)}</td>
+                <td><span style="background: ${w.roleBg}; padding: 4px 8px; border-radius: 4px; color: ${w.roleColor}; font-size: 0.8rem; font-weight: 600;">${escapeHtml(w.role)}</span></td>
                 <td>${statusHtml}</td>
                 <td>
                     <div style="display: flex; gap: 4px;">
                         <button class="icon-btn" style="width: 32px; height: 32px; font-size: 18px;"><i class='bx bx-edit-alt'></i></button>
-                        <button class="icon-btn" style="width: 32px; height: 32px; font-size: 18px; color: var(--danger-color);" onclick="window.deleteWorker('${w.email}')"><i class='bx bx-trash'></i></button>
+                        <button class="icon-btn" style="width: 32px; height: 32px; font-size: 18px; color: var(--danger-color);" onclick="window.deleteWorker('${escJs(w.email)}')"><i class='bx bx-trash'></i></button>
                     </div>
                 </td>
             </tr>

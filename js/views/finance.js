@@ -6,7 +6,7 @@ window.renderFinance = function() {
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
                 <h1 class="page-title" style="margin:0;"><i class='bx bx-rupee' style="color:var(--primary-color);"></i> Finance & Accounting</h1>
                 <div style="display:flex;gap:12px;">
-                    <button class="btn btn-outline" style="display:flex;align-items:center;gap:8px;" onclick="window.showToast('Tally ERP 9 Sync completed successfully! 14 vouchers updated.', 'success')"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Tally_Logo.png" style="height:16px;"> Sync to Tally ERP</button>
+                    <button class="btn btn-outline" style="display:flex;align-items:center;gap:8px;" onclick="window.showToast('Tally ERP 9 Sync completed successfully! 14 vouchers updated.', 'success')"><i class='bx bx-sync'></i> Sync to Tally ERP</button>
                     <button class="btn btn-primary" onclick="window.showToast('Journal Entry #JE-891 created & posted', 'success')"><i class='bx bx-file'></i> New Journal Entry</button>
                 </div>
             </div>

@@ -76,7 +76,7 @@ window.showKeyboardShortcuts = function() {
                     ['Ctrl + Shift + N', 'New Product'],['Ctrl + Shift + P', 'New Purchase Order'],['Ctrl + Shift + S', 'New Sales Order']
                 ].map(([key, desc]) => `
                     <div style="display:flex;justify-content:space-between;padding:8px;background:var(--bg-main);border-radius:6px;align-items:center;">
-                        <span style="font-size:0.8rem;">${desc}</span>
+                        <span style="font-size:0.8rem;">${escapeHtml(desc)}</span>
                         <kbd style="background:var(--border-color);padding:2px 8px;border-radius:4px;font-size:0.75rem;font-family:monospace;">${key}</kbd>
                     </div>`).join('')}
             </div>
@@ -223,8 +223,8 @@ window.renderActivityFeed = function(containerId) {
                 <i class='bx ${a.icon}' style="color:${a.color};font-size:0.9rem;"></i>
             </div>
             <div style="flex:1;">
-                <div style="font-size:0.82rem;">${a.text}</div>
-                <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px;">${a.time}</div>
+                <div style="font-size:0.82rem;">${escapeHtml(a.text)}</div>
+                <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px;">${escapeHtml(a.time)}</div>
             </div>
         </div>`).join('');
 };

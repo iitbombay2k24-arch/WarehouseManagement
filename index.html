@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="js/auth.js"></script>
     <script>
-        if (localStorage.getItem('isLoggedIn') !== 'true') {
-            window.location.href = 'landing-page/index.html';
-        }
+        // Session guard: redirect to the sign-in page unless a valid session exists.
+        WMSAuth.guard('landing-page/index.html');
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,10 +15,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Boxicons for modern icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.js" integrity="sha384-zYPBGXwO4633CABX/5Spf6emCKUJCfoOkhOMYyxMsatqQZPnDblmmOewfjsIVWCM" crossorigin="anonymous"></script>
     <!-- JsBarcode & QRious for barcode/QR generation -->
-    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js" integrity="sha384-tOUygabpHGzWXpKv3qJM5f9tSgU6p5f4ooCayrNDwzm3/3/CDMzgHMLQZiMMGghV" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js" integrity="sha384-Dr98ddmUw2QkdCarNQ+OL7xLty7cSxgR0T7v1tq4UErS/qLV0132sBYTolRAFuOV" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -182,6 +182,18 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="#invoices" class="nav-link" data-target="invoices">
+                            <i class='bx bx-receipt'></i>
+                            <span class="nav-text">Invoices</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#ledger" class="nav-link" data-target="ledger">
+                            <i class='bx bx-transfer-alt'></i>
+                            <span class="nav-text">Stock Ledger</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="#alerts" class="nav-link" data-target="alerts">
                             <i class='bx bx-bell'></i>
                             <span class="nav-text">Alerts Hub</span>
@@ -329,7 +341,7 @@
             const chatBox = document.getElementById('chatMessages');
             if (!chatBox || !history.length) return;
             const msgs = history.slice(-10).map(m => m.type === 'user'
-                ? `<div style="align-self:flex-end;background:var(--primary-color);color:white;padding:8px 12px;border-radius:12px 12px 0 12px;font-size:0.85rem;max-width:80%;">${m.text}</div>`
+                ? `<div style="align-self:flex-end;background:var(--primary-color);color:white;padding:8px 12px;border-radius:12px 12px 0 12px;font-size:0.85rem;max-width:80%;">${escapeHtml(m.text)}</div>`
                 : `<div style="align-self:flex-start;background:var(--bg-card);padding:8px 12px;border-radius:12px 12px 12px 0;border:1px solid var(--border-color);font-size:0.85rem;max-width:80%;">${m.text}</div>`
             ).join('');
             chatBox.innerHTML = `<div style="align-self:flex-start;background:var(--bg-card);padding:8px 12px;border-radius:12px 12px 12px 0;border:1px solid var(--border-color);font-size:0.85rem;max-width:80%;">Hi! I'm the Namkeen WMS AI. Here's our recent chat:</div>${msgs}`;
@@ -342,7 +354,7 @@
             if (!message) return;
             
             const chatBox = document.getElementById('chatMessages');
-            chatBox.innerHTML += `<div style="align-self:flex-end;background:var(--primary-color);color:white;padding:8px 12px;border-radius:12px 12px 0 12px;font-size:0.85rem;max-width:80%;">${message}</div>`;
+            chatBox.innerHTML += `<div style="align-self:flex-end;background:var(--primary-color);color:white;padding:8px 12px;border-radius:12px 12px 0 12px;font-size:0.85rem;max-width:80%;">${escapeHtml(message)}</div>`;
             // F73: Save to history
             DataManager.addChatMessage({ type: 'user', text: message, time: new Date().toISOString() });
             input.value = '';
@@ -373,7 +385,7 @@
                     reply = `🚚 ${orders.length} active sales orders. ${urgent.length ? `🔴 ${urgent.length} URGENT: ${urgent.map(o=>o.id).join(', ')} — dispatch immediately!` : '✅ No urgent orders pending.'}`;
                 } else if (lowerMsg.includes('reorder') || lowerMsg.includes('po') || lowerMsg.includes('purchase')) {
                     const pos = DataManager.getPurchaseOrders();
-                    const pending = pos.filter(p => p.status !== 'Delivered (Matched)');
+                    const pending = pos.filter(p => !/^(Delivered|Received|Cancelled|Rejected)/.test(p.status));
                     reply = `🛒 ${pos.length} total POs. ${pending.length} in-flight: ${pending.map(p=>p.id+' ('+p.supplier+')').join(', ')}.`;
                 } else if (lowerMsg.includes('alert') || lowerMsg.includes('critical') || lowerMsg.includes('problem')) {
                     const alerts = DataManager.getAlerts().filter(a => !a.acknowledged);
@@ -403,14 +415,12 @@
             }, 1000);
         }
 
-        window.logoutUser = function() {
-            localStorage.removeItem('isLoggedIn');
-            window.location.href = 'landing-page/index.html';
-        };
     </script>
 
     <!-- Scripts -->
+    <script src="js/util.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/analytics.js"></script>
     <script src="js/views/dashboard.js"></script>
     <script src="js/views/products.js"></script>
     <script src="js/views/barcode.js"></script>
@@ -438,5 +448,8 @@
     <script src="js/views/alerts.js"></script>
     <script src="js/views/power_features.js"></script>
     <script src="js/views/module_enhancements.js"></script>
+    <script src="js/views/ledger.js"></script>
+    <script src="js/views/invoices.js"></script>
+    <script src="js/platform.js"></script>
 </body>
 </html>

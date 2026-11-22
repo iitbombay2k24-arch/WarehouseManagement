@@ -108,7 +108,7 @@ window.saveNewProduct = function() {
         document.getElementById('addProductForm').style.display = 'none';
         
         window.refreshProductsTable();
-        if (window.showToast) window.showToast(`Product ${sku} saved successfully!`, 'success');
+        if (window.showToast) window.showToast(`Product ${escapeHtml(sku)} saved successfully!`, 'success');
     } else {
         alert("DataManager not initialized.");
     }
@@ -158,26 +158,26 @@ window.refreshProductsTable = function() {
             : `<span>${p.stock||0}</span>`;
 
         return `<tr>
-            <td><span style="font-family:monospace;font-weight:600;">${p.id}</span></td>
+            <td><span style="font-family:monospace;font-weight:600;">${escapeHtml(p.id)}</span></td>
             <td>
                 <div style="display:flex;align-items:center;gap:10px;">
                     <!-- F33: Image placeholder -->
-                    <div style="width:36px;height:36px;background:linear-gradient(135deg,var(--primary-light),var(--bg-main));border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="window.showProductImage('${p.id}')">
+                    <div style="width:36px;height:36px;background:linear-gradient(135deg,var(--primary-light),var(--bg-main));border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="window.showProductImage('${escJs(p.id)}')">
                         <i class='bx bx-package' style="color:var(--primary-color);font-size:1.1rem;"></i>
                     </div>
-                    <span style="font-weight:500;">${p.name}</span>
+                    <span style="font-weight:500;">${escapeHtml(p.name)}</span>
                 </div>
             </td>
-            <td><span style="background:var(--primary-light);color:var(--primary-color);padding:2px 8px;border-radius:10px;font-size:0.75rem;">${p.category||'—'}</span></td>
+            <td><span style="background:var(--primary-light);color:var(--primary-color);padding:2px 8px;border-radius:10px;font-size:0.75rem;">${escapeHtml(p.category||'—')}</span></td>
             <td>${stockDisplay}</td>
             <td>₹${p.price||0}</td>
             <td><span class="status status-success">Active</span></td>
             <td>
                 <div style="display:flex;gap:4px;">
-                    <button class="icon-btn" title="Edit price" onclick="window.editProductPrompt('${p.id}')"><i class='bx bx-edit'></i></button>
+                    <button class="icon-btn" title="Edit price" onclick="window.editProductPrompt('${escJs(p.id)}')"><i class='bx bx-edit'></i></button>
                     <!-- F35: Barcode preview -->
-                    <button class="icon-btn" title="View Barcode (F35)" onclick="window.previewBarcode('${p.id}','${p.name}')"><i class='bx bx-barcode'></i></button>
-                    <button class="icon-btn" style="color:var(--danger-color);" onclick="window.deleteProduct('${p.id}')"><i class='bx bx-trash'></i></button>
+                    <button class="icon-btn" title="View Barcode (F35)" onclick="window.previewBarcode('${escJs(p.id)}','${escJs(p.name)}')"><i class='bx bx-barcode'></i></button>
+                    <button class="icon-btn" style="color:var(--danger-color);" onclick="window.deleteProduct('${escJs(p.id)}')"><i class='bx bx-trash'></i></button>
                 </div>
             </td>
         </tr>`;
@@ -209,8 +209,8 @@ window.previewBarcode = function(sku, name) {
     content.innerHTML = `
         <div style="display:inline-block;padding:20px 30px;background:white;border-radius:8px;border:1px solid var(--border-color);text-align:center;box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
             <svg id="productBarcodeSvg" style="max-width: 100%; height: auto; margin-bottom: 8px;"></svg>
-            <div style="font-family:monospace;font-size:0.85rem;color:#333;letter-spacing:2px;font-weight:600;">${sku}</div>
-            <div style="font-size:0.75rem;color:#666;margin-top:4px;">${name}</div>
+            <div style="font-family:monospace;font-size:0.85rem;color:#333;letter-spacing:2px;font-weight:600;">${escapeHtml(sku)}</div>
+            <div style="font-size:0.75rem;color:#666;margin-top:4px;">${escapeHtml(name)}</div>
         </div>
         <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;">
             <button class="btn btn-primary" onclick="window.showToast('Barcode PDF sent to printer','success')"><i class='bx bx-printer'></i> Print</button>

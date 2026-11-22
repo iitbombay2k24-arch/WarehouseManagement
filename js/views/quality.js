@@ -164,17 +164,17 @@ window.refreshQualityTable = function() {
     holds.forEach(h => {
         html += `
             <tr style="background: ${h.bg};">
-                <td><span style="font-weight: 600;">${h.batch}</span></td>
-                <td>${h.product}</td>
-                <td>${h.reason}</td>
-                <td>${h.date}</td>
+                <td><span style="font-weight: 600;">${escapeHtml(h.batch)}</span></td>
+                <td>${escapeHtml(h.product)}</td>
+                <td>${escapeHtml(h.reason)}</td>
+                <td>${escapeHtml(h.date)}</td>
                 <td>
                     <div style="display:flex;gap:4px;align-items:center;">
-                        <button class="btn btn-outline" style="padding:4px 12px;font-size:0.75rem;" onclick="window.releaseQuarantine('${h.batch}')">Release</button>
+                        <button class="btn btn-outline" style="padding:4px 12px;font-size:0.75rem;" onclick="window.releaseQuarantine('${escJs(h.batch)}')">Release</button>
                         <!-- F59: Supplier Quality Alert -->
-                        <button class="icon-btn" title="Alert Supplier (F59)" onclick="window.sendSupplierQualityAlert('${h.batch}')"><i class='bx bx-envelope' style="color:var(--warning-color);"></i></button>
+                        <button class="icon-btn" title="Alert Supplier (F59)" onclick="window.sendSupplierQualityAlert('${escJs(h.batch)}')"><i class='bx bx-envelope' style="color:var(--warning-color);"></i></button>
                         <!-- F60: Generate COA -->
-                        <button class="icon-btn" title="Generate COA (F60)" onclick="window.printCOA('${h.batch}')"><i class='bx bx-certification' style="color:var(--primary-color);"></i></button>
+                        <button class="icon-btn" title="Generate COA (F60)" onclick="window.printCOA('${escJs(h.batch)}')"><i class='bx bx-certification' style="color:var(--primary-color);"></i></button>
                     </div>
                 </td>
             </tr>

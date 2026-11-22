@@ -107,37 +107,40 @@ window.refreshDispatchTable = function() {
     let html = '';
     
     orders.forEach(order => {
-        let actionBtn = order.status === 'Urgent Dispatch' 
-            ? `<button class="btn btn-primary" style="padding:4px 8px;font-size:0.8rem;background:var(--danger-color);">Dispatch Now</button>`
-            : (order.status === 'Ready for Dispatch' ? `<button class="btn btn-outline" style="padding:4px 8px;font-size:0.8rem;">Dispatch</button>` : `<button class="btn btn-outline" style="padding:4px 8px;font-size:0.8rem;">View List</button>`);
-            
+        const oid = order.id;
+        let actionBtn = order.status === 'Dispatched'
+            ? `<span style="font-size:0.8rem;color:var(--text-muted);">Shipped${order.qty ? ' (−' + escapeHtml(order.qty) + ')' : ''}</span>`
+            : (order.status === 'Urgent Dispatch'
+                ? `<button class="btn btn-primary" style="padding:4px 8px;font-size:0.8rem;background:var(--danger-color);" onclick="window.dispatchOrderNow('${escJs(oid)}')">Dispatch Now</button>`
+                : `<button class="btn btn-outline" style="padding:4px 8px;font-size:0.8rem;" onclick="window.dispatchOrderNow('${escJs(oid)}')">Dispatch</button>`);
+
         let generateBtn = order.invoice !== '' 
             ? order.invoice 
-            : `<button class="btn btn-outline" style="padding:2px 8px;font-size:0.7rem;" onclick="window.generateEWayBill('${order.id}')">Generate</button>`;
+            : `<button class="btn btn-outline" style="padding:2px 8px;font-size:0.7rem;" onclick="window.generateEWayBill('${escJs(order.id)}')">Generate</button>`;
 
         let rowStyle = order.status === 'Urgent Dispatch' ? `style="background:rgba(239, 68, 68, 0.05);"` : '';
 
         html += `
             <tr ${rowStyle}>
                 <td>
-                    <span style="font-weight:600;">${order.id}</span>
+                    <span style="font-weight:600;">${escapeHtml(order.id)}</span>
                     ${order.flags}
                 </td>
-                <td>${order.customer}</td>
+                <td>${escapeHtml(order.customer)}</td>
                 <td>${order.type}</td>
-                <td><span class="status ${order.statusClass}">${order.status}</span></td>
+                <td><span class="status ${order.statusClass}">${escapeHtml(order.status)}</span></td>
                 <td>${generateBtn}</td>
                 <td>
                     <div style="display:flex;gap:4px;align-items:center;">
                         ${actionBtn}
                         <!-- F46: Route Optimization -->
-                        <button class="icon-btn" title="Route Optimizer (F46)" onclick="window.showRouteOptimizer('${order.id}')"><i class='bx bx-map-alt' style="color:var(--primary-color);"></i></button>
+                        <button class="icon-btn" title="Route Optimizer (F46)" onclick="window.showRouteOptimizer('${escJs(order.id)}')"><i class='bx bx-map-alt' style="color:var(--primary-color);"></i></button>
                         <!-- F48: Proof of Delivery -->
-                        <button class="icon-btn" title="Proof of Delivery (F48)" onclick="window.showPODUpload('${order.id}')"><i class='bx bx-camera'></i></button>
+                        <button class="icon-btn" title="Proof of Delivery (F48)" onclick="window.showPODUpload('${escJs(order.id)}')"><i class='bx bx-camera'></i></button>
                         <!-- F49: Vehicle Inspection -->
-                        <button class="icon-btn" title="Vehicle Inspection (F49)" onclick="window.showVehicleInspection('${order.id}')"><i class='bx bx-car'></i></button>
+                        <button class="icon-btn" title="Vehicle Inspection (F49)" onclick="window.showVehicleInspection('${escJs(order.id)}')"><i class='bx bx-car'></i></button>
                         
-                        <button class="icon-btn" style="color:var(--danger-color);padding:2px;" onclick="window.deleteDispatchOrder('${order.id}')"><i class='bx bx-trash'></i></button>
+                        <button class="icon-btn" style="color:var(--danger-color);padding:2px;" onclick="window.deleteDispatchOrder('${escJs(order.id)}')"><i class='bx bx-trash'></i></button>
                     </div>
                 </td>
             </tr>
@@ -161,8 +164,17 @@ window.createSalesOrderPrompt = function() {
     const customer = prompt("Enter Customer / Retailer Name:", "SuperMart Retailers");
     if (!customer) return;
 
+    const prods = DataManager.getProducts();
+    const sku = (prompt("Product SKU to ship (leave blank for none):\n" + prods.map(p => p.id + " = " + p.name + " (" + p.stock + " in stock)").join("\n"), prods[0] ? prods[0].id : "") || "").trim();
+    let qty = 0;
+    if (sku) {
+        if (!prods.some(p => p.id === sku)) { window.showToast("Unknown SKU " + sku, 'danger'); return; }
+        qty = Number(prompt("Quantity to ship:", "10"));
+        if (!isFinite(qty) || qty <= 0) { window.showToast("Enter a valid quantity", 'danger'); return; }
+    }
     const newSO = {
-        id: 'SO-' + Math.floor(4500 + Math.random() * 500),
+        sku, qty,
+        id: 'SO-' + Date.now().toString().slice(-6),
         customer: customer,
         type: 'Standard',
         status: 'Urgent Dispatch',
@@ -178,3 +190,17 @@ window.createSalesOrderPrompt = function() {
     }
 };
 
+
+
+window.dispatchOrderNow = function(id) {
+    const o = DataManager.getDispatchOrders().find(x => x.id === id);
+    if (!o || o.status === 'Dispatched') return;
+    try {
+        if (o.sku && Number(o.qty) > 0) {
+            StockLedger.post({ sku: o.sku, type: 'DISPATCH', qty: o.qty, ref: o.id, note: 'Shipped to ' + o.customer, idempotent: true });
+        }
+        DataManager.updateDispatchOrder(id, { status: 'Dispatched', statusClass: 'status-success' });
+        window.showToast(o.sku ? `${id} dispatched: −${o.qty} from stock` : `${id} marked dispatched (no product linked, stock unchanged)`, 'success');
+    } catch (e) { window.showToast(e.message, 'danger'); }
+    window.refreshDispatchTable();
+};

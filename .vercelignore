@@ -1,0 +1,10 @@
+.env*
+node_modules
+tests
+scripts
+.claude
+task.md
+package.json
+package-lock.json
+firestore.rules
+database.rules.json

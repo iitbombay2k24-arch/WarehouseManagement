@@ -28,8 +28,8 @@ window.renderLogistics = function() {
                         </div>
 
                         <!-- Mock Route Line -->
-                        <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
-                            <path d="M 40% 30% L 55% 45% L 70% 60%" stroke="var(--primary-color)" stroke-width="4" stroke-dasharray="8,8" fill="none" opacity="0.6"/>
+                        <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
+                            <path d="M 40 30 L 55 45 L 70 60" stroke="var(--primary-color)" stroke-width="4" stroke-dasharray="8,8" vector-effect="non-scaling-stroke" fill="none" opacity="0.6"/>
                         </svg>
                     </div>
                 </div>

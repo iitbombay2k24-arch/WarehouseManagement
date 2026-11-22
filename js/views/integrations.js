@@ -111,11 +111,11 @@ window.refreshIntegrationsList = function() {
         ints.forEach(int => {
             let actionHtml = '';
             if(int.status === 'Connected' || int.status === 'Active') {
-                actionHtml = `<span class="status status-success" style="cursor: pointer;" onclick="window.toggleIntegration('${int.id}')">${int.status}</span>`;
+                actionHtml = `<span class="status status-success" style="cursor: pointer;" onclick="window.toggleIntegration('${escJs(int.id)}')">${escapeHtml(int.status)}</span>`;
             } else if (int.status === 'Testing') {
-                actionHtml = `<span class="status status-warning" style="cursor: pointer;" onclick="window.toggleIntegration('${int.id}')">${int.status}</span>`;
+                actionHtml = `<span class="status status-warning" style="cursor: pointer;" onclick="window.toggleIntegration('${escJs(int.id)}')">${escapeHtml(int.status)}</span>`;
             } else {
-                actionHtml = `<button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.75rem;" onclick="window.toggleIntegration('${int.id}')">Connect</button>`;
+                actionHtml = `<button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.75rem;" onclick="window.toggleIntegration('${escJs(int.id)}')">Connect</button>`;
             }
             
             const itemHtml = `
@@ -123,8 +123,8 @@ window.refreshIntegrationsList = function() {
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <div style="width: 40px; height: 40px; background: ${int.bg}; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.2rem;">${int.icon}</div>
                         <div>
-                            <div style="font-weight: 600;">${int.name}</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted);">${int.desc}</div>
+                            <div style="font-weight: 600;">${escapeHtml(int.name)}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">${escapeHtml(int.desc)}</div>
                         </div>
                     </div>
                     ${actionHtml}

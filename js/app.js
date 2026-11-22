@@ -151,6 +151,7 @@ const DataManager = {
     
     getReturns: function() { return JSON.parse(localStorage.getItem('wms_returns')) || []; },
     addReturn: function(ret) { const returns = this.getReturns(); returns.push(ret); localStorage.setItem('wms_returns', JSON.stringify(returns)); },
+    updateReturn: function(id, updates) { const list = this.getReturns(); const idx = list.findIndex(r => r.id === id); if(idx > -1) { list[idx] = {...list[idx], ...updates}; localStorage.setItem('wms_returns', JSON.stringify(list)); } },
     deleteReturn: function(id) { const returns = this.getReturns().filter(r => r.id !== id); localStorage.setItem('wms_returns', JSON.stringify(returns)); },
     
     getQualityHolds: function() { return JSON.parse(localStorage.getItem('wms_quality_hold')) || []; },
@@ -170,10 +171,12 @@ const DataManager = {
 
     getReceiving: function() { return JSON.parse(localStorage.getItem('wms_receiving')) || []; },
     addReceiving: function(grn) { const list = this.getReceiving(); list.push(grn); localStorage.setItem('wms_receiving', JSON.stringify(list)); },
+    updateReceiving: function(id, updates) { const list = this.getReceiving(); const idx = list.findIndex(r => r.id === id); if(idx > -1) { list[idx] = {...list[idx], ...updates}; localStorage.setItem('wms_receiving', JSON.stringify(list)); } },
     deleteReceiving: function(id) { const list = this.getReceiving().filter(r => r.id !== id); localStorage.setItem('wms_receiving', JSON.stringify(list)); },
 
     getDispatchOrders: function() { return JSON.parse(localStorage.getItem('wms_dispatch_orders')) || []; },
     addDispatchOrder: function(order) { const list = this.getDispatchOrders(); list.push(order); localStorage.setItem('wms_dispatch_orders', JSON.stringify(list)); },
+    updateDispatchOrder: function(id, updates) { const list = this.getDispatchOrders(); const idx = list.findIndex(o => o.id === id); if(idx > -1) { list[idx] = {...list[idx], ...updates}; localStorage.setItem('wms_dispatch_orders', JSON.stringify(list)); } },
     deleteDispatchOrder: function(id) { const list = this.getDispatchOrders().filter(o => o.id !== id); localStorage.setItem('wms_dispatch_orders', JSON.stringify(list)); },
 
     getPurchaseOrders: function() { return JSON.parse(localStorage.getItem('wms_purchase_orders')) || []; },
@@ -296,6 +299,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'customers': window.renderCustomers,
         'expenses': window.renderExpenses,
         'alerts': window.renderAlerts,
+        'ledger': window.renderLedger,
+        'invoices': window.renderInvoices,
         // Fallback
         'default': () => `<div class="card fade-in">
                             <h2 class="section-title">Coming Soon</h2>
@@ -397,7 +402,8 @@ window.showToast = function(message, type = 'info') {
         transition: all 0.3s ease;
     `;
 
-    toast.innerHTML = `<i class='bx bx-info-circle'></i> <span>${message}</span>`;
+    toast.innerHTML = `<i class='bx bx-info-circle'></i> <span></span>`;
+    toast.querySelector('span').textContent = message;
     container.appendChild(toast);
 
     setTimeout(() => {
@@ -448,29 +454,29 @@ window.handleGlobalSearch = function(e) {
     let html = '<div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">Search Results</div>';
 
     if (!products.length && !pos.length && !grns.length && !dispatches.length) {
-        html += `<div style="font-size: 0.8rem; color: var(--text-muted); padding: 8px 0;">No matching items found for "${query}"</div>`;
+        html += `<div style="font-size: 0.8rem; color: var(--text-muted); padding: 8px 0;">No matching items found for "${escapeHtml(query)}"</div>`;
     } else {
         products.slice(0, 3).forEach(p => {
             html += `<div style="padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; display: flex; justify-content: space-between; background: var(--bg-main); margin-bottom: 4px;" onclick="window.location.hash='#products'; document.getElementById('globalSearchResults').style.display='none';">
-                        <span>📦 <strong>${p.name}</strong> (${p.id})</span>
+                        <span>📦 <strong>${escapeHtml(p.name)}</strong> (${escapeHtml(p.id)})</span>
                         <span style="color: var(--primary-color);">Product</span>
                     </div>`;
         });
         pos.slice(0, 3).forEach(po => {
             html += `<div style="padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; display: flex; justify-content: space-between; background: var(--bg-main); margin-bottom: 4px;" onclick="window.location.hash='#purchase'; document.getElementById('globalSearchResults').style.display='none';">
-                        <span>🛒 <strong>${po.id}</strong> - ${po.supplier}</span>
+                        <span>🛒 <strong>${escapeHtml(po.id)}</strong> - ${escapeHtml(po.supplier)}</span>
                         <span style="color: var(--warning-color);">PO</span>
                     </div>`;
         });
         grns.slice(0, 3).forEach(grn => {
             html += `<div style="padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; display: flex; justify-content: space-between; background: var(--bg-main); margin-bottom: 4px;" onclick="window.location.hash='#receiving'; document.getElementById('globalSearchResults').style.display='none';">
-                        <span>📥 <strong>${grn.id}</strong> - ${grn.supplier}</span>
+                        <span>📥 <strong>${escapeHtml(grn.id)}</strong> - ${escapeHtml(grn.supplier)}</span>
                         <span style="color: var(--secondary-color);">GRN</span>
                     </div>`;
         });
         dispatches.slice(0, 3).forEach(d => {
             html += `<div style="padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; display: flex; justify-content: space-between; background: var(--bg-main); margin-bottom: 4px;" onclick="window.location.hash='#dispatch'; document.getElementById('globalSearchResults').style.display='none';">
-                        <span>🚚 <strong>${d.id}</strong> - ${d.customer}</span>
+                        <span>🚚 <strong>${escapeHtml(d.id)}</strong> - ${escapeHtml(d.customer)}</span>
                         <span style="color: var(--info-color);">Sales Order</span>
                     </div>`;
         });

@@ -146,14 +146,14 @@ window.refreshAlerts = function(filter) {
             <div style="display:flex;gap:12px;padding:12px;border-radius:8px;background:${a.acknowledged?'var(--bg-main)':a.severity==='danger'?'rgba(239,68,68,0.05)':'rgba(245,158,11,0.05)'};border-left:3px solid var(--${a.severity==='danger'?'danger':'warning'}-color);${a.acknowledged?'opacity:0.6;':''}">
                 <div style="flex:1;">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-                        <span style="font-weight:700;font-size:0.8rem;color:var(--${a.severity==='danger'?'danger':'warning'}-color);">${a.type.toUpperCase()}</span>
-                        <span style="font-size:0.75rem;color:var(--text-muted);">${a.time}</span>
+                        <span style="font-weight:700;font-size:0.8rem;color:var(--${a.severity==='danger'?'danger':'warning'}-color);">${escapeHtml(a.type.toUpperCase())}</span>
+                        <span style="font-size:0.75rem;color:var(--text-muted);">${escapeHtml(a.time)}</span>
                     </div>
-                    <div style="font-size:0.85rem;">${a.message}</div>
-                    <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Rule: <code>${a.rule}</code></div>
+                    <div style="font-size:0.85rem;">${escapeHtml(a.message)}</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Rule: <code>${escapeHtml(a.rule)}</code></div>
                 </div>
                 <div style="display:flex;flex-direction:column;gap:4px;">
-                    ${!a.acknowledged ? `<button class="btn btn-outline" style="padding:2px 8px;font-size:0.7rem;" onclick="window.acknowledgeAlert('${a.id}')"><i class='bx bx-check'></i> (F23)</button>` : '<span style="color:var(--secondary-color);font-size:0.75rem;">✓ Done</span>'}
+                    ${!a.acknowledged ? `<button class="btn btn-outline" style="padding:2px 8px;font-size:0.7rem;" onclick="window.acknowledgeAlert('${escJs(a.id)}')"><i class='bx bx-check'></i> (F23)</button>` : '<span style="color:var(--secondary-color);font-size:0.75rem;">✓ Done</span>'}
                 </div>
             </div>`).join('')
         : '<div style="color:var(--text-muted);text-align:center;padding:24px;">No alerts matching filter</div>';
